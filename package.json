@@ -1,0 +1,9 @@
+{
+  "name": "courses-prototype",
+  "version": "0.0.1",
+  "devDependencies": {
+    "glob": "8.0.3",
+    "sweetbread": "0.0.6"
+  },
+  "private": true
+}
