@@ -6,7 +6,7 @@ html {
   font-family: var(--lbs-fonts);
   line-height: 1.3;
   color: white;
-  background: var(--bg-gradient), var(--bg-d);
+  background: var(--bg-gradient) no-repeat fixed, var(--bg-d);
 }
 
 body {

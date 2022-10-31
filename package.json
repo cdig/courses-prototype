@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "devDependencies": {
     "glob": "8.0.3",
-    "sweetbread": "0.0.6"
+    "sweetbread": "0.0.11"
   },
   "private": true
 }

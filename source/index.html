@@ -3,7 +3,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="/styles.css">
+  <script src="https://js.cx/libs/animate.js"></script>
   <script defer src="/scripts.js"></script>
+  
 </head>
 <body>
   <div id="header"><div class="inner">
@@ -12,7 +14,137 @@
     <div class="right half"><div class="buttons"><a class="account button">Your Account</a></div></div>
   </div></div>
 
-  <h1>Content goes here!</h1>
+  <div id="course-listing">
 
+    <h1 class="title">Your Courses</h1>
+    <h2 class="subtitle">Courses created for your team or have already started.</h2>
+    <div id="your-courses">
+      <div class="course-container animation">
+        <div class="course tall">
+          <h2 class="course-title">Test First Course</h2>
+          <div class="course-buttons">
+            <a class="course-button green" onclick="openCourse(this.parentNode.parentNode)">Continue</a>
+          </div>
+          <div class="course-bottom">
+            <span class="left-meta"><p>10% Complete</p></span>
+              <span class="right-meta"><p>LunchBox</p></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="course-container animation">
+        <div class="course tall">
+          <h2 class="course-title">Short Title</h2>
+          <div class="course-buttons">
+            <a class="course-button blue" onclick="openCourse(this.parentNode.parentNode)">Start</a>
+          </div>
+          <div class="course-bottom">
+            <span class="left-meta"><p>25 Materials</p></span>
+              <span class="right-meta"><p>LunchBox</p></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="new course-container animation">
+        <div class="course short">
+          <div class="text-grid-container">
+            <input autosize type="text" maxlength="500" rows="1" onclick="newCourse('onClick');" onInput="this.parentNode.dataset.replicatedValue = this.value"></input>
+          </div>
+          <div class="course-buttons">
+            <a class="course-button blue" onclick="newCourse('onClick');">Create</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h1 class="title">LunchBox Courses</h1>
+    <h2 class="subtitle">Courses created by LunchBox Sessions for you.</h2>
+
+    <div class="course-container animation">
+      <div class="course tall">
+        <h2 class="course-title">Intro To Electrical</h2>
+        <div class="course-buttons">
+          <a class="course-button blue" href="">Start</a>
+        </div>
+        <div class="course-bottom">
+          <span class="left-meta"><p>12 Materials</p></span>
+            <span class="right-meta"><p>LunchBox</p></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="course-container animation">
+      <div class="course tall">
+        <h2 class="course-title">Intro To Hydraulics</h2>
+        <div class="course-buttons">
+          <a class="course-button blue" href="">Start</a>
+        </div>
+        <div class="course-bottom">
+          <span class="left-meta"><p>55 Materials</p></span>
+          <span class="right-meta"><p>LunchBox</p></span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="course-view">
+    <div class="course-background"></div>
+    
+    <div class="course-title-background">
+      <a class="back-to-courses" onclick="closeCourse('L')">Back to Courses</a>
+    </div>
+    <h2 class="course-view-title">Title</h2>
+    <div class="course-view-container">
+      <div class="course-view-material">
+        <h2 class="course-view-header">Electrical Hazards & Safety</h2>
+        <div class="course-view-icon"><img class="course-view-icon-image" src="/image/fuckIt.png"></div>
+        <div class="course-view-text">&nbsp;&nbsp;&nbsp;&nbsp; Series and parallel circuits are at the heart of every electrical system. Learn how to use Kirchoff's Law to troubleshoot both types of circuit and to predict voltage through loads and branches. This session also includes two battery hookup puzzles for practice, and a full colour printable manual.</div>
+      </div>
+
+      <div class="course-view-material">
+        <h2 class="course-view-header">Electrical Hazards & Safety</h2>
+        <div class="course-view-icon"></div>
+        <div class="course-view-text">&nbsp;&nbsp;&nbsp;&nbsp; Series and parallel circuits are at the heart of every electrical system. Learn how to use Kirchoff's Law to troubleshoot both types of circuit and to predict voltage through loads and branches. This session also includes two battery hookup puzzles for practice, and a full colour printable manual.</div>
+      </div>
+
+      <div class="course-view-material">
+        <h2 class="course-view-header">Electrical Hazards & Safety</h2>
+        <div class="course-view-icon"></div>
+        <div class="course-view-text">&nbsp;&nbsp;&nbsp;&nbsp; Series and parallel circuits are at the heart of every electrical system. Learn how to use Kirchoff's Law to troubleshoot both types of circuit and to predict voltage through loads and branches. This session also includes two battery hookup puzzles for practice, and a full colour printable manual.</div>
+      </div>
+      <!-- <div class="course-view-material">
+        <div class="course-view-icon"></div>
+        <div class="course-view-text"></div>
+      </div>
+      <div class="course-view-material">
+
+        <div class="course-view-icon"></div>
+        <div class="course-view-text"></div>
+      </div>
+      <div class="course-view-material">
+        <div class="course-view-icon"></div>
+        <div class="course-view-text"></div>
+      </div>
+      <div class="course-view-material">
+        <div class="course-view-icon"></div>
+        <div class="course-view-text"></div>
+      </div> -->
+    </div>
+  </div>
 </body>
 </html>
+<template id="new-course">
+  <div class="course-container">
+    <div class="course tall">
+      <h2 class="course-title"></h2>
+      <div class="course-buttons">
+        <a class="course-button blue" onclick="openCourse(this.parentNode.parentNode)">Start</a>
+      </div>
+      <div class="course-bottom">
+        <span class="left-meta"><p>0 Materials</p></span>
+        <span class="right-meta"><p>LunchBox</p></span>
+      </div>
+    </div>
+  </div>
+</template>
