@@ -3,7 +3,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="/styles.css">
-  <script src="https://js.cx/libs/animate.js"></script>
   <script defer src="/scripts.js"></script>
   
 </head>
@@ -15,9 +14,10 @@
   </div></div>
 
   <div id="course-listing">
-
-    <h1 class="title">Your Courses</h1>
-    <h2 class="subtitle">Courses created for your team or have already started.</h2>
+    <div class="course-listing-course-titles">
+      <h1 class="title">Your Courses</h1>
+      <h2 class="subtitle">Courses created for your team or have already started.</h2>
+    </div>
     <div id="your-courses">
       <div class="course-container animation">
         <div class="course tall">
@@ -48,7 +48,7 @@
       <div class="new course-container animation">
         <div class="course short">
           <div class="text-grid-container">
-            <input autosize type="text" maxlength="500" rows="1" onclick="newCourse('onClick');" onInput="this.parentNode.dataset.replicatedValue = this.value"></input>
+            <input autosize id="new-course-field" type="text" maxlength="500" rows="1" onclick="newCourse('onClick');" onInput="this.parentNode.dataset.replicatedValue = this.value"></input>
           </div>
           <div class="course-buttons">
             <a class="course-button blue" onclick="newCourse('onClick');">Create</a>
@@ -56,80 +56,395 @@
         </div>
       </div>
     </div>
-
-    <h1 class="title">LunchBox Courses</h1>
-    <h2 class="subtitle">Courses created by LunchBox Sessions for you.</h2>
-
-    <div class="course-container animation">
-      <div class="course tall">
-        <h2 class="course-title">Intro To Electrical</h2>
-        <div class="course-buttons">
-          <a class="course-button blue" href="">Start</a>
+    <div id="lunchbox-sessions-courses">
+      <div class="course-listing-course-titles">
+        <h1 class="title">LunchBox Courses</h1>
+        <h2 class="subtitle">Courses created by LunchBox Sessions for you.</h2>
+      </div>
+      <div class="course-container animation">
+        <div class="course tall">
+          <h2 class="course-title">Intro To Electrical</h2>
+          <div class="course-buttons">
+            <a class="course-button blue" href="">Start</a>
+          </div>
+          <div class="course-bottom">
+            <span class="left-meta"><p>12 Materials</p></span>
+              <span class="right-meta"><p>LunchBox</p></span>
+          </div>
         </div>
-        <div class="course-bottom">
-          <span class="left-meta"><p>12 Materials</p></span>
+      </div>
+
+      <div class="course-container animation">
+        <div class="course tall">
+          <h2 class="course-title">Intro To Hydraulics</h2>
+          <div class="course-buttons">
+            <a class="course-button blue" href="">Start</a>
+          </div>
+          <div class="course-bottom">
+            <span class="left-meta"><p>55 Materials</p></span>
             <span class="right-meta"><p>LunchBox</p></span>
+          </div>
         </div>
       </div>
     </div>
-
-    <div class="course-container animation">
-      <div class="course tall">
-        <h2 class="course-title">Intro To Hydraulics</h2>
-        <div class="course-buttons">
-          <a class="course-button blue" href="">Start</a>
-        </div>
-        <div class="course-bottom">
-          <span class="left-meta"><p>55 Materials</p></span>
-          <span class="right-meta"><p>LunchBox</p></span>
-        </div>
-      </div>
-    </div>
-
   </div>
 
   <div id="course-view">
-    <div class="course-background"></div>
-    
-    <div class="course-title-background">
-      <a class="back-to-courses" onclick="closeCourse('L')">Back to Courses</a>
+    <div class="edit-button blue">
+      <a onclick="editCourse()">Edit</a>
     </div>
-    <h2 class="course-view-title">Title</h2>
+
+    <div class="course-background"></div>
+
+    <div class="course-title-background">
+      <a class="back-to-courses" onclick="closeCourse()">Back to Courses</a>
+    </div>
+    <div class="course-title-container">
+      <h2 class="course-view-title">Title</h2>
+    </div>
+    
     <div class="course-view-container">
-      <div class="course-view-material">
-        <h2 class="course-view-header">Electrical Hazards & Safety</h2>
-        <div class="course-view-icon"><img class="course-view-icon-image" src="/image/fuckIt.png"></div>
-        <div class="course-view-text">&nbsp;&nbsp;&nbsp;&nbsp; Series and parallel circuits are at the heart of every electrical system. Learn how to use Kirchoff's Law to troubleshoot both types of circuit and to predict voltage through loads and branches. This session also includes two battery hookup puzzles for practice, and a full colour printable manual.</div>
+      <svg id="course-material-lines" width="100%" height="100%" fill-opacity=".50"  xmlns="http://www.w3.org/2000/svg"></svg>
+      
+      <div class="add-material-container material-1">
+        <div class="add-material">
+          <div class="add-material-inner">
+            <a onclick="addMaterials(this)">
+              +
+            </a>
+          </div>
+        </div>
       </div>
 
-      <div class="course-view-material">
-        <h2 class="course-view-header">Electrical Hazards & Safety</h2>
-        <div class="course-view-icon"></div>
-        <div class="course-view-text">&nbsp;&nbsp;&nbsp;&nbsp; Series and parallel circuits are at the heart of every electrical system. Learn how to use Kirchoff's Law to troubleshoot both types of circuit and to predict voltage through loads and branches. This session also includes two battery hookup puzzles for practice, and a full colour printable manual.</div>
+      <div class="course-view-material-container material-1">
+        <div class="course-view-material">
+          <h2 class="course-view-header">Basic Electrical Concepts</h2>
+          <h3 class="course-view-subheader">Sessions</h3>
+          <div class="icon-wrapper">
+            <div class="course-view-icon icon"><img class="course-view-icon-image" src="/image/basicElectrical.png"></div>
+          </div>
+          <div class="course-view-text">&nbsp;&nbsp;&nbsp;&nbsp; Series and parallel circuits are at the heart of every electrical system. Learn how to use Kirchoff's Law to troubleshoot both types of circuit and to predict voltage through loads and branches. This session also includes two battery hookup puzzles for practice, and a full colour printable manual.</div>
+          <a class="delete-material-button" onclick="deleteMaterial(this.parentElement.parentElement)"><div>Delete</div></a>
+        </div>
       </div>
 
-      <div class="course-view-material">
-        <h2 class="course-view-header">Electrical Hazards & Safety</h2>
-        <div class="course-view-icon"></div>
-        <div class="course-view-text">&nbsp;&nbsp;&nbsp;&nbsp; Series and parallel circuits are at the heart of every electrical system. Learn how to use Kirchoff's Law to troubleshoot both types of circuit and to predict voltage through loads and branches. This session also includes two battery hookup puzzles for practice, and a full colour printable manual.</div>
-      </div>
-      <!-- <div class="course-view-material">
-        <div class="course-view-icon"></div>
-        <div class="course-view-text"></div>
-      </div>
-      <div class="course-view-material">
+      <div class="add-material-container material-2">
+        <div class="add-material">
+          <div class="add-material-inner">
+            <a onclick="addMaterials(this)">
+              +
+            </a>
+          </div>
+        </div>
+    </div>
 
-        <div class="course-view-icon"></div>
-        <div class="course-view-text"></div>
+      <div class="course-view-material-container material-2">
+        <div class="course-view-material transparent">
+          <h2 class="course-view-header">Basic Electrical Concepts</h2>
+          <h3 class="course-view-subheader">Quiz</h3>
+          <div class="icon-wrapper">
+            <div class="course-view-icon screenshot"><img class="course-view-icon-image" src="image/fuckThat.png"></div>
+          </div>
+          <!-- <div class="course-view-text">&nbsp;&nbsp;&nbsp;&nbsp; Complete the Basic Electrical Concepts quiz.</div> -->
+          <a class="delete-material-button no-background" onclick="deleteMaterial(this.parentElement.parentElement)"><div>Delete</div></a>
+        </div>
       </div>
-      <div class="course-view-material">
-        <div class="course-view-icon"></div>
-        <div class="course-view-text"></div>
+
+      <div class="add-material-container material-3">
+        <div class="add-material">
+          <div class="add-material-inner">
+            <a onclick="addMaterials(this)">
+              +
+            </a>
+          </div>
+        </div>
       </div>
+
+      <div class="course-view-material-container material-3">
+        <div class="course-view-material">
+          <h2 class="course-view-header">Basic Electrical Units</h2>
+          <h3 class="course-view-subheader">Lesson</h3>
+          <div class="icon-wrapper">
+            <div class="course-view-icon screenshot"><img class="course-view-icon-image" src="/image/electricalUnits.png"></div>
+          </div>
+          <div class="course-view-text">&nbsp;&nbsp;&nbsp;&nbsp; Voltage is the difference in electrical potential between two points.
+            This difference in electrical potential is what causes electrons to flow from one point to the other.
+            In hydraulic terms, circuit voltage would be the pump that gives electricity the push it needs to move electrons through a circuit.</div>
+            <a class="delete-material-button" onclick="deleteMaterial(this.parentElement.parentElement)"><div>Delete</div></a>
+        </div>
+      </div>
+
+      <div class="add-material-container material-4">
+        <div class="add-material">
+          <div class="add-material-inner">
+            <a onclick="addMaterials(this)">
+              +
+            </a>
+          </div>
+        </div>
+    </div>
+
+
+    <div class="course-view-material-container material-4">
       <div class="course-view-material">
-        <div class="course-view-icon"></div>
-        <div class="course-view-text"></div>
-      </div> -->
+        <h2 class="course-view-header">Waveforms & Signal Generation</h2>
+        <h3 class="course-view-subheader">Session</h3>
+        <div class="icon-wrapper">
+          <div class="course-view-icon icon"><img class="course-view-icon-image" src="/image/waveforms.png"></div>
+        </div>
+        <div class="course-view-text">&nbsp;&nbsp;&nbsp;&nbsp; Direct current is common in low voltage systems, but as soon as you start working with high voltage, you'll need to know about alternating current. AC comes in a variety of waveforms, with a lot of information encoded into it, which we will show you how to identify, measure, and reason about.</div>
+        <div class="course-view-background"></div>
+        <a class="delete-material-button" onclick="deleteMaterial(this.parentElement.parentElement)"><div>Delete</div></a> 
+      </div>
+    </div>
+
+    <div class="add-material-container material-5">
+      <div class="add-material">
+        <div class="add-material-inner">
+          <a onclick="addMaterials(this)">
+            +
+          </a>
+        </div>
+      </div>
+    </div>
+
+      <div class="course-view-material-container material-5">
+        <div class="course-view-material">
+          <h2 class="course-view-header">Alternating Current</h2>
+          <h3 class="course-view-subheader">Lesson</h3>
+          <div class="course-view-icon screenshot"><img class="course-view-icon-image" src="/image/alternatingCurrent.png"></div>
+          <div class="course-view-text">&nbsp;&nbsp;&nbsp;&nbsp; Amplitude is a measurement of the intensity of an AC signal and is used to determine the voltage of the signal.
+
+            The amplitude is determined by the peak height of the waveform.
+            
+            This is known as the peak or crest value of an AC waveform and is usually shown as (Vpk).</div>
+            <a class="delete-material-button" onclick="deleteMaterial(this.parentElement.parentElement)"><div>Delete</div></a>
+        </div>
+      </div>
+
+      <div class="add-material-container material-6">
+          <div class="add-material">
+            <div class="add-material-inner">
+              <a onclick="addMaterials(this)">
+                +
+              </a>
+            </div>
+          </div>
+      </div>
+      
+    </div>
+  </div>
+  <div id="add-material-view">
+    <div class="add-material-background">
+    
+    </div>
+    <a class="back-to-courses" onclick="backToCourse()">Back to Course</a>
+    <div class="add-material-title-container">
+      <h2 class="add-material-view-title">Title</h2>
+    </div>
+    <div class="add-material-grid">
+
+      <div class="grid-element">
+        <img class="grid-image" src="./image/fuckIt.png">
+        <div class="grid-title-container">
+          <h2 class="grid-title">Electrical Hazards & Safety</h2>
+          <h4 class="grid-subtitle">Session</h4>
+        </div>
+        <div class="grid-background"></div>
+        <div class="grid-button-container">
+          <a class="add-material-toggle" onclick="addMaterialToggle(this)">
+            <div class="toggle-button blue">Add Session</div>
+            <div class="toggle-button green">✓</div>
+          </a>
+          <a class="add-material-toggle">
+            <div class="toggle-button blue">Add Materials</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="grid-element">
+        <img class="grid-image" src="./image/fuckIt.png">
+        <div class="grid-title-container">
+          <h2 class="grid-title">Electrical Hazards & Safety</h2>
+          <h4 class="grid-subtitle">Session</h4>
+        </div>
+        <div class="grid-background"></div>
+        <div class="grid-button-container">
+          <a class="add-material-toggle" onclick="addMaterialToggle(this)">
+            <div class="toggle-button blue">Add Session</div>
+            <div class="toggle-button green">✓</div>
+          </a>
+          <a class="add-material-toggle">
+            <div class="toggle-button blue">Add Materials</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="grid-element">
+        <img class="grid-image" src="./image/fuckIt.png">
+        <div class="grid-title-container">
+          <h2 class="grid-title">Electrical Hazards & Safety</h2>
+          <h4 class="grid-subtitle">Session</h4>
+        </div>
+        <div class="grid-background"></div>
+        <div class="grid-button-container">
+          <a class="add-material-toggle" onclick="addMaterialToggle(this)">
+            <div class="toggle-button blue">Add Session</div>
+            <div class="toggle-button green">✓</div>
+          </a>
+          <a class="add-material-toggle">
+            <div class="toggle-button blue">Add Materials</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="grid-element">
+        <img class="grid-image" src="./image/fuckIt.png">
+        <div class="grid-title-container">
+          <h2 class="grid-title">Electrical Hazards & Safety</h2>
+          <h4 class="grid-subtitle">Session</h4>
+        </div>
+        <div class="grid-background"></div>
+        <div class="grid-button-container">
+          <a class="add-material-toggle" onclick="addMaterialToggle(this)">
+            <div class="toggle-button blue">Add Session</div>
+            <div class="toggle-button green">✓</div>
+          </a>
+          <a class="add-material-toggle">
+            <div class="toggle-button blue">Add Materials</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="grid-element">
+        <img class="grid-image" src="./image/fuckIt.png">
+        <div class="grid-title-container">
+          <h2 class="grid-title">Electrical Hazards & Safety</h2>
+          <h4 class="grid-subtitle">Session</h4>
+        </div>
+        <div class="grid-background"></div>
+        <div class="grid-button-container">
+          <a class="add-material-toggle" onclick="addMaterialToggle(this)">
+            <div class="toggle-button blue">Add Session</div>
+            <div class="toggle-button green">✓</div>
+          </a>
+          <a class="add-material-toggle">
+            <div class="toggle-button blue">Add Materials</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="grid-element">
+        <img class="grid-image" src="./image/fuckIt.png">
+        <div class="grid-title-container">
+          <h2 class="grid-title">Electrical Hazards & Safety</h2>
+          <h4 class="grid-subtitle">Session</h4>
+        </div>
+        <div class="grid-background"></div>
+        <div class="grid-button-container">
+          <a class="add-material-toggle" onclick="addMaterialToggle(this)">
+            <div class="toggle-button blue">Add Session</div>
+            <div class="toggle-button green">✓</div>
+          </a>
+          <a class="add-material-toggle">
+            <div class="toggle-button blue">Add Materials</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="grid-element">
+        <img class="grid-image" src="./image/fuckIt.png">
+        <div class="grid-title-container">
+          <h2 class="grid-title">Electrical Hazards & Safety</h2>
+          <h4 class="grid-subtitle">Session</h4>
+        </div>
+        <div class="grid-background"></div>
+        <div class="grid-button-container">
+          <a class="add-material-toggle" onclick="addMaterialToggle(this)">
+            <div class="toggle-button blue">Add Session</div>
+            <div class="toggle-button green">✓</div>
+          </a>
+          <a class="add-material-toggle">
+            <div class="toggle-button blue">Add Materials</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="grid-element">
+        <img class="grid-image" src="./image/fuckIt.png">
+        <div class="grid-title-container">
+          <h2 class="grid-title">Electrical Hazards & Safety</h2>
+          <h4 class="grid-subtitle">Session</h4>
+        </div>
+        <div class="grid-background"></div>
+        <div class="grid-button-container">
+          <a class="add-material-toggle" onclick="addMaterialToggle(this)">
+            <div class="toggle-button blue">Add Session</div>
+            <div class="toggle-button green">✓</div>
+          </a>
+          <a class="add-material-toggle">
+            <div class="toggle-button blue">Add Materials</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="grid-element">
+        <img class="grid-image" src="./image/fuckIt.png">
+        <div class="grid-title-container">
+          <h2 class="grid-title">Electrical Hazards & Safety</h2>
+          <h4 class="grid-subtitle">Session</h4>
+        </div>
+        <div class="grid-background"></div>
+        <div class="grid-button-container">
+          <a class="add-material-toggle" onclick="addMaterialToggle(this)">
+            <div class="toggle-button blue">Add Session</div>
+            <div class="toggle-button green">✓</div>
+          </a>
+          <a class="add-material-toggle">
+            <div class="toggle-button blue">Add Materials</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="grid-element">
+        <img class="grid-image" src="./image/fuckIt.png">
+        <div class="grid-title-container">
+          <h2 class="grid-title">Electrical Hazards & Safety</h2>
+          <h4 class="grid-subtitle">Session</h4>
+        </div>
+        <div class="grid-background"></div>
+        <div class="grid-button-container">
+          <div class="button"><a>Add Session</a></div>
+          <div class="button"><a>Add Materials</a></div>
+        </div>
+      </div>
+
+      <div class="grid-element">
+        <img class="grid-image" src="./image/fuckIt.png">
+        <div class="grid-title-container">
+          <h2 class="grid-title">Electrical Hazards & Safety</h2>
+          <h4 class="grid-subtitle">Session</h4>
+        </div>
+        <div class="grid-background"></div>
+        <div class="grid-button-container">
+          <div class="button"><a>Add Session</a></div>
+          <div class="button"><a>Add Materials</a></div>
+        </div>
+      </div>
+
+      <div class="grid-element">
+        <img class="grid-image" src="./image/fuckIt.png">
+        <div class="grid-title-container">
+          <h2 class="grid-title">Electrical Hazards & Safety</h2>
+          <h4 class="grid-subtitle">Session</h4>
+        </div>
+        <div class="grid-background"></div>
+        <div class="grid-button-container">
+          <div class="button"><a>Add Session</a></div>
+          <div class="button"><a>Add Materials</a></div>
+        </div>
+      </div>
+
     </div>
   </div>
 </body>
@@ -148,3 +463,41 @@
     </div>
   </div>
 </template>
+<template id="add-material-button">
+  <div class="add-material-container">
+    <div class="add-material"">
+      <div class="add-material-inner">
+        <p>
+        +
+        </p>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template id="new-material">
+
+<div class="course-view-material-container material-4">
+  <div class="course-view-material">
+    <h2 class="course-view-header">Waveforms & Signal Generation</h2>
+    <h3 class="course-view-subheader">Session</h3>
+    <div class="icon-wrapper">
+      <div class="course-view-icon icon"><img class="course-view-icon-image" src="/image/waveforms.png"></div>
+    </div>
+    <div class="course-view-text">&nbsp;&nbsp;&nbsp;&nbsp; Direct current is common in low voltage systems, but as soon as you start working with high voltage, you'll need to know about alternating current. AC comes in a variety of waveforms, with a lot of information encoded into it, which we will show you how to identify, measure, and reason about.</div>
+    <div class="course-view-background"></div>
+    <a class="delete-material-button" onclick="deleteMaterial(this.parentElement.parentElement)"><div>Delete</div></a> 
+  </div>
+</div>
+
+<div class="add-material-container material-5">
+  <div class="add-material">
+    <div class="add-material-inner">
+      <a onclick="addMaterials(this)">
+        +
+      </a>
+    </div>
+  </div>
+</div>
+</template>
+
