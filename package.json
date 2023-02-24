@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "devDependencies": {
     "glob": "8.0.3",
-    "sweetbread": "0.0.12",
+    "sweetbread": "0.0.14",
     "take-and-make": "cdig/take-and-make"
   },
   "private": true

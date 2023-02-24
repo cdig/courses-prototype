@@ -1,36 +1,24 @@
-backToCourse = (e)->
+Take ["ChangeView", "CreateSVGLine"], (ChangeView, CreateSVGLine)->
+  Make "AddMaterialToggle", AddMaterialToggle = (button)-> ()->
+    courseViewContainer = document.querySelector(".course-view-container")
 
-  window.scrollTo({
-    top: 0,
-    left: 0,
-    behavior: 'smooth'
-  })
+    toggled = !toggled
+    toggleButtons = button.querySelectorAll(".toggle-button")
 
-  changeView(addMaterialView, courseView, "horizontal")
+    if toggled
+      newElm = courseViewContainer.appendChild(newMaterialTemplate.content.cloneNode(true))
 
-  courseMaterials = courseView.querySelectorAll(".course-view-material")
-  createSVGLine(courseMaterials[0], courseMaterials[courseMaterials.length - 1], false)
+      # The truth is in the DOM, be careful about the DOM - don't do, set up a call with Ivan to fix this issue in prototype
 
-  window.addEventListener "wheel", changeScollToHorizontal
-
-
-addMaterialToggle = (e)->
-  toggled = !toggled
-  toggleButtons = e.querySelectorAll(".toggle-button")
-
-  if toggled
-    newElm = courseViewContainer.appendChild(newMaterialTemplate.content.cloneNode(true))
-
-    toggleButtons[0].style.transform = "translateY(-100%)"
-    toggleButtons[1].style.transform = "translateY(-100%)"
-
-  else
-    # TODO This only works for one toggled material, should create an array of nodes or something
-    if newElm?
-      newElm.remove()
-
-    toggleButtons[0].style.transform = "translateY(0)"
-    toggleButtons[1].style.transform = "translateY(0)"
+      toggleButtons[0].style.transform = "translateY(-100%)"
+      toggleButtons[1].style.transform = "translateY(-100%)"
 
 
-Make "add-materials"
+    else
+      # TODO This only works for one toggled material, should create an array of nodes or something
+      if newElm?
+        newElm.remove()
+
+      toggleButtons[0].style.transform = "translateY(0)"
+      toggleButtons[1].style.transform = "translateY(0)"
+

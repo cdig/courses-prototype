@@ -1,166 +1,210 @@
-# do ()->
-
- # Initialize Variables
-selectedPos = 0
-body = document.querySelector("body")
-input = document.querySelector("#new-course-field")
-yourCourses = document.querySelector("#your-courses")
-newCourseContainer = document.querySelector(".new")
-newCourseTemplate = document.querySelector("#new-course")
-createCourseTemplate = document.querySelector("#create-course")
-courseView = document.querySelector("#course-view")
-courseViewContainer = document.querySelector(".course-view-container")
 courseListing = document.querySelector("#course-listing")
-courseCreateInput = document.querySelector(".course.short")
+courseView = document.querySelector("#course-view")
+
 courseBackground = document.querySelector(".course-background")
 courseTitleBanner = document.querySelector(".course-title-background")
-backToCoursesElm = document.querySelector(".back-to-courses")
 courseMaterialLines = document.querySelector("#course-material-lines")
 courseListingCourseTitles = document.querySelectorAll(".course-listing-course-titles")
 addMaterialElms = document.querySelectorAll(".add-material")
-addMaterialView = document.querySelector("#add-material-view")
+
 addMaterialBanner = document.querySelector(".add-material-background")
 newMaterialTemplate = document.querySelector("#new-material")
 lunchboxSessionsCoursesElm = document.querySelector("#lunchbox-sessions-courses")
 courseEditButton = document.querySelector(".edit-button")
 
-Take ["page-functions", "course-listing", "course-view", "add-materials"], ()->
-  # console.log("Greetings from dynamic")
-  # Make "some-other-thing", "?"
+setTitlePosition = (elm, selected)->
+  elm.style.top = selected.getBoundingClientRect().top + window.scrollY
 
- 
+Take ["ChangeView", "CreateSVGLine", "Database"], (ChangeView, CreateSVGLine, Database)->
+  Make "OpenCourse", OpenCourse = (elm)->
 
-  toggled = false
-  editBool = true
-
-  setTitlePosition = (elm, selected)->
-    elm.style.top = selected.getBoundingClientRect().top + window.scrollY
-
-  openCourse = (elm)->
+    console.log(elm)
 
     selectedCourse = elm.setAttribute("id", "selected")
     selected = elm.querySelector("#selected")
     title = elm.querySelector(".course-title")
-    courseView = document.querySelector("#course-view")
     courseViewTitle = document.querySelector(".course-view-title")
     addMaterialViewTitle = document.querySelector(".add-material-view-title")
     pageContent = document.querySelectorAll(".course:not(#selected, #header)")
-
-    courseViewTitle.textContent = title.textContent
-    addMaterialViewTitle.textContent = title.textContent 
-
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    
-    changeView(courseListing, courseView, "horizontal")
-
     courseMaterialsToLoad = courseView.querySelectorAll(".course-view-material-container")
 
-    bannerHeight = courseViewTitle.getBoundingClientRect().height + 50
-    courseTitleBanner.style.height = bannerHeight
-    addMaterialBanner.style.height = bannerHeight
-    
-    lineData = createSVGLine(courseMaterialsToLoad[0], courseMaterialsToLoad[courseMaterialsToLoad.length - 1])
 
-    window.addEventListener "wheel", changeScollToHorizontal
+    courseViewTitle.textContent = title.textContent
+    addMaterialViewTitle.textContent = title.textContent
 
-  editCourse = ()->
-    editBool = !editBool
+    # TESTING
 
-    linkText = courseEditButton.querySelector("a")
-    courseMaterials = courseView.querySelectorAll(".course-view-material")
-    addMaterialButtons = courseView.querySelectorAll(".add-material-container")
-    endCapElms = document.querySelectorAll(".end-cap-lines")
+    courseSeedTwo = [
+        {
+            "name": "Update Test",
+            "numOfMaterials": "Update Test",
+            "creator": "Update Test"
+        },
+        {
+            "name": "Update Test",
+            "numOfMaterials": "Update Test",
+            "creator": "Update Test"
+        },
+        {
+            "name": "Update Test",
+            "numOfMaterials": "Update Test",
+            "creator": "Update Test"
+        }
+    ]
 
-    if editBool == true
-      for endCap in endCapElms
-        endCap.remove()
+    updateCourseTitle = (value)->
+      console.log(value)
+      value = "STSTSS"
+
+    Database.update("courses[0].name", updateCourseTitle)
+
+    # TESTING
       
-      for button in addMaterialButtons
-        button.style.opacity = "0"
+    
+    ChangeView(courseListing, courseView, "horizontal")
 
-      linkText.innerHTML = "Edit"
+    # bannerHeight = courseViewTitle.getBoundingClientRect().height * 3
+    # courseTitleBanner.style.height = bannerHeight
+    # addMaterialBanner.style.height = bannerHeight
+    
+    lineData = CreateSVGLine(courseMaterialsToLoad[0], courseMaterialsToLoad[courseMaterialsToLoad.length - 1])
 
-      for material in courseMaterials
-        deleteButton = material.querySelector(".delete-material-button")
 
-        topStyle = window.getComputedStyle(deleteButton).getPropertyValue("top")
-        topStyle = topStyle.replace("p", "")
-        topStyle = topStyle.replace("x", "")
-        
-        target = +topStyle - -40
+  Take ["ChangeView", "Database"], (ChangeView, Database)->
+    Make "EditCourse", EditCourse = ()->
+      Database.set("editBool", !Database.get("editBool"))
 
-        deleteButton.style.top = target + "px"
-        
-    else
-
-      for button in addMaterialButtons
-        button.style.opacity = "1"
-
-      linkText.innerHTML = "View"
-
-      for material in courseMaterials
-        deleteButton = material.querySelector(".delete-material-button")
-
-        topStyle = window.getComputedStyle(deleteButton).getPropertyValue("top")
-        topStyle = topStyle.replace("p", "")
-        topStyle = topStyle.replace("x", "")
-        
-        target = +topStyle + +40
-
-        deleteButton.style.top = target + "px"
-
+      linkText = courseEditButton.querySelector("a")
       courseMaterials = courseView.querySelectorAll(".course-view-material")
       addMaterialButtons = courseView.querySelectorAll(".add-material-container")
+      endCapElms = document.querySelectorAll(".end-cap-lines")
 
-      firstButton = addMaterialButtons[0]
-      lastButton = addMaterialButtons[addMaterialButtons.length - 1]
-      firstMaterial = courseMaterials[0].querySelector(".course-view-icon")
-      lastMaterial = courseMaterials[courseMaterials.length - 1].querySelector(".course-view-icon")
+      if Database.get("editBool")
+        for endCap in endCapElms
+          endCap.remove()
+        
+        for button in addMaterialButtons
+          button.style.opacity = "0"
 
-      lineData = createSVGEndCaps(firstMaterial, lastMaterial, firstButton, lastButton, true)
+        linkText.innerHTML = "Edit"
 
-  addMaterials = (e)->
-    if editBool == false
-      editCourse()
+        return unless courseMaterials?
 
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: 'smooth'
-    })
+        for material in courseMaterials
+          deleteButton = material.querySelector(".delete-material-button")
 
-    changeView(courseView, addMaterialView, "vertical")
+          buttonHeight = deleteButton.offsetHeight
 
-  closeCourse = (e)->
-    # Select all the elements we need.
-    body = document.querySelector("body")
-    courseView = document.querySelector("#course-view")
-    courseViewTitle = document.querySelector(".course-view-title")
-    body.classList.remove("horizontal-scroll")
-    body.classList.add("vertical-scroll")
+          topStyle = window.getComputedStyle(deleteButton).getPropertyValue("top")
+          topStyle = topStyle.replace("px", "")
+          
+          target = +topStyle - +buttonHeight
 
-    if editBool == false
-      editCourse()
+          deleteButton.style.top = target + "px"
 
-    window.removeEventListener "wheel", changeScollToHorizontal
+          deleteButton.toggleAttribute("not-clickable")
+          
+      else
+        for button in addMaterialButtons
+          button.style.opacity = "1"
 
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: 'smooth'
-    })
+        linkText.innerHTML = "View"
 
-    selectedPos = 0
-    courseViewTitle.style.top = null
+        return unless courseMaterials?
 
-    changeView(courseView, courseListing)
+        for material in courseMaterials
+          deleteButton = material.querySelector(".delete-material-button")
 
-    document.querySelector("#selected").removeAttribute("id", "selected") 
+          buttonHeight = deleteButton.offsetHeight
 
-  input.addEventListener "keyup", newCourse
+          topStyle = window.getComputedStyle(deleteButton).getPropertyValue("top")
+          topStyle = topStyle.replace("px", "")
+          
+          target = +topStyle + +buttonHeight
+
+          deleteButton.style.top = target + "px"
+
+          deleteButton.toggleAttribute("not-clickable")
+
+        
+
+        return unless courseMaterials[0]?
+
+        courseMaterials = courseView.querySelectorAll(".course-view-material")
+        addMaterialButtons = courseView.querySelectorAll(".add-material-container")
+
+        firstButton = addMaterialButtons[0]
+        lastButton = addMaterialButtons[addMaterialButtons.length - 1]
+        firstMaterial = courseMaterials[0].querySelector(".course-view-icon")
+        lastMaterial = courseMaterials[courseMaterials.length - 1].querySelector(".course-view-icon")
+
+        lineData = CreateSVGEndCaps(firstMaterial, lastMaterial, firstButton, lastButton, true)
+
+  
+  Take ["ChangeView", "Database", "EditCourse"], (ChangeView, Database, EditCourse)->
+    Make "CloseCourse", CloseCourse = (e)->
+      # Select all the elements we need.
+      body = document.querySelector("body")
+      courseView = document.querySelector("#course-view")
+      courseViewTitle = document.querySelector(".course-view-title")
+      body.classList.remove("horizontal-scroll")
+      body.classList.add("vertical-scroll")
+
+      if Database.get("editBool") == false
+        EditCourse()
+
+      selectedPos = 0
+      courseViewTitle.style.top = null
+
+      ChangeView(courseView, courseListing, "veritical")
+
+      document.querySelector("#selected").removeAttribute("id", "selected")
+      
+
+# Set Up Event Listeners
+  Take ["NewCourse", "OpenCourse", "EditCourse", "CloseCourse", "DeleteMaterial", "AddMaterials", "AddMaterialToggle", "BackToCourse"], (NewCourse, OpenCourse, EditCourse, CloseCourse, DeleteMaterial, AddMaterials, AddMaterialToggle, BackToCourse)->
+    
+    
+    # New Course Listeners
+    newCourseContainer = document.querySelector(".course.short")
+    newCourseButton = newCourseContainer.querySelector(".course-button")
+    newCourseInput = newCourseContainer.querySelector("input")
+
+    newCourseButton.addEventListener "click", (e)->
+      NewCourse(e, newCourseContainer)
+
+    newCourseInput.addEventListener "keyup", (e)->
+      NewCourse(e, newCourseContainer)
 
 
+    # Edit Course Listeners
+    editButton = document.querySelector(".edit-button")
 
+    editButton.addEventListener "click", ()->
+      EditCourse()
 
+    # Close Course Listeners
+    backToCoursesElm = document.querySelector(".back-to-courses")
 
+    backToCoursesElm.addEventListener "click", ()->
+      CloseCourse()
 
+    addListener = (target, callback)->
+      target.addEventListener "click", ()->
+        callback()
+
+    # Delete Material Listeners
+    for button in document.querySelectorAll(".delete-material-button")
+      addListener button, DeleteMaterial(button.closest(".course-view-material-container")) 
+
+    # Add Material Listeners
+    backToCourseElm = document.querySelector(".back-to-course")
+
+    backToCourseElm.addEventListener "click", ()->
+      BackToCourse()
+
+    for button in document.querySelectorAll(".add-material")
+      addListener button, AddMaterials
+
+    for button in document.querySelectorAll(".add-material-toggle")
+      addListener button, AddMaterialToggle(button)
