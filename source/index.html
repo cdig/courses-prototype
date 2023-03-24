@@ -6,7 +6,7 @@
   <script defer src="/scripts.js"></script>
   
 </head>
-<body>
+<body spellcheck="false">
   <div id="header"><div class="inner">
     <div class="left half"><div class="buttons"><a class="explore button">Explore Library</a></div></div>
     <a class="logo"><svg width="44" height="33" fill="#FFF" fill-opacity=".95" viewBox="0 0 400 300"><path d="M116 236l6-14c-19-5-35-13-48-24l-54 20c-7-5-13-15-20-30l2 16c4 12 11 22 20 30l52-20c12 8 26 15 42 22zm-60-98l-50-4 2 14 44 4c1-6 2-11 4-14zm338 82l6-16-64-16c-7 8-16 15-28 22l8 10c9-5 16-11 20-16zm-44 38c-21 13-40 21-56 22l-40-50c-23 4-44 5-64 4l-20 50c-20-1-43-7-68-16v16c24 9 47 15 68 16l20-50c21 1 42 0 62-4l38 50c20-4 38-11 54-20zm-9-116l36-4 4-12-46 4c3 3 5 7 6 12zM264 10l6 12H130l6-12zm58 88l4-40-14-36h-30L272 0H128l-10 22H88L74 58l4 40h10l8 86h208l8-86zM130 84h22l2 34h-22zm118 0h22l-2 34h-22z"/></svg></a>
@@ -16,7 +16,7 @@
   <div id="course-listing">
     <div class="course-listing-course-titles">
       <h1 class="title">Your Courses</h1>
-      <h2 class="subtitle">Courses created for your team or have already started.</h2>
+      <h2 class="subtitle">Courses you have already started, or that have been assigned to your team.</h2>
     </div>
     <div id="your-courses">
       
@@ -36,180 +36,60 @@
     
     <div id="lunchbox-sessions-courses">
       <div class="course-listing-course-titles">
-        <h1 class="title">LunchBox Courses</h1>
+        <h1 class="title">LunchBox Sessions Courses</h1>
         <h2 class="subtitle">Courses created by LunchBox Sessions for you.</h2>
       </div>
-      <div class="course-container">
-        <div class="course tall">
-          <h2 class="course-title">Intro To Electrical</h2>
-          <div class="course-buttons">
-            <a class="course-button blue" href="">Start</a>
-          </div>
-          <div class="course-bottom">
-            <span class="left-meta"><p>12 Materials</p></span>
-              <span class="right-meta"><p>LunchBox</p></span>
-          </div>
-        </div>
-      </div>
+      
 
-      <div class="course-container animation">
-        <div class="course tall">
-          <h2 class="course-title">Intro To Hydraulics</h2>
-          <div class="course-buttons">
-            <a class="course-button blue" href="">Start</a>
-          </div>
-          <div class="course-bottom">
-            <span class="left-meta"><p>55 Materials</p></span>
-            <span class="right-meta"><p>LunchBox</p></span>
-          </div>
-        </div>
+    </div>
+    <div id="completed-courses">
+      <div class="course-listing-course-titles">
+        <h1 class="title">Completed Courses</h1>
+        <h2 class="subtitle">Courses you have already completed.</h2>
       </div>
     </div>
+
+
   </div>
 
   <div id="course-view">
     <div class="edit-button blue">
       <a>Edit</a>
     </div>
+    <div class="reorder-button blue">
+      <a>Reorder</a>
+    </div>
 
     <div class="course-background"></div>
 
     <div class="course-title-background">
-      <a class="back-to-courses">Back to Courses</a>
+      <a class="back-to-courses">
+        <!-- <?xml version="1.0" encoding="UTF-8"?> -->
+        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" height="1em" width="4em" viewBox="0 -5 65 35">
+          <defs>
+            <style>
+              .cls-1 {
+                fill: none;
+                stroke: #fff;
+                stroke-linecap: square;
+                stroke-linejoin: square;
+                stroke-width: 7px;
+              }
+            </style>
+          </defs>
+          <polyline class="cls-1" points="14.43 26.41 2.5 14.47 14.47 2.5"/>
+          <line class="cls-1" x1="65" y1="14.45" x2="5" y2="14.45"/>
+        </svg>
+      </a>
     </div>
     <div class="course-title-container">
       <h2 class="course-view-title">Title</h2>
     </div>
     
     <div class="course-view-container">
-      <svg id="course-material-lines" xmlns="http://www.w3.org/2000/svg"></svg>
       
-      <div class="add-material-container material-1">
-        <div class="add-material">
-          <div class="add-material-inner">
-            <a>
-              +
-            </a>
-          </div>
-        </div>
-      </div>
+      <!-- MATERIALS ARE RENDERED HERE -->
 
-      <div class="course-view-material-container material-1">
-        <div class="course-view-material">
-          <h2 class="course-view-header">Basic Electrical Concepts</h2>
-          <h3 class="course-view-subheader">Sessions</h3>
-          <div class="icon-wrapper">
-            <div class="course-view-icon icon"><img class="course-view-icon-image" src="/image/basicElectrical.png"></div>
-          </div>
-          <div class="course-view-text">&nbsp;&nbsp;&nbsp;&nbsp; Series and parallel circuits are at the heart of every electrical system. Learn how to use Kirchoff's Law to troubleshoot both types of circuit and to predict voltage through loads and branches. This session also includes two battery hookup puzzles for practice, and a full colour printable manual.</div>
-          <a class="delete-material-button" not-clickable><div>Delete</div></a>
-          <div class="course-view-material-background"></div>
-        </div>
-      </div>
-
-      <div class="add-material-container material-2">
-        <div class="add-material">
-          <div class="add-material-inner">
-            <a>
-              +
-            </a>
-          </div>
-        </div>
-    </div>
-
-      <div class="course-view-material-container material-2">
-        <div class="course-view-material transparent">
-          <h2 class="course-view-header">Basic Electrical Concepts</h2>
-          <h3 class="course-view-subheader">Quiz</h3>
-          <div class="icon-wrapper">
-            <div class="course-view-icon screenshot"><img class="course-view-icon-image" src="image/fuckThat.png"></div>
-          </div>
-          <!-- <div class="course-view-text">&nbsp;&nbsp;&nbsp;&nbsp; Complete the Basic Electrical Concepts quiz.</div> -->
-          <a class="delete-material-button no-background" not-clickable><div>Delete</div></a>
-        </div>
-      </div>
-
-      <div class="add-material-container material-3">
-        <div class="add-material">
-          <div class="add-material-inner">
-            <a>
-              +
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="course-view-material-container material-3">
-        <div class="course-view-material">
-          <h2 class="course-view-header">Basic Electrical Units</h2>
-          <h3 class="course-view-subheader">Lesson</h3>
-          <div class="icon-wrapper">
-            <div class="course-view-icon screenshot"><img class="course-view-icon-image" src="/image/electricalUnits.png"></div>
-          </div>
-          <div class="course-view-text">&nbsp;&nbsp;&nbsp;&nbsp; Voltage is the difference in electrical potential between two points.
-            This difference in electrical potential is what causes electrons to flow from one point to the other.
-            In hydraulic terms, circuit voltage would be the pump that gives electricity the push it needs to move electrons through a circuit.</div>
-            <a class="delete-material-button" not-clickable><div>Delete</div></a>
-        </div>
-      </div>
-
-      <div class="add-material-container material-4">
-        <div class="add-material">
-          <div class="add-material-inner">
-            <a>
-              +
-            </a>
-          </div>
-        </div>
-    </div>
-
-
-    <div class="course-view-material-container material-4">
-      <div class="course-view-material">
-        <h2 class="course-view-header">Waveforms & Signal Generation</h2>
-        <h3 class="course-view-subheader">Session</h3>
-        <div class="icon-wrapper">
-          <div class="course-view-icon icon"><img class="course-view-icon-image" src="/image/waveforms.png"></div>
-        </div>
-        <div class="course-view-text">&nbsp;&nbsp;&nbsp;&nbsp; Direct current is common in low voltage systems, but as soon as you start working with high voltage, you'll need to know about alternating current. AC comes in a variety of waveforms, with a lot of information encoded into it, which we will show you how to identify, measure, and reason about.</div>
-        <div class="course-view-background"></div>
-        <a class="delete-material-button" not-clickable><div>Delete</div></a> 
-      </div>
-    </div>
-
-    <div class="add-material-container material-5">
-      <div class="add-material">
-        <div class="add-material-inner">
-          <a>
-            +
-          </a>
-        </div>
-      </div>
-    </div>
-
-      <div class="course-view-material-container material-5">
-        <div class="course-view-material">
-          <h2 class="course-view-header">Alternating Current</h2>
-          <h3 class="course-view-subheader">Lesson</h3>
-          <div class="course-view-icon screenshot"><img class="course-view-icon-image" src="/image/alternatingCurrent.png"></div>
-          <div class="course-view-text">&nbsp;&nbsp;&nbsp;&nbsp; Amplitude is a measurement of the intensity of an AC signal and is used to determine the voltage of the signal.
-
-            The amplitude is determined by the peak height of the waveform.
-            
-            This is known as the peak or crest value of an AC waveform and is usually shown as (Vpk).</div>
-            <a class="delete-material-button" not-clickable><div>Delete</div></a>
-        </div>
-      </div>
-
-      <div class="add-material-container material-6">
-          <div class="add-material">
-            <div class="add-material-inner">
-              <a>
-                +
-              </a>
-            </div>
-          </div>
-      </div>
       
     </div>
   </div>
@@ -219,10 +99,15 @@
     </div>
     <a class="back-to-course">Back to Course</a>
     <div class="add-material-title-container">
-      <h2 class="add-material-view-header">Add Substance to Your Course<h2>
+      <h2 class="add-material-view-header">Add Stuff to Your Course<h2>
       <h2 class="add-material-view-title">Title</h2>
     </div>
+    <div id="session-category-selector">
+      
+    </div> 
     <div class="add-material-grid">
+
+      
 
 
     </div>

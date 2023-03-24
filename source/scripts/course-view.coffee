@@ -1,7 +1,10 @@
 
 Take [], ()->
   Make "CreateSVGLine", CreateSVGLine = (firstElm, lastElm, animate)->
+    console.log firstElm, lastElm
     return unless firstElm? and lastElm?
+    courseMaterialLines = document.querySelector("#course-material-lines")
+    # courseMaterialLines.innerHTML = ""
 
     lineCoords = {
       x1: (firstElm.offsetLeft + (firstElm.offsetWidth/2)), 
@@ -28,6 +31,8 @@ Take [], ()->
 
 
 Make "CreateSVGEndCaps", CreateSVGEndCaps = (firstMaterial, lastMaterial, firstButton, lastButton, animate)->
+  courseMaterialLines = document.querySelector("#course-material-lines")
+  # courseMaterialLines.innerHTML = ""
   # End Cap 1
   lineCoords = {
       x1: (firstMaterial.offsetLeft + (firstMaterial.offsetParent.offsetLeft) + (firstMaterial.offsetWidth/2)), 
@@ -88,15 +93,21 @@ Make "CreateSVGEndCaps", CreateSVGEndCaps = (firstMaterial, lastMaterial, firstB
 
   return lineData
   
-Take ["CreateSVGLine", "CreateSVGEndCaps"], (CreateSVGLine, CreateSVGEndCaps)->
-  Make "DeleteMaterial", DeleteMaterial = (container)-> ()->
+Take ["CreateSVGLine", "CreateSVGEndCaps", "Database"], (CreateSVGLine, CreateSVGEndCaps, Database)->
+  Make "DeleteMaterial", DeleteMaterial = (container, editMode)-> ()->
+    editMode ?= !Database.get("editBool")
+
     # Partial Application
     deleteThis = document.querySelectorAll("." + container.classList[1])
+
+    addMaterialContainer = container.nextSibling
+    addMaterialContainer.remove()
 
     for material in deleteThis
       material.remove()
 
-    lines = document.querySelectorAll("line")
+    courseLines = document.querySelector("#course-material-lines")
+    lines = courseLines.querySelectorAll("line")
     for line in lines
       line.remove()
 
@@ -111,6 +122,15 @@ Take ["CreateSVGLine", "CreateSVGEndCaps"], (CreateSVGLine, CreateSVGEndCaps)->
     lastButton = addMaterialButtons[addMaterialButtons.length - 1]
     firstMaterial = courseMaterials[0].querySelector(".course-view-icon")
     lastMaterial = courseMaterials[courseMaterials.length - 1].querySelector(".course-view-icon")
+
+    courseIndex = Database.get("openCourseIndex")
+    currentCourse = Database.get("courses")[courseIndex]
+
+    if currentCourse? and !editMode
+      for material, i in courseMaterials
+        currentCourse.materials[i].text = material.querySelector(".course-view-text").textContent
+
+      Database.notify("courses")
 
     CreateSVGLine(courseMaterialsToLoad[0], courseMaterialsToLoad[courseMaterialsToLoad.length - 1], false)
     CreateSVGEndCaps(firstMaterial, lastMaterial, firstButton, lastButton, false)

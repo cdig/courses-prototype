@@ -5,11 +5,13 @@ Take [], ()->
 
     KEY = "key"
     defaultDB = {
-        editBool: true
+        editBool: false
+        reorderBool: false
         runSeeds: false
     }
 
     if persistence
+        console.log(JSON.parse(localStorage.getItem(KEY)) || defaultDB)
         db = JSON.parse(localStorage.getItem(KEY)) || defaultDB
     else
         db = defaultDB
@@ -17,7 +19,7 @@ Take [], ()->
     subscribers = {}
 
     notifySubscribers = (key)->
-       
+
         if subscribers[key] && !subscribers[key].dirty
             
             subscribers[key].dirty = true
@@ -51,7 +53,15 @@ Take [], ()->
 
             queueMicrotask ()->
                 cb db[key]
-        # delete:
+
+        notify: (key)->
+            console.log("Database.notify Request: ", key)
+            notifySubscribers(key)
+
+        delete: (key)->
+            # console.log("Database.delete Request: ", key)
+            delete db[key]
+            notifySubscribers(key)
 
         #has:
         has: (key)->
@@ -61,6 +71,7 @@ Take [], ()->
 
     if persistence
         Take ["beforeunload"], (beforeunload)->
+            console.log "Here"
             localStorage.setItem(KEY, JSON.stringify(db))
 
 

@@ -13,12 +13,18 @@ Take ["ChangeView", "CreateSVGLine"], (ChangeView, CreateSVGLine)->
       toggleButtons[0].style.transform = "translateY(-100%)"
       toggleButtons[1].style.transform = "translateY(-100%)"
 
+      courseMaterialsToLoad = courseView.querySelectorAll(".course-view-material-container")
+
 
     else
       # TODO This only works for one toggled material, should create an array of nodes or something
       if newElm?
         newElm.remove()
 
-      toggleButtons[0].style.transform = "translateY(0)"
-      toggleButtons[1].style.transform = "translateY(0)"
+      toggleButtons[0].style.transform = "translateY(0%)"
+      toggleButtons[1].style.transform = "translateY(0%)"
+
+
+
+    
 

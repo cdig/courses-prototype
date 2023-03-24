@@ -3,13 +3,23 @@ Take ["Database", "OpenCourse"], (Database, OpenCourse)->
     courseListing = document.querySelector("#course-listing")
     yourCourses = document.querySelector("#your-courses")
 
-    renderCourse = (courseData)->
-        
+    renderCourses = (courseData)->
+        console.log(courseData.status)
+        # console.log(courseData.materials.length)
+        if courseData.status == "start"
+            buttonTemplate = "<a class='course-button blue'>Start</a>"
+        else if courseData.status == "continue"
+            buttonTemplate = "<a class='course-button green'>Continue</a>"
+        else if courseData.status == "complete"
+            buttonTemplate = "<a class='course-button blue'>Review</a>"
+
+        # console.log(courseData.materials?)
+        # courseLength = if courseData.materials[0]? then courseData.materials.length() else 0
+
         template = "
             <div class='course tall'>
                 <h2 class='course-title'>#{courseData.name}</h2>
                 <div class='course-buttons'>
-                    <a class='course-button green'>Continue</a>
                 </div>
                 <div class='course-bottom'>
                     <span class='left-meta'><p>#{courseData.numOfMaterials} Materials</p></span>
@@ -22,13 +32,17 @@ Take ["Database", "OpenCourse"], (Database, OpenCourse)->
         elm.className = "course-container"
         elm.innerHTML = template
 
-        yourCourses.prepend(elm)
-        
+        elm.querySelector(".course-buttons").innerHTML = buttonTemplate
+
+        category = document.querySelector("##{courseData.category}")
+
+        category.append(elm)
+            
         # Open Course Listeners
         openCourseOnClick = (button)->
             courseElm = button.closest(".course:not(.short)")
             button.addEventListener "click", ()->
-                OpenCourse courseElm
+                OpenCourse courseElm, courseData
 
         openCourseOnClick elm.querySelector(".course-button")
 
@@ -38,7 +52,7 @@ Take ["Database", "OpenCourse"], (Database, OpenCourse)->
             yourCourses.innerHTML = ""
             for courseData in courses
 
-                renderCourse(courseData)
+                renderCourses(courseData)
 
     
 

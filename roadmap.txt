@@ -1,0 +1,33 @@
+Roadmap
+	Before Transition To Rails - April 1st or 1 Week into April
+		DONE
+		-Ability to Create Courses
+		-Ability to Edit Titles and Material Content
+		-Ability to Delete Materials
+		NOT DONE
+		-Ability to Add Mock Materials(Until we settle on a better solution) March 24th
+		-Ability to Delete Courses March 28th
+		-Ability to Reorder Materials April 1st
+		*All of this must work smoothly with Database
+		
+	Internal Release - April 
+		-Hook in adding materials to explore view(or a better solution to current page) Ask Ivan to Help With Timeline
+		-Add "Notes" for extending a Materials Text April 7th 
+		-Make sure materials link to the material and return to the course April 12th(Possibly get done when we meet)
+		-Mobile Testing
+		-Internal User Testing
+		-Polish, Refactoring, Etc
+			-Bug fixes/changes that arise from Internal Release 
+			-Harsh testing/finding more bugs 
+	
+	Unknown Timeline 
+	Private Beta Release Early to Mid June?
+
+	Full Release July
+		-Collect feedback from Test release, and update accordingly.
+		
+	After Full Release Updates
+		-Animations
+		-Ability to edit text in more ways, bold/italic/colours?
+		-Add owner/managers to courses
+		
