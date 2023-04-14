@@ -126,11 +126,11 @@ Take ["ChangeView", "CreateSVGLine", "Database", "AddListener", "DeleteMaterial"
 
   Take ["Database"], (Database)->
     Make "EditCourse", EditCourse = (editMode)->
-      if !Database.get(reorderBool)
+      if !Database.get("reorderBool")
         editMode ?= !Database.get("editBool")
       # State Code
       Database.set("editBool", editMode)
-      reorderMode = Database.get("reorderBool")
+      # reorderMode = Database.get("reorderBool")
 
       # ReorderCourse()
 
