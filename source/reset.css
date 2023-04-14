@@ -1,0 +1,167 @@
+html {
+  /* Don't re-scale our text on mobile. (Normalize) */
+  /* TODO: Verify that autoprefixer is generating -moz and -webkit prefixes for this. */
+  -webkit-text-size-adjust: none;
+     -moz-text-size-adjust: none;
+          text-size-adjust: none;
+  /* Disable double-tap to zoom, and thus remove the 300ms click delay on tap. */
+  touch-action: manipulation;
+  /* TODO: This belongs in the framework, not the reset. */
+  /* Highlight taps */
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Remove the UA default margin that all browsers add (Normalize) */
+body {
+  margin: 0;
+}
+
+/* TODO: This belongs in the framework, not the reset. */
+/* Remove the UA default margin (Normalize) */
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+}
+
+/* TODO: This belongs in the framework, not the reset. */
+/* Allow us to declare subtrees as non-selectable, so they act like OS GUI rather than like documents */
+.ui, .ui * {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  cursor: default;
+  touch-action: manipulation;
+}
+
+/* TODO: This belongs in the framework, not the reset. */
+/* Sometimes, we'll need a selectable subtree within a UI subtree */
+.selectable, .selectable * {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  user-select: text;
+  cursor: auto;
+  touch-action: auto;
+}
+
+/* Apply a natural box layout model to all elements */
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+/* TODO: This belongs in the framework, not the reset. */
+/* Add the correct font weight in Chrome, Edge, and Safari. (Normalize) */
+b, strong {
+  font-weight: bolder;
+}
+
+/* TODO: This belongs in the framework, not the reset. */
+/* Add the correct font size in all browsers (Normalize) */
+small {
+  font-size: 80%;
+}
+
+/* Prevent `sub` and `sup` elements from affecting the line height in all browsers. (Normalize) */
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+/* TODO: This belongs in the framework, not the reset. */
+/* TODO: Test that this is still needed. */
+/* 1. Change the font styles in all browsers. (Normalize)
+   2. Remove the margin in Firefox and Safari. (Normalize) */
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit; /* 1 */
+  font-size: 100%; /* 1 */
+  line-height: 1.15; /* 1 */
+  margin: 0; /* 2 */
+}
+
+/* TODO: This belongs in the framework, not the reset. */
+/* TODO: Test that this is still needed. */
+/* Correct the inability to style clickable types in iOS and Safari. (Normalize) */
+button,
+[type=button],
+[type=reset],
+[type=submit] {
+  -webkit-appearance: button;
+}
+
+/* TODO: This belongs in the framework, not the reset. */
+/* TODO: Test that this is still needed. */
+/* Remove the inner border and padding in Firefox. (Normalize) */
+button::-moz-focus-inner,
+[type=button]::-moz-focus-inner,
+[type=reset]::-moz-focus-inner,
+[type=submit]::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}
+
+/* TODO: This belongs in the framework, not the reset. */
+/* TODO: Test that this is still needed. */
+/* Fix the cursor style for Chrome's increment/decrement buttons. For certain `font-size` values of the `input`, it causes the cursor style of the decrement button to change from `default` to `text`. (Normalize) */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  height: auto;
+}
+
+/* TODO: This belongs in the framework, not the reset. */
+/* TODO: Test that this is still needed. */
+/* 1. Correct the odd appearance in Chrome and Safari. (Normalize)
+   2. Correct the outline style in Safari. (Normalize) */
+[type=search] {
+  -webkit-appearance: textfield; /* 1 */
+  outline-offset: -2px; /* 2 */
+}
+
+/* Remove the inner padding in Chrome and Safari on macOS. (Normalize) */
+[type=search]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+iframe,
+object,
+embed,
+canvas,
+progress {
+  width: 100%; /* Make responsive (cd-reset) */
+  vertical-align: middle; /* Remove the "baseline" space weirdness (cd-reset) */
+}
+
+video,
+img {
+  vertical-align: middle; /* Remove the "baseline" space weirdness (cd-reset) */
+}
+
+/* Embedded contexts should be big and beefy! (cd-reset) */
+iframe,
+object,
+embed,
+canvas,
+progress,
+video {
+  display: block;
+}
+
+/* Remove the 2px border around iframes (cd-reset) */
+iframe {
+  border: 0;
+}/*# sourceMappingURL=reset.css.map */

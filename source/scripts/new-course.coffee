@@ -12,14 +12,13 @@ Take ["Database"], (Database)->
       if input.value.length > 0
 
         Database.update "courses", (courses)->
-          console.log courses
           courses.push({
+                "category": "your-courses",
                 "name": input.value,
-                "numOfMaterials": Math.random() * 100 | 0,
                 "creator": "Keelan Wollms"
+                "status": "start",
+                "materials": []
             })
-
-          console.log courses
 
           return courses
         # createdElm = yourCourses.appendChild(newCourseTemplate.content.cloneNode(true))

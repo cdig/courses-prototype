@@ -2,7 +2,7 @@ seedDatabase = ()->
     
     Take ["Database"], (Database)->
         return unless Database.get("runSeeds")
-        console.log "seeding"
+        # console.log "seeding"
         # Add Material View Seeds
         sessionSeed = [
             {
@@ -342,7 +342,7 @@ seedDatabase = ()->
         for sessionName in sessionSeed
             sessions.push({name: sessionName})
 
-        Database.set("sessions", sessions)
+        Database.set("topics", sessions)
 
         
 

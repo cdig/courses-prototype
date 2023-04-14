@@ -41,6 +41,11 @@ Take ["ChangeView", "CreateSVGLine", "Database", "AddListener", "DeleteMaterial"
 
     courseViewContainer = document.querySelector(".course-view-container")
 
+
+    # courseMaterialLines = document.createElement("svg")
+    # courseMaterialLines.setAttribute("id", "course-material-lines")
+    # courseMaterialLines.setAttribute("xmlns", "http://www.w3.org/2000/svg")
+    # courseView.append(courseMaterialLines)
     courseViewContainer.innerHTML = "<svg id='course-material-lines' xmlns='http://www.w3.org/2000/svg'></svg>"
 
     addMaterialButtonTemplate = "
@@ -54,13 +59,13 @@ Take ["ChangeView", "CreateSVGLine", "Database", "AddListener", "DeleteMaterial"
     "
 
 
-    if courseData.materials?
+    if courseData.materials[0]?
       for material, k in courseData.materials
         transparentBackground = if material.text == "" then "transparent" else ""
         template = "
           <div class='course-view-material #{transparentBackground}'>
             <h2 class='course-view-header'>#{material.name}</h2>
-            <h3 class='course-view-subheader'>#{material.type}</h3>
+            <h3 class='course-view-subheader'>#{material.item_type}</h3>
             <div class='icon-wrapper'>
               <div class='course-view-icon #{material.imageType}'><img class='course-view-icon-image' src='/image/#{material.image}'></div>
             </div>
@@ -86,7 +91,7 @@ Take ["ChangeView", "CreateSVGLine", "Database", "AddListener", "DeleteMaterial"
 
         elm = document.createElement("div")
         elm.className = "course-view-material-container material-#{k}"
-        elm.setAttribute("draggable", "true")
+        # elm.setAttribute("draggable", true)
         elm.innerHTML = template
 
         courseViewContainer.append(elm)
@@ -94,29 +99,53 @@ Take ["ChangeView", "CreateSVGLine", "Database", "AddListener", "DeleteMaterial"
         addMaterialElm.className = "add-material-container"
         addMaterialElm.innerHTML = addMaterialButtonTemplate
         courseViewContainer.append(addMaterialElm)
+    else
+      noStuffHeader = document.createElement("div")
+      noStuffHeaderText = document.createElement("h2")
+      noStuffHeaderText.className = "no-stuff-header"
+      noStuffHeaderText.innerHTML = "Add Stuff To Your Course"
 
+      console.log("Here")
+      courseViewContainer.append(noStuffHeader)
+      noStuffHeader.append(noStuffHeaderText)
 
     courseMaterialsToLoad = courseView.querySelectorAll(".course-view-material-container")
     courseViewTitle.textContent = title.textContent
     addMaterialViewTitle.textContent = title.textContent
 
     for button in document.querySelectorAll(".delete-material-button")
-        AddListener "click", button, DeleteMaterial(button.closest(".course-view-material-container")) 
+        AddListener "click", button, DeleteMaterial(button.closest(".course-view-material-container"))
+
+    # for button in document.querySelectorAll(".add-material-container")
+    #     AddListener "click", button, AddMaterialsView(button) 
 
     ChangeView(courseListing, courseView, "horizontal")
     
-    lineData = CreateSVGLine(courseMaterialsToLoad[0], courseMaterialsToLoad[courseMaterialsToLoad.length - 1])
+    CreateSVGLine()
 
 
   Take ["Database"], (Database)->
     Make "EditCourse", EditCourse = (editMode)->
-      editMode ?= !Database.get("editBool")
+      if !Database.get(reorderBool)
+        editMode ?= !Database.get("editBool")
       # State Code
       Database.set("editBool", editMode)
+      reorderMode = Database.get("reorderBool")
+
+      # ReorderCourse()
 
       # View Code
       courseMaterials = courseView.querySelectorAll(".course-view-material")
       courseViewTitle = document.querySelector(".course-view-title")
+
+      reorderButton = document.querySelector(".reorder-button")
+
+      if editMode
+        reorderButton.style.opacity = "1"
+        reorderButton.style.pointerEvents = "auto"
+      # else
+      #   reorderButton.style.opacity = "0"
+      #   reorderButton.style.pointerEvents = "none"
 
       # Redraw end caps every time
       endCapElms = document.querySelectorAll(".end-cap-lines")
@@ -164,6 +193,11 @@ Take ["ChangeView", "CreateSVGLine", "Database", "AddListener", "DeleteMaterial"
       if currentCourse? and !editMode
         currentCourse.name = courseViewTitle.textContent
         for material, i in courseMaterials
+          image = material.querySelector(".course-view-icon-image").src.replace("#{window.location.href}image/", "")
+          currentCourse.materials[i].name = material.querySelector(".course-view-header").textContent
+          currentCourse.materials[i].item_type = material.querySelector(".course-view-subheader").textContent
+          currentCourse.materials[i].image = image
+          currentCourse.materials[i].imageType = if material.querySelector(".screenshot") then "screenshot" else "icon"
           currentCourse.materials[i].text = material.querySelector(".course-view-text").textContent
 
         Database.notify("courses")
@@ -171,24 +205,29 @@ Take ["ChangeView", "CreateSVGLine", "Database", "AddListener", "DeleteMaterial"
 
   Take ["Database", "EditCourse"], (Database, EditCourse)->
     Make "ReorderCourse", ReorderCourse = (reorderMode)->
+      
       reorderMode ?= !Database.get("reorderBool")
       editMode = Database.get("editBool")
       
       # State Code
       Database.set("reorderBool", reorderMode)
 
-      if reorderMode and editMode
-        EditCourse()
-      else if !reorderMode and editMode
-        EditCourse()
+      EditCourse()
 
+        
+      # if reorder
+
+      courseView = document.querySelector("#course-view")
 
       courseContainer = document.querySelector(".course-view-container")
       courseMaterials = document.querySelectorAll(".course-view-material-container")
+      html = document.querySelector("html")
       if reorderMode
         courseContainer.style.transform = "scale(0.75, 0.75)"
+        # html.style.transform = "scale(0.75, 0.75)"
+        # courseView.style.transform = "scale(0.75, 0.75)"
         for courseMaterial in courseMaterials
-          courseMaterial.style.transform = "scale(1.05, 1.05)"
+          courseMaterial.style.transform = "scale(1, 1)"
           courseMaterial.classList.add("draggable")
       else
         courseContainer.style.transform = "scale(1, 1)"
@@ -198,10 +237,27 @@ Take ["ChangeView", "CreateSVGLine", "Database", "AddListener", "DeleteMaterial"
 
       courseViewContainer = document.querySelector(".course-view-container")
 
+      CreateSVGLine()
+
+      # State Maintenance
+      courseIndex = Database.get("openCourseIndex")
+      currentCourse = Database.get("courses")[courseIndex]
+
+      if currentCourse? and !editMode and !reorderMode
+        for material, i in courseMaterials
+          image = material.querySelector(".course-view-icon-image").src.replace("#{window.location.href}image/", "")
+          currentCourse.materials[i].name = material.querySelector(".course-view-header").textContent
+          currentCourse.materials[i].item_type = material.querySelector(".course-view-subheader").textContent
+          currentCourse.materials[i].image = image
+          currentCourse.materials[i].imageType = if material.querySelector(".screenshot") then "screenshot" else "icon"
+          currentCourse.materials[i].text = material.querySelector(".course-view-text").textContent 
+
+        Database.notify("courses")
+
       
 
   
-  Take ["ChangeView", "Database", "EditCourse"], (ChangeView, Database, EditCourse)->
+  Take ["ChangeView", "Database", "EditCourse", "ReorderCourse"], (ChangeView, Database, EditCourse, ReorderCourse)->
     Make "CloseCourse", CloseCourse = (e)->
 
       # Select all the elements we need.
@@ -212,6 +268,7 @@ Take ["ChangeView", "CreateSVGLine", "Database", "AddListener", "DeleteMaterial"
       body.classList.add("vertical-scroll")
 
       EditCourse(false)
+      ReorderCourse(false)
 
       selectedPos = 0
       courseViewTitle.style.top = null
@@ -221,7 +278,7 @@ Take ["ChangeView", "CreateSVGLine", "Database", "AddListener", "DeleteMaterial"
       
 
 # Set Up Event Listeners
-  Take ["NewCourse", "OpenCourse", "EditCourse", "CloseCourse", "DeleteMaterial", "AddMaterials", "AddMaterialToggle", "BackToCourse", "Database", "AddListener", "ReorderCourse"], (NewCourse, OpenCourse, EditCourse, CloseCourse, DeleteMaterial, AddMaterials, AddMaterialToggle, BackToCourse, Database, AddListener, ReorderCourse)->
+  Take ["NewCourse", "OpenCourse", "EditCourse", "CloseCourse", "DeleteMaterial", "AddMaterialToggle", "BackToCourse", "Database", "AddListener", "ReorderCourse"], (NewCourse, OpenCourse, EditCourse, CloseCourse, DeleteMaterial, AddMaterialToggle, BackToCourse, Database, AddListener, ReorderCourse)->
     
     
     # New Course Listeners
@@ -229,6 +286,7 @@ Take ["ChangeView", "CreateSVGLine", "Database", "AddListener", "DeleteMaterial"
     newCourseButton = newCourseContainer.querySelector(".course-button")
     newCourseInput = newCourseContainer.querySelector("input")
 
+    
     newCourseButton.addEventListener "click", (e)->
       NewCourse(e, newCourseContainer)
 
@@ -262,66 +320,194 @@ Take ["ChangeView", "CreateSVGLine", "Database", "AddListener", "DeleteMaterial"
     backToCourseElm.addEventListener "click", ()->
       BackToCourse()
 
-    Database.subscribe "sessions", (sessions)->
-      if sessions?
+    Database.subscribe "topics", (topics)->
+      if topics?
         for button in document.querySelectorAll(".add-material-toggle")
           AddListener "click", button, AddMaterialToggle(button)
 
 
 
-    getDrag = (container, x)->
-      draggableElements = [...container.querySelectorAll(".draggable:not(.dragging)")]
+    # getClosestElm = (container, x)->
+    #   draggableElements = container.querySelectorAll(".draggable:not(.dragging)")
 
-      return draggableElements.reduce((closest, child)->
-        box = child.getBoundingClientRect()
-        offset = x - box.left - box.width / 2
-        # console.log(offset)
-        console.log(closest.offset)
-        if offset < 0 && offset > closest.offset
-          return { offset: offset, element: child}
-        else
-          # console.log(closest)
-          return closest
+    #   closestElm = null
+    #   closestDistance = Infinity
 
-      , {offset: Number.NEGATIVE_INFINITY, }).element
+    #   for elm in draggableElements
+    #     box = elm.getBoundingClientRect()
+    #     distance = box.right - x
+
+    #     if distance > 0 and distance < closestDistance
+    #       closestDistance = distance
+    #       closestElm = elm
+
+    #   return closestElm
+
+
+      # Reduce
+      # draggableElements = [...container.querySelectorAll(".draggable:not(.dragging)")]
+      # return draggableElements.reduce((closest, child)->
+      #   box = child.getBoundingClientRect()
+      #   offset = x - box.left - box.width / 2
+      # FUNCTIONAL PROGRAMMING WAY: Map over draggables, as you map over them you turn each element into an array where you have the elm the second spot would be the distance
+      # then filter them to remove distances that are positive and then reduce over them to find the closest elm -> offset > closest.offset
+      #   if offset < 0 && offset > closest.offset
+      #     return { offset: offset, element: child}
+      #   else
+      #     return closest
+
+      # , {offset: Number.NEGATIVE_INFINITY, }).element
+
+    # getClosestElm = (container, x) ->
+    #     draggableElements = container.querySelectorAll(".draggable:not(.dragging)")
+
+    #     closestElm = null
+    #     closestDistance = Infinity
+    #     lastElm = null
+
+    #     for elm in draggableElements
+    #       box = elm.getBoundingClientRect()
+    #       middleX = (box.left + box.right) / 2
+    #       distance = Math.abs(middleX - x)
+    #       lastElm = elm
+
+    #       if x > middleX and distance < closestDistance
+    #         closestDistance = distance
+    #         closestElm = elm.nextSibling
+    #         if closestElm?.classList.contains('add-material-container')
+    #           closestElm = closestElm.nextSibling
+
+    #       if x <= middleX and distance < closestDistance
+    #         closestDistance = distance
+    #         closestElm = elm
+    #         if closestElm?.previousSibling?.classList.contains('add-material-container')
+    #           closestElm = closestElm.previousSibling
+
+    #     console.log("Distance to closest element:", closestDistance) # Add console.log to see the distance
+
+    #     if closestElm == null
+    #       closestElm = lastElm.nextSibling
+    #     else if x > lastElm.getBoundingClientRect().right
+    #       closestElm = lastElm.nextSibling
+
+    #     return closestElm
+
+
 
     Database.subscribe "reorderBool", (reorderBool)->
       if reorderBool
-        draggableItems = document.querySelectorAll(".draggable")
+        draggableElements = document.querySelectorAll('.course-view-material-container.draggable')
+        container = document.querySelector('.course-view-container')
 
-        # draggableItems.forEach()
-        draggableItems.forEach (draggable, index) ->
-          draggable.addEventListener 'dragstart', ->
-            draggable.classList.add("dragging")
-            return
-          return
+        for element in draggableElements
+          new Draggable element
 
-        draggableItems.forEach (draggable, index) ->
-          draggable.addEventListener 'dragend', ->
-            draggable.classList.remove("dragging")
-            return
-          return
-        
-        container = document.querySelector(".course-view-container")
-        container.addEventListener "dragover", (e)->
-          e.preventDefault()
-          afterElement = getDrag(container, e.clientX)
-          
-          # console.log(afterElement)
-          draggable = document.querySelector(".dragging")
-          console.log(afterElement)
-          if afterElement == null
-            container.appendChild(draggable)
-          else
-            container.insertBefore(draggable, afterElement)
-          
-          
+    Draggable = (element) ->
+      deviceType = ''
+      events =
+        mouse:
+          down: 'mousedown'
+          move: 'mousemove'
+          up: 'mouseup'
+        touch:
+          down: 'touchstart'
+          move: 'touchmove'
+          up: 'touchend'
+      drag = null
 
-        
-# const offset = x - box.left + box.width / 2
-#     if (offset < 0 && offset > closest.offset) {
-#       return { offset: offset, element: child }
-#     } else {
-#       return closest
-#     }
+      init = ->
+        isTouchDevice()
+        element.addEventListener events[deviceType].down, (event) =>
+          dragStart event
 
+        element.addEventListener events[deviceType].up, (event) =>
+          dragEnd event
+
+      isTouchDevice = ->
+        try
+          document.createEvent('TouchEvent')
+          deviceType = 'touch'
+          return true
+        catch e
+          deviceType = 'mouse'
+          return false
+
+      getClosestElm = (container, x) ->
+        draggableElements = container.querySelectorAll(".draggable:not(.dragging)")
+
+        closestElm = null
+        closestDistance = Infinity
+
+        for elm in draggableElements
+          box = elm.getBoundingClientRect()
+          distance = box.right - box.width - x
+
+          if distance > 0 and distance < closestDistance
+            closestDistance = distance
+            closestElm = elm
+
+        return closestElm
+
+      dragStart = (event) ->
+        event.preventDefault()
+        element.style.opacity = '0.5'
+        element.style.zIndex = '1000'
+        element.classList.add 'dragging'
+
+        initialX = if not isTouchDevice() then event.clientX else event.touches[0].clientX
+        initialY = if not isTouchDevice() then event.clientY else event.touches[0].clientY
+        offsetLeft = initialX - element.getBoundingClientRect().left
+
+        moveElement = true
+
+        addMaterialContainer = element.nextElementSibling
+
+        drag = (event) ->
+          if moveElement
+            event.preventDefault()
+            newX = if not isTouchDevice() then event.clientX else event.touches[0].clientX
+            newY = if not isTouchDevice() then event.clientY else event.touches[0].clientY
+
+            deltaX = newX - initialX + offsetLeft
+            element.style.transform = "translateX(#{deltaX - element.style.width}px)"
+
+            if addMaterialContainer?
+              addMaterialContainer.style.transform = "translateX(#{deltaX}px)"
+
+            closestElm = getClosestElm(element.parentNode, newX - offsetLeft)
+            if closestElm?
+              if closestElm.previousSibling == null
+                element.parentNode.insertBefore element, closestElm
+                if addMaterialContainer?
+                  element.parentNode.insertBefore addMaterialContainer, element
+              else
+                element.parentNode.insertBefore element, closestElm
+                if addMaterialContainer?
+                  element.parentNode.insertBefore addMaterialContainer, element.nextSibling
+            else
+              element.parentNode.appendChild element
+              if addMaterialContainer?
+                element.parentNode.appendChild addMaterialContainer
+
+            # closestElm = getClosestElm(element.parentNode, newX - offsetLeft)
+            # if closestElm?
+            #   if closestElm.previousSibling == null
+            #     element.parentNode.insertBefore element, closestElm
+            #   else
+            #     element.parentNode.insertBefore element, closestElm.nextSibling
+
+        document.addEventListener events[deviceType].move, drag
+        document.addEventListener events[deviceType].up, dragEnd
+
+      dragEnd = (event) ->
+        moveElement = false
+        document.removeEventListener events[deviceType].move, drag
+        element.style.opacity = '1'
+        element.style.zIndex = ''
+        element.style.transform = ''
+        element.classList.remove 'dragging'
+
+        if addMaterialContainer?
+          addMaterialContainer.style.transform = ''
+
+      init()

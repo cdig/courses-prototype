@@ -1,20 +1,23 @@
 Take [], ()->
     # Proxy Objects
     # Might want more easy control or over loading and saving
-    persistence = true
+    persistence = false
 
     KEY = "key"
-    defaultDB = {
+    db = {
         editBool: false
         reorderBool: false
-        runSeeds: false
+        # runSeeds: true
     }
 
-    if persistence
-        console.log(JSON.parse(localStorage.getItem(KEY)) || defaultDB)
-        db = JSON.parse(localStorage.getItem(KEY)) || defaultDB
-    else
-        db = defaultDB
+
+
+    # if persistence
+    #     # console.log(JSON.parse(localStorage.getItem(KEY)) || defaultDB)
+    #     db = JSON.parse(localStorage.getItem(KEY)) || defaultDB
+    # else
+    #     db = defaultDB
+
 
     subscribers = {}
 
@@ -24,7 +27,7 @@ Take [], ()->
             
             subscribers[key].dirty = true
             queueMicrotask ()->
-                console.log(key)
+                # console.log(key)
                 subscribers[key].dirty = false
                 for cb in subscribers[key].cbs
                     cb db[key]
@@ -55,7 +58,7 @@ Take [], ()->
                 cb db[key]
 
         notify: (key)->
-            console.log("Database.notify Request: ", key)
+            # console.log("Database.notify Request: ", key)
             notifySubscribers(key)
 
         delete: (key)->
@@ -71,7 +74,6 @@ Take [], ()->
 
     if persistence
         Take ["beforeunload"], (beforeunload)->
-            console.log "Here"
             localStorage.setItem(KEY, JSON.stringify(db))
 
 

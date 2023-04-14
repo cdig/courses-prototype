@@ -1,0 +1,68 @@
+:root {
+  /* COLORS **************************************************************************************/
+  /* SITE */
+  --bg-xxl: hsl(217, 70%, 70%);
+  --bg-xl: hsl(219, 60%, 57%);
+  --bg-l: hsl(220, 50%, 50%);
+  --bg-m: hsl(224, 47%, 45%);
+  --bg-d: hsl(227, 45%, 40%);
+  --bg-xd: hsl(230, 50%, 30%);
+  /* SHADE */
+  --mist: hsl(220, 10%, 92%);
+  --silver: hsl(220, 15%, 80%);
+  --grey: hsl(220, 9%, 52%);
+  --smoke: hsl(227, 15%, 25%);
+  --tar: hsl(233, 30%, 17%);
+  --onyx: hsl(240, 50%, 5%);
+  /* KEY */
+  --red: hsl(358, 80%, 55%);
+  --orange: hsl(24, 100%, 60%);
+  --yellow: hsl(43, 100%, 50%);
+  --green: hsl(130, 85%, 35%);
+  --blue: hsl(223, 45%, 45%);
+  --indigo: hsl(270, 50%, 58%);
+  --violet: hsl(330, 55%, 50%);
+  /* SPECIAL */
+  --blood-orange: hsl(18, 100%, 60%);
+  --blueberry: hsl(259, 65%, 65%);
+  --bronze: hsl(43, 50%, 70%);
+  --brown: hsl(23, 40%, 46%);
+  --mint: hsl(153, 80%, 41%);
+  --maroon: hsl(359, 65%, 40%);
+  --navy: hsl(233, 52%, 22%);
+  --navy-dark: hsl(235, 60%, 14%);
+  --olive: hsl(166, 90%, 20%);
+  --pink: hsl(357, 100%, 75%);
+  --purple: hsl(255, 49%, 37%);
+  --teal: hsl(180, 100%, 32%);
+  --fuscha: hsl(340, 60%, 50%);
+  --ghost: rgba(white, 0.05);
+  --demon: rgba(black, 0.05);
+  /* HYDRAULIC PRESSURE */
+  --atmospheric-pressure: #00F;
+  --no-pressure: #00F;
+  --low-pressure: #FF0;
+  --medium-pressure: #F70;
+  --high-pressure: #F00;
+  --vacuum-pressure: #F0F;
+  /* ELECTRICAL */
+  --ground-voltage: #000;
+  --min-voltage: #FFD800;
+  --medium-voltage: #7fd97f;
+  --max-voltage: #00DAFF;
+  --magnetic-field: #8D02FF;
+  /* OTHER */
+  --cdig-blue: #0063BE;
+  --dark-blue: #0045AF;
+  --light-blue: #0084AF;
+  --light-green: #99ff66;
+  --off-white: hsl(220, 45%, 96%);
+  /* GRADIENTS */
+  --bg-gradient: linear-gradient(to right, var(--bg-d), var(--bg-l), var(--bg-d));
+  /* COMMON **************************************************************************************/
+  /* FONTS */
+  --lbs-fonts: LBSLato, Lato, "Trebuchet MS", sans-serif;
+  --system-fonts: system-ui, -apple-system, "Segoe UI", "Helvetica Neue", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  /* LBS */
+  --header-height: 48px;
+}/*# sourceMappingURL=vars.css.map */

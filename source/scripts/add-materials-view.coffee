@@ -10,15 +10,15 @@ Take ["EditCourse", "ChangeView", "Database", "CreateSVGLine"], (EditCourse, Cha
 
     renderTopic = (topicData)->
         template = "
-            <h2>#{topicData.name.name}</h2>
+            <h2>#{topicData.name}</h2>
         "
 
         elm = document.createElement("a")
-        elm.className = "sessions-category" + " #{topicData.name.name.toLowerCase().replace(" ", "-")}-category-selector"
+        elm.className = "sessions-category" + " #{topicData.name.toLowerCase().replace(" ", "-")}-category-selector"
         elm.innerHTML = template
 
         container = document.createElement("div")
-        container.id = "#{topicData.name.name.toLowerCase().replace(" ", "-")}-session-category"
+        container.id = "#{topicData.name.toLowerCase().replace(" ", "-")}-session-category"
         container.className = "session-category-grid"
 
         addMaterialGrid.appendChild(container)
@@ -26,13 +26,13 @@ Take ["EditCourse", "ChangeView", "Database", "CreateSVGLine"], (EditCourse, Cha
         sessionCategorySelector.appendChild(elm)
         
 
-    renderSessions = (sessionData)->
+    renderSessions = (topicData)->
 
-        category = sessionData.name.name.toLowerCase()
+        category = topicData.name.toLowerCase()
         categoryString = "#{category.replace(" ", "-")}-session-category"
         categoryGrid = document.querySelector("##{categoryString}")
 
-        for session in sessionData.name.sessions
+        for session in topicData.sessions
             template = "
                 <div class='grid-info'>
                     <img class='grid-image' src='./image/fuckIt.png'>
@@ -60,10 +60,10 @@ Take ["EditCourse", "ChangeView", "Database", "CreateSVGLine"], (EditCourse, Cha
 
             categoryGrid.appendChild(elm)
 
-    Database.subscribe "sessions", (sessions)->
-        if sessions?
+    Database.subscribe "topics", (topics)->
+        if topics?
             sessionCategorySelector.innerHTML = ""
-            for topicData in sessions
+            for topicData in topics
                 renderTopic(topicData)
                 renderSessions(topicData)
 
@@ -78,7 +78,7 @@ Take ["EditCourse", "ChangeView", "Database", "CreateSVGLine"], (EditCourse, Cha
 
         toggled = false
 
-    Make "AddMaterials", AddMaterials = (e)->
+    Make "AddMaterialsView", AddMaterialsView = (e)->
         EditCourse(false)
 
         ChangeView(courseView, addMaterialView, "vertical")

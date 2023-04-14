@@ -1,7 +1,17 @@
-
 Take [], ()->
   Make "CreateSVGLine", CreateSVGLine = (firstElm, lastElm, animate)->
-    console.log firstElm, lastElm
+
+    linesContainer = document.querySelector("#course-material-lines")
+    lines = linesContainer.querySelectorAll("line")
+    if lines?
+      for line in lines
+        line.remove()
+
+    courseView = document.querySelector("#course-view")
+    courseMaterialsToLoad = courseView.querySelectorAll(".course-view-material-container")
+
+    firstElm = courseMaterialsToLoad[0]
+    lastElm = courseMaterialsToLoad[courseMaterialsToLoad.length - 1]
     return unless firstElm? and lastElm?
     courseMaterialLines = document.querySelector("#course-material-lines")
     # courseMaterialLines.innerHTML = ""
@@ -16,7 +26,7 @@ Take [], ()->
     line = document.createElementNS("http://www.w3.org/2000/svg", "line")
     courseMaterialLines.appendChild line
 
-    line.setAttribute("style", "stroke:#E9EAED;stroke-width:15;")
+    line.setAttribute("style", "stroke:#E9EAED;stroke-width:15;stroke-linecap:round;")
     line.setAttribute("x1", lineCoords.x1)
     line.setAttribute("x2", lineCoords.x2)
     line.setAttribute("y1", lineCoords.y1)

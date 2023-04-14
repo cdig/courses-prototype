@@ -4,8 +4,6 @@ Take ["Database", "OpenCourse"], (Database, OpenCourse)->
     yourCourses = document.querySelector("#your-courses")
 
     renderCourses = (courseData)->
-        console.log(courseData.status)
-        # console.log(courseData.materials.length)
         if courseData.status == "start"
             buttonTemplate = "<a class='course-button blue'>Start</a>"
         else if courseData.status == "continue"
@@ -13,8 +11,7 @@ Take ["Database", "OpenCourse"], (Database, OpenCourse)->
         else if courseData.status == "complete"
             buttonTemplate = "<a class='course-button blue'>Review</a>"
 
-        # console.log(courseData.materials?)
-        # courseLength = if courseData.materials[0]? then courseData.materials.length() else 0
+        console.log(courseData)
 
         template = "
             <div class='course tall'>
@@ -22,7 +19,7 @@ Take ["Database", "OpenCourse"], (Database, OpenCourse)->
                 <div class='course-buttons'>
                 </div>
                 <div class='course-bottom'>
-                    <span class='left-meta'><p>#{courseData.numOfMaterials} Materials</p></span>
+                    <span class='left-meta'><p>#{courseData.materials.length} Items</p></span>
                     <span class='right-meta'><p>#{courseData.creator}</p></span>
                 </div>
             </div>
