@@ -22,7 +22,7 @@ Make "AddListener", AddListener = (type ,target, callback)->
 Make "AnimateElement", AnimateElement = (elm, keyframes, props)->
   elm.animate(keyframes, props).finished
 
-Take ["ChangeView", "CreateSVGLine", "Database", "AddListener", "DeleteMaterial"], (ChangeView, CreateSVGLine, Database, AddListener, DeleteMaterial)->
+Take ["ChangeView", "CreateSVGLine", "Database", "AddListener", "DeleteMaterial", "AutosizeTextArea"], (ChangeView, CreateSVGLine, Database, AddListener, DeleteMaterial, AutosizeTextArea)->
   Make "OpenCourse", OpenCourse = (elm, courseData)->
 
     # Avoiding shadowing by declaring variables outside blocks
@@ -35,17 +35,12 @@ Take ["ChangeView", "CreateSVGLine", "Database", "AddListener", "DeleteMaterial"
     selectedCourse = elm.setAttribute("id", "selected")
     selected = elm.querySelector("#selected")
     title = elm.querySelector(".course-title")
+    console.log(title)
     courseViewTitle = document.querySelector(".course-view-title")
-    addMaterialViewTitle = document.querySelector(".add-material-view-title")
     pageContent = document.querySelectorAll(".course:not(#selected, #header)")
 
     courseViewContainer = document.querySelector(".course-view-container")
 
-
-    # courseMaterialLines = document.createElement("svg")
-    # courseMaterialLines.setAttribute("id", "course-material-lines")
-    # courseMaterialLines.setAttribute("xmlns", "http://www.w3.org/2000/svg")
-    # courseView.append(courseMaterialLines)
     courseViewContainer.innerHTML = "<svg id='course-material-lines' xmlns='http://www.w3.org/2000/svg'></svg>"
 
     addMaterialButtonTemplate = "
@@ -63,14 +58,14 @@ Take ["ChangeView", "CreateSVGLine", "Database", "AddListener", "DeleteMaterial"
       for material, k in courseData.materials
         transparentBackground = if material.text == "" then "transparent" else ""
         template = "
+          <h2 class='course-view-header'>#{material.name}</h2>
+          <h3 class='course-view-subheader'>#{material.item_type}</h3>
           <div class='course-view-material #{transparentBackground}'>
-            <h2 class='course-view-header'>#{material.name}</h2>
-            <h3 class='course-view-subheader'>#{material.item_type}</h3>
             <div class='icon-wrapper'>
-              <div class='course-view-icon #{material.imageType}'><img class='course-view-icon-image' src='/image/#{material.image}'></div>
+              <div class='course-view-icon #{material.imageType}'><img class='course-view-icon-image' src='#{material.image}'></div>
             </div>
-            <p class='course-view-text'>#{material.text}</p>
-            <!-- <div class='course-view-material-background'></div> -->
+            <label class='course-view-label'>Directions</label>
+            <textarea class='course-view-text' rows='3' data-min-rows='3' maxlength='350' readonly>#{material.text}</textarea>
             <a class='delete-material-button'><div>Delete</div></a>
           </div>     
         "
@@ -110,8 +105,8 @@ Take ["ChangeView", "CreateSVGLine", "Database", "AddListener", "DeleteMaterial"
       noStuffHeader.append(noStuffHeaderText)
 
     courseMaterialsToLoad = courseView.querySelectorAll(".course-view-material-container")
-    courseViewTitle.textContent = title.textContent
-    addMaterialViewTitle.textContent = title.textContent
+    console.log("textContent", title.textContent)
+    courseViewTitle.value = title.textContent
 
     for button in document.querySelectorAll(".delete-material-button")
         AddListener "click", button, DeleteMaterial(button.closest(".course-view-material-container"))
@@ -120,6 +115,10 @@ Take ["ChangeView", "CreateSVGLine", "Database", "AddListener", "DeleteMaterial"
     #     AddListener "click", button, AddMaterialsView(button) 
 
     ChangeView(courseListing, courseView, "horizontal")
+
+    textElements = document.querySelectorAll('.course-view-text')
+    textElements.forEach (element) =>
+      AutosizeTextArea(element)
     
     CreateSVGLine()
 
@@ -155,21 +154,21 @@ Take ["ChangeView", "CreateSVGLine", "Database", "AddListener", "DeleteMaterial"
       if editMode
         if courseMaterials[0]?
           addMaterialButtons = courseView.querySelectorAll(".add-material-container")
-
           firstButton = addMaterialButtons[0]
           lastButton = addMaterialButtons[addMaterialButtons.length - 1]
           firstMaterial = courseMaterials[0].querySelector(".course-view-icon")
           lastMaterial = courseMaterials[courseMaterials.length - 1].querySelector(".course-view-icon")
 
-          lineData = CreateSVGEndCaps(firstMaterial, lastMaterial, firstButton, lastButton, true)
+          # lineData = CreateSVGEndCaps(firstMaterial, lastMaterial, firstButton, lastButton, true)
 
       # View Code
       if editMode 
         document.body.setAttribute("edit-course-mode", "")
-        courseViewTitle.setAttribute("contenteditable", "")
+        courseViewTitle.removeAttribute("readonly")
       else
         document.body.removeAttribute("edit-course-mode")
-        courseViewTitle.removeAttribute("contenteditable")
+        courseViewTitle.setAttribute("readonly", "")
+        
 
       linkText = courseEditButton.querySelector("a")
       linkText.innerHTML = if editMode then "View" else "Edit"
@@ -178,11 +177,11 @@ Take ["ChangeView", "CreateSVGLine", "Database", "AddListener", "DeleteMaterial"
       for material in courseMaterials
         text = material.querySelector(".course-view-text")
         if editMode
-          text.setAttribute("contenteditable", "")
-          if !text.textContent.trim().length then material.classList.remove("transparent")
+          text.removeAttribute("readonly")
+          if !text.value.trim().length then material.classList.remove("transparent")
         else
-          text.removeAttribute("contenteditable")
-          if !text.textContent.trim().length then material.classList.add("transparent")
+          text.setAttribute("readonly", "")
+          if !text.value.trim().length then material.classList.add("transparent")
           
           
 
@@ -191,16 +190,24 @@ Take ["ChangeView", "CreateSVGLine", "Database", "AddListener", "DeleteMaterial"
       currentCourse = Database.get("courses")[courseIndex]
 
       if currentCourse? and !editMode
-        currentCourse.name = courseViewTitle.textContent
+        currentCourse.name = courseViewTitle.value
         for material, i in courseMaterials
-          image = material.querySelector(".course-view-icon-image").src.replace("#{window.location.href}image/", "")
-          currentCourse.materials[i].name = material.querySelector(".course-view-header").textContent
-          currentCourse.materials[i].item_type = material.querySelector(".course-view-subheader").textContent
+          image = material.querySelector(".course-view-icon-image").src.replace("#{window.location.href}", "/")
+          currentCourse.materials[i].name = material.parentElement.querySelector(".course-view-header").textContent
+          currentCourse.materials[i].item_type = material.parentElement.querySelector(".course-view-subheader").textContent
           currentCourse.materials[i].image = image
           currentCourse.materials[i].imageType = if material.querySelector(".screenshot") then "screenshot" else "icon"
-          currentCourse.materials[i].text = material.querySelector(".course-view-text").textContent
+          currentCourse.materials[i].text = material.querySelector(".course-view-text").value
 
         Database.notify("courses")
+
+      # This should all be extracted to a function
+      if editMode
+        if courseMaterials[0]?
+          courseIndex = Database.get("openCourseIndex")
+          currentCourse = Database.get("courses")[courseIndex]
+          for link, i in courseView.querySelectorAll(".add-material-container a")
+            link.href = "http://localhost:3000/explore?course=#{currentCourse.id}&position=#{i}"
 
 
   Take ["Database", "EditCourse"], (Database, EditCourse)->
@@ -213,9 +220,6 @@ Take ["ChangeView", "CreateSVGLine", "Database", "AddListener", "DeleteMaterial"
       Database.set("reorderBool", reorderMode)
 
       EditCourse()
-
-        
-      # if reorder
 
       courseView = document.querySelector("#course-view")
 
@@ -245,12 +249,12 @@ Take ["ChangeView", "CreateSVGLine", "Database", "AddListener", "DeleteMaterial"
 
       if currentCourse? and !editMode and !reorderMode
         for material, i in courseMaterials
-          image = material.querySelector(".course-view-icon-image").src.replace("#{window.location.href}image/", "")
+          image = material.querySelector(".course-view-icon-image").src.replace("#{window.location.href}", "/")
           currentCourse.materials[i].name = material.querySelector(".course-view-header").textContent
           currentCourse.materials[i].item_type = material.querySelector(".course-view-subheader").textContent
           currentCourse.materials[i].image = image
           currentCourse.materials[i].imageType = if material.querySelector(".screenshot") then "screenshot" else "icon"
-          currentCourse.materials[i].text = material.querySelector(".course-view-text").textContent 
+          currentCourse.materials[i].text = material.querySelector(".course-view-text").value
 
         Database.notify("courses")
 
@@ -266,6 +270,8 @@ Take ["ChangeView", "CreateSVGLine", "Database", "AddListener", "DeleteMaterial"
       courseViewTitle = document.querySelector(".course-view-title")
       body.classList.remove("horizontal-scroll")
       body.classList.add("vertical-scroll")
+      courseMaterialLines = document.querySelector("#course-material-lines")
+      
 
       EditCourse(false)
       ReorderCourse(false)
@@ -274,19 +280,18 @@ Take ["ChangeView", "CreateSVGLine", "Database", "AddListener", "DeleteMaterial"
       courseViewTitle.style.top = null
 
       ChangeView(courseView, courseListing, "veritical")
+      courseMaterialLines.remove()
       Database.delete("openCourseIndex")
       
 
 # Set Up Event Listeners
-  Take ["NewCourse", "OpenCourse", "EditCourse", "CloseCourse", "DeleteMaterial", "AddMaterialToggle", "BackToCourse", "Database", "AddListener", "ReorderCourse"], (NewCourse, OpenCourse, EditCourse, CloseCourse, DeleteMaterial, AddMaterialToggle, BackToCourse, Database, AddListener, ReorderCourse)->
-    
-    
+  Take ["NewCourse", "OpenCourse", "EditCourse", "CloseCourse", "DeleteMaterial", "AddMaterialToggle", "Database", "AddListener", "ReorderCourse", "CreateSVGLine", "AutosizeTextArea"], (NewCourse, OpenCourse, EditCourse, CloseCourse, DeleteMaterial, AddMaterialToggle, Database, AddListener, ReorderCourse, CreateSVGLine, AutosizeTextArea)->
+
     # New Course Listeners
     newCourseContainer = document.querySelector(".course.short")
     newCourseButton = newCourseContainer.querySelector(".course-button")
     newCourseInput = newCourseContainer.querySelector("input")
 
-    
     newCourseButton.addEventListener "click", (e)->
       NewCourse(e, newCourseContainer)
 
@@ -311,14 +316,18 @@ Take ["ChangeView", "CreateSVGLine", "Database", "AddListener", "DeleteMaterial"
     backToCoursesElm.addEventListener "click", ()->
       CloseCourse()
 
-    
 
+    window.addEventListener "resize", ()->
+      CreateSVGLine()
+
+    Database.subscribe "editBool", (editBool)->
+      if editBool
+        textElements = document.querySelectorAll('.course-view-text')
+        textElements.forEach (element) =>
+          element.addEventListener "input", ()->
+            AutosizeTextArea(element)
 
     # Add Material Listeners
-    backToCourseElm = document.querySelector(".back-to-course")
-
-    backToCourseElm.addEventListener "click", ()->
-      BackToCourse()
 
     Database.subscribe "topics", (topics)->
       if topics?

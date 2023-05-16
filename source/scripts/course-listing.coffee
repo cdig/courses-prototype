@@ -19,8 +19,8 @@ Take ["Database", "OpenCourse"], (Database, OpenCourse)->
                 <div class='course-buttons'>
                 </div>
                 <div class='course-bottom'>
-                    <span class='left-meta'><p>#{courseData.materials.length} Items</p></span>
-                    <span class='right-meta'><p>#{courseData.creator}</p></span>
+                    <span class='left-meta'>#{courseData.materials.length} Items</span>
+                    <span class='right-meta'>#{courseData.creator}</span>
                 </div>
             </div>
         "

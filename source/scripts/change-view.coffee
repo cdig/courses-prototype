@@ -8,7 +8,7 @@ Take [], ()->
   setHorizontalScrolling = (bool)->
     window.removeEventListener "wheel", changeScollToHorizontal
     if bool
-      window.addEventListener "wheel", changeScollToHorizontal
+      window.addEventListener "wheel", changeScollToHorizontal, {passive: false}
       
 
   Make "ChangeView", ChangeView = (fadeOut, fadeIn, scrollDirection)->

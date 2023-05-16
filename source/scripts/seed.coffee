@@ -328,21 +328,21 @@ seedDatabase = ()->
         #     ""
         # ]
 
-        courses = []
+        # courses = []
 
-        for course in courseSeed
-            courses.push(course)
+        # for course in courseSeed
+        #     courses.push(course)
 
-        Database.set("courses", courses)
+        # Database.set("courses", courses)
 
 
 
-        sessions = []
+        # sessions = []
         
-        for sessionName in sessionSeed
-            sessions.push({name: sessionName})
+        # for sessionName in sessionSeed
+        #     sessions.push({name: sessionName})
 
-        Database.set("topics", sessions)
+        # Database.set("topics", sessions)
 
         
 

@@ -23,14 +23,15 @@
     <!-- THIS IS WHERE YOUR COURSES APPEAR -->
       
     </div>
-    <div class="new course-container animation">
+    <div class="new course-container">
       <div class="course short">
         <div class="text-grid-container">
-          <input autosize id="new-course-field" type="text" maxlength="500" rows="1" placeholder="Type a new course name." onInput="this.parentNode.dataset.replicatedValue = this.value"></input>
+          <input autosize id="new-course-field" type="text" maxlength="500" rows="1" placeholder="Type a new course name."></input>
         </div>
         <div class="course-buttons">
           <a class="course-button blue">Create</a>
         </div>
+        <div class="course-bottom"></div>
       </div>
     </div>
     
@@ -53,38 +54,30 @@
   </div>
 
   <div id="course-view">
-    <div class="edit-button blue">
-      <a>Edit</a>
-    </div>
-    <div class="reorder-button blue">
-      <a>Reorder</a>
-    </div>
+    
 
-    <div class="course-background"></div>
+    <!-- <div class="course-background"></div> -->
 
     <div class="course-title-background">
       <a class="back-to-courses">
-        <!-- <?xml version="1.0" encoding="UTF-8"?> -->
-        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" height="1em" width="4em" viewBox="0 -5 65 35">
-          <defs>
-            <style>
-              .cls-1 {
-                fill: none;
-                stroke: #fff;
-                stroke-linecap: square;
-                stroke-linejoin: square;
-                stroke-width: 7px;
-              }
-            </style>
-          </defs>
-          <polyline class="cls-1" points="14.43 26.41 2.5 14.47 14.47 2.5"/>
-          <line class="cls-1" x1="65" y1="14.45" x2="5" y2="14.45"/>
+        <svg xmlns="http://www.w3.org/2000/svg" height="1em" width="1.625em" viewBox="0 0 65 40" fill="none" stroke="#fff" stroke-width="7px">
+          <polyline points="15 32 3.5 20 15 8"/>
+          <line x1="65" y1="20" x2="5" y2="20"/>
         </svg>
       </a>
+
+      <input class="course-view-title" type="text" maxlength="500" rows="1" readonly></input>
+
+      <div class="course-admin-buttons">
+        <a class="edit-button blue admin-button">
+          Edit
+        </a>
+        <a class="reorder-button blue admin-button">
+          Reorder
+        </a>
+      </div>
     </div>
-    <div class="course-title-container">
-      <h2 class="course-view-title">Title</h2>
-    </div>
+    
     
     <div class="course-view-container">
       
@@ -93,76 +86,5 @@
       
     </div>
   </div>
-  <div id="add-material-view">
-    <div class="add-material-background">
-    
-    </div>
-    <a class="back-to-course">Back to Course</a>
-    <div class="add-material-title-container">
-      <h2 class="add-material-view-header">Add Stuff to Your Course<h2>
-      <h2 class="add-material-view-title">Title</h2>
-    </div>
-    <div id="session-category-selector">
-      
-    </div> 
-    <div class="add-material-grid">
-
-      
-
-
-    </div>
-  </div>
 </body>
 </html>
-<template id="new-course">
-  <div class="course-container">
-    <div class="course tall">
-      <h2 class="course-title"></h2>
-      <div class="course-buttons">
-        <a class="course-button blue">Start</a>
-      </div>
-      <div class="course-bottom">
-        <span class="left-meta"><p>0 Materials</p></span>
-        <span class="right-meta"><p>LunchBox</p></span>
-      </div>
-    </div>
-  </div>
-</template>
-<template id="add-material-button">
-  <div class="add-material-container">
-    <div class="add-material"">
-      <div class="add-material-inner">
-        <p>
-        +
-        </p>
-      </div>
-    </div>
-  </div>
-</template>
-
-<template id="new-material">
-
-<div class="course-view-material-container material-4">
-  <div class="course-view-material">
-    <h2 class="course-view-header">Waveforms & Signal Generation</h2>
-    <h3 class="course-view-subheader">Session</h3>
-    <div class="icon-wrapper">
-      <div class="course-view-icon icon"><img class="course-view-icon-image" src="/image/waveforms.png"></div>
-    </div>
-    <div class="course-view-text">&nbsp;&nbsp;&nbsp;&nbsp; Direct current is common in low voltage systems, but as soon as you start working with high voltage, you'll need to know about alternating current. AC comes in a variety of waveforms, with a lot of information encoded into it, which we will show you how to identify, measure, and reason about.</div>
-    <div class="course-view-background"></div>
-    <a class="delete-material-button"><div>Delete</div></a> 
-  </div>
-</div>
-
-<div class="add-material-container material-5">
-  <div class="add-material">
-    <div class="add-material-inner">
-      <a>
-        +
-      </a>
-    </div>
-  </div>
-</div>
-</template>
-

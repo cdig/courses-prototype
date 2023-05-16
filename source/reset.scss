@@ -133,7 +133,8 @@ progress {
 }
 
 video,
-img {
+img,
+svg {
   vertical-align: middle; /* Remove the "baseline" space weirdness (cd-reset) */
 }
 
