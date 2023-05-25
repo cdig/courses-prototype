@@ -76,20 +76,20 @@ a[not-clickable] {
   input[type=text] {
     grid-area: 1 / 1 / 2 / 3;
     grid-template-columns: auto auto;
-  
+
     text-align: center;
     color: var(--mist);
     margin: 0.5em 10%;
-    
-  
-  
+
+
+
     font-weight: 900;
     font-size: calc(1em + 1vw);
     background-color: transparent;
     border: 0;
     border-bottom: 0.2em solid white;
     outline: none;
-    
+
   }
   input[type=text]::placeholder {
     color: var(--silver);
@@ -176,7 +176,7 @@ a[not-clickable] {
   border: none;
   border-radius: 0.5em;
   overflow: hidden;
-  
+
   outline: none;
   text-overflow: ellipsis;
   text-align: center;
@@ -234,7 +234,7 @@ a[not-clickable] {
   position: relative;
   overflow-x: auto;
   display: flex;
-  
+
   // scroll-behavior: smooth;
 
   align-items: flex-start;
@@ -243,6 +243,10 @@ a[not-clickable] {
   padding: 0 3em 0 3em;
   height: 100%;
   transition: transform 1s ease;
+}
+
+[edit-course-mode] .scroller {
+  transform: scale(.75)
 }
 
 [scroll-snapping] {
@@ -262,7 +266,7 @@ a[not-clickable] {
   &.dragging {
     transition: none;
     // scroll-snap-align: none;
-  } 
+  }
 }
 
 .lower-row {
@@ -280,7 +284,7 @@ a[not-clickable] {
   user-select: none;
   z-index: -20;
   transition: background 1s, border 1s;
-  
+
   &.transparent {
     background-color: transparent;
     border: transparent calc(0.1em + 0.2vw) solid;
@@ -336,7 +340,7 @@ a[not-clickable] {
   z-index: 9999;
   overflow: hidden;
   user-select: none;
-  
+
   img {
       position: relative;
       width: calc(80% + 1vw);
@@ -346,10 +350,10 @@ a[not-clickable] {
       align-self: center;
       transform-origin: center center;
       transform: translateY(-50%) scale(1.75, 1.75);
-      
+
       z-index: 20;
       border-radius: 50%;
-      
+
       cursor: pointer;
       transition: all 0.7s;
   }
@@ -369,11 +373,11 @@ a[not-clickable] {
   // transform: translateX(-50%);
   margin: 0 auto;
   transform-origin: center center;
-  
-  
+
+
   border-radius: 50%;
   user-select: none;
-  
+
   // pointer-events: none;
   img {
       position: relative;
@@ -385,7 +389,7 @@ a[not-clickable] {
       justify-content: center;
       align-self: center;
       transform-origin: center center;
-      
+
       border-radius: 1em;
       transition: all 0.7s;
       cursor: pointer;
@@ -407,11 +411,11 @@ a[not-clickable] {
 
   border-radius: 1em;
   line-height: 100%;
-  
+
   box-sizing: border-box;
-  
+
   resize: none;
-  
+
   font-size: calc(0.8em + 0.5vw);
   font-weight: 900;
   word-wrap: break-word;
@@ -431,9 +435,9 @@ a[not-clickable] {
   line-height: 100%;
   overflow-y: hidden;
   // box-sizing: border-box;
-  
+
   resize: none;
-  
+
   pointer-events: auto;
   user-select: all;
   font-size: calc(0.8em + 0.5vw);
@@ -528,7 +532,7 @@ a[not-clickable] {
     border-radius: 50%;
     // margin: auto auto;
     align-self: flex-start;
-    
+
     // top: -7.5em;
     z-index: 1000;
     // transform: scale(0, 0);
@@ -537,7 +541,7 @@ a[not-clickable] {
     text-align: center;
     cursor: pointer;
     user-select: none;
-    
+
     .add-material-inner {
       transition: all 0.3s ease-in-out;
       position: relative;
@@ -567,7 +571,7 @@ a[not-clickable] {
       height: 85%;
       a {
         line-height: 89%;
-        
+
       }
     }
   }

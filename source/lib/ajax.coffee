@@ -5,7 +5,6 @@ Take [], ()->
 
     if xhr.status is 200
       opts.success? response, e, xhr
-      console.log(opts)
     else if opts.error?
       opts.error response, e, xhr
     else

@@ -2,7 +2,6 @@ Take ["AJAX", "Database"], (AJAX, Database)->
     localURL = "http://localhost:3000/courses"
 
     AJAX
-        # url: "http://192.168.0.96/3000/courses"
         url: localURL
         success: (res)->
             Database.set("courses", res.courses)
@@ -23,4 +22,3 @@ Take ["AJAX", "Database"], (AJAX, Database)->
                     console.log res
                 error: (error)->
                     console.log error
-            
