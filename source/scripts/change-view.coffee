@@ -1,31 +1,20 @@
 Take [], ()->
-  changeScollToHorizontal = (e)->
-    if ( e.deltaY != 0 )
-      window.scroll(window.scrollX + e.deltaY * 2, window.scrollY );
-      e.preventDefault();
+  # changeScollToHorizontal = (e)->
+  #   if ( e.deltaY != 0 )
+  #     window.scroll(window.scrollX + e.deltaY * 2, window.scrollY );
+  #     e.preventDefault();
 
 
-  setHorizontalScrolling = (bool)->
-    window.removeEventListener "wheel", changeScollToHorizontal
-    if bool
-      window.addEventListener "wheel", changeScollToHorizontal, {passive: false}
+  # setHorizontalScrolling = (bool)->
+  #   window.removeEventListener "wheel", changeScollToHorizontal
+  #   if bool
+  #     window.addEventListener "wheel", changeScollToHorizontal, {passive: false}
       
 
-  Make "ChangeView", ChangeView = (fadeOut, fadeIn, scrollDirection)->
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: 'smooth'
-    })
+  Make "ChangeView", ChangeView = (fadeOut, fadeIn, scrollDirection, displayType)->
 
     fadeOut.style.display = "none"
-    fadeOut.style.pointerEvents = "none"
-    fadeIn.style.display = "block"
-    fadeIn.style.pointerEvents = "auto"
-
-    setHorizontalScrolling(scrollDirection == "horizontal")
-    document.body.classList.toggle("horizontal-scroll", scrollDirection == "horizontal")
-    document.body.classList.toggle("vertical-scroll", scrollDirection != "horizontal")
+    fadeIn.style.display = displayType
 
       
 
