@@ -9,5 +9,3 @@ Take ["Database"], (Database)->
 
 
     # TODO: Test this on a touch device
-
-

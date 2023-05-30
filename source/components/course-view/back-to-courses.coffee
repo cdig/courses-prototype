@@ -1,5 +1,3 @@
-
-
 Take ["ChangeView", "Database", "EditCourse", "ReorderCourse"], (ChangeView, Database, EditCourse, ReorderCourse)->
 
   elm = document.querySelector ".back-to-courses"
@@ -7,6 +5,8 @@ Take ["ChangeView", "Database", "EditCourse", "ReorderCourse"], (ChangeView, Dat
   elm.addEventListener "click", ()->
 
     # This is good, generic "switch from one page to another" routing logic
+    # TODO: Make a router
+    courseListing = document.querySelector("#course-listing")
     courseView = document.querySelector("#course-view")
     ChangeView(courseView, courseListing, "veritical", "block")
 
@@ -15,4 +15,3 @@ Take ["ChangeView", "Database", "EditCourse", "ReorderCourse"], (ChangeView, Dat
     courseMaterialLines.remove()
     EditCourse(false)
     ReorderCourse(false)
-    Database.set("openCourseIndex", null)

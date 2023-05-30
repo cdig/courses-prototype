@@ -9,14 +9,8 @@ Take [], ()->
   #   window.removeEventListener "wheel", changeScollToHorizontal
   #   if bool
   #     window.addEventListener "wheel", changeScollToHorizontal, {passive: false}
-      
+
 
   Make "ChangeView", ChangeView = (fadeOut, fadeIn, scrollDirection, displayType)->
-
     fadeOut.style.display = "none"
     fadeIn.style.display = displayType
-
-      
-
-
-

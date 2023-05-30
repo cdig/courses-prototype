@@ -5,7 +5,7 @@
   <link rel="stylesheet" href="https://fonts.lunchboxsessions.com/fonts.css">
   <link rel="stylesheet" href="/styles.css">
   <script defer src="/scripts.js"></script>
-  
+
 </head>
 <body spellcheck="false">
   <div id="header"><div class="inner">
@@ -15,51 +15,54 @@
   </div></div>
 
   <div id="course-listing">
-    <div class="course-listing-course-titles">
-      <h1 class="title">Your Courses</h1>
-      <h2 class="subtitle">Courses you have already started, or that have been assigned to your team.</h2>
-    </div>
+
     <div id="your-courses">
-      
-    <!-- THIS IS WHERE YOUR COURSES APPEAR -->
-      
-    </div>
-    <div class="new course-container">
-      <div class="course short">
-        <div class="text-grid-container">
-          <input autosize id="new-course-field" type="text" maxlength="500" rows="1" placeholder="Type a new course name."></input>
-        </div>
-        <div class="course-buttons">
-          <a class="course-button blue">Create</a>
-        </div>
-        <div class="course-bottom"></div>
+
+      <div class="course-listing-course-titles">
+        <h1 class="title">Your Courses</h1>
+        <h2 class="subtitle">Courses you have already started, or that have been assigned to your team.</h2>
       </div>
+
+      <div class="loaded-courses"></div>
+
+      <!-- THIS IS WHERE YOUR COURSES APPEAR -->
+
+      <div class="new course-container">
+        <div class="course">
+          <div class="text-grid-container">
+            <input autosize id="new-course-field" type="text" maxlength="500" rows="1" placeholder="Type a new course name."></input>
+          </div>
+          <div class="course-buttons">
+            <a class="course-button blue">Create</a>
+          </div>
+          <div class="course-bottom"></div>
+        </div>
+      </div>
+
     </div>
-    
+
     <div id="lunchbox-sessions-courses">
       <div class="course-listing-course-titles">
         <h1 class="title">LunchBox Sessions Courses</h1>
         <h2 class="subtitle">Courses created by LunchBox Sessions for you.</h2>
       </div>
-      
-
+      <div class="loaded-courses"></div>
     </div>
+
     <div id="completed-courses">
       <div class="course-listing-course-titles">
         <h1 class="title">Completed Courses</h1>
         <h2 class="subtitle">Courses you have already completed.</h2>
       </div>
+      <div class="loaded-courses"></div>
     </div>
 
 
   </div>
 
   <div id="course-view">
-    
 
-    <!-- <div class="course-background"></div> -->
-
-    <div class="course-title-background">
+    <div class="course-title-bar">
       <a class="back-to-courses">
         <svg xmlns="http://www.w3.org/2000/svg" height="1em" width="1.625em" viewBox="0 0 65 40" fill="none" stroke="#fff" stroke-width="7px">
           <polyline points="15 32 3.5 20 15 8"/>
@@ -78,13 +81,13 @@
         </a>
       </div>
     </div>
-    
-    
+
+
     <div class="scroller" scroll-snapping>
-      
+
       <!-- MATERIALS ARE RENDERED HERE -->
 
-      
+
     </div>
   </div>
 </body>

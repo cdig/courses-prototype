@@ -1,27 +1,8 @@
-courseListing = document.querySelector("#course-listing")
-courseView = document.querySelector("#course-view")
-
-courseBackground = document.querySelector(".course-background")
-courseTitleBanner = document.querySelector(".course-title-background")
-courseMaterialLines = document.querySelector("#timeline")
-courseListingCourseTitles = document.querySelectorAll(".course-listing-course-titles")
-addMaterialElms = document.querySelectorAll(".add-material")
-
-addMaterialBanner = document.querySelector(".add-material-background")
-newMaterialTemplate = document.querySelector("#new-material")
-lunchboxSessionsCoursesElm = document.querySelector("#lunchbox-sessions-courses")
-courseEditButton = document.querySelector(".edit-button")
+# IVAN: We have not gone through this one yet
 
 
-Take ["ChangeView", "CreateSVGLine", "Database", "DeleteMaterial", "AutosizeTextArea", "Draggable"], (ChangeView, CreateSVGLine, Database, DeleteMaterial, AutosizeTextArea, Draggable)->
+Take ["ChangeView", "Database", "DeleteMaterial", "AutosizeTextArea", "Draggable"], (ChangeView, Database, DeleteMaterial, AutosizeTextArea, Draggable)->
   Make "OpenCourse", OpenCourse = (elm, courseData)->
-    
-    # Avoiding shadowing by declaring variables outside blocks
-    # Logic Code
-    for course, i in Database.get("courses")
-      if course == courseData
-        Database.set("openCourseIndex", i)
-        break
 
     selectedCourse = elm.setAttribute("id", "selected")
     selected = elm.querySelector("#selected")
@@ -116,16 +97,13 @@ Take ["ChangeView", "CreateSVGLine", "Database", "DeleteMaterial", "AutosizeText
     # for button in document.querySelectorAll(".add-material-container")
     #     AddListener "click", button, AddMaterialsView(button)
 
+    # This is good, generic "switch from one page to another" routing logic
+    # TODO: Make a router
+    courseListing = document.querySelector("#course-listing")
+    courseView = document.querySelector("#course-view")
     ChangeView(courseListing, courseView, "horizontal", "flex")
 
     textElements = document.querySelectorAll('.field-text')
     textElements.forEach (element) =>
       element.style.cssText = "height: #{element.scrollHeight}px;"
       AutosizeTextArea(element)
-
-    # CreateSVGLine()
-
-
-Take ["CreateSVGLine"], (CreateSVGLine)->
-    window.addEventListener "resize", ()->
-      CreateSVGLine()
