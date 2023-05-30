@@ -230,10 +230,17 @@ a[not-clickable] {
 
 
 .scroller {
-  flex: 1 1 100%;
+  // flex: 1 1 100%;
   position: relative;
   overflow-x: auto;
-  display: flex;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: repeat(auto-fit, calc(13em + 20vw));
+  grid-template-rows: 0.25fr 0.75fr;
+
+  grid-column-gap: 10px;
+  grid-row-gap: 25px;
+  // background-color: #ffb900;
 
   // scroll-behavior: smooth;
 
@@ -245,7 +252,7 @@ a[not-clickable] {
   transition: transform 1s ease;
 }
 
-[edit-course-mode] .scroller {
+[reorder-course-mode] .scroller {
   transform: scale(.75)
 }
 
@@ -273,11 +280,11 @@ a[not-clickable] {
   position: relative;
   display: grid;
   width: calc(13em + 20vw);
-  margin-top: clamp(4em, 2em + 5vw, 6em);
+  // margin-top: clamp(4em, 2em + 5vw, 6em);
   height: auto;
   // max-height: 100%;
   vertical-align: baseline;
-  align-self: center;
+  align-self: start;
   background-color: var(--bg-d);
   border: var(--bg-xd) calc(0.1em + 0.2vw) solid;
   border-radius: calc(0.9em + 1vw);
@@ -426,6 +433,7 @@ a[not-clickable] {
   position: relative;
   // vertical-align: top;
   box-sizing: padding-box;
+  width: 90%;
   // height:auto;
   // calc(3.75em + 0.5vw)
   margin: 0 calc(0.25em + 1vw) calc(0.25em + 1vw) calc(0.25em + 1vw);

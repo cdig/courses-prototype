@@ -45,10 +45,11 @@ Take ["Database", "OpenCourse"], (Database, OpenCourse)->
 
 
     Database.subscribe "courses", (courses)->
+        console.log("Courses: ", courses)
         if courses?
             yourCourses.innerHTML = ""
             for courseData in courses
-
+                
                 renderCourses(courseData)
 
     

@@ -13,9 +13,9 @@ lunchboxSessionsCoursesElm = document.querySelector("#lunchbox-sessions-courses"
 courseEditButton = document.querySelector(".edit-button")
 
 
-Take ["ChangeView", "CreateSVGLine", "Database", "AddListener", "DeleteMaterial", "AutosizeTextArea", "Draggable"], (ChangeView, CreateSVGLine, Database, AddListener, DeleteMaterial, AutosizeTextArea, Draggable)->
+Take ["ChangeView", "CreateSVGLine", "Database", "DeleteMaterial", "AutosizeTextArea", "Draggable"], (ChangeView, CreateSVGLine, Database, DeleteMaterial, AutosizeTextArea, Draggable)->
   Make "OpenCourse", OpenCourse = (elm, courseData)->
-
+    
     # Avoiding shadowing by declaring variables outside blocks
     # Logic Code
     for course, i in Database.get("courses")
@@ -42,13 +42,13 @@ Take ["ChangeView", "CreateSVGLine", "Database", "AddListener", "DeleteMaterial"
     if courseData.materials[0]?
       for material, k in courseData.materials
         transparentBackground = if material.text == "" then "transparent" else ""
-        templateTop = "
+        templateUpper = "
           <div class='item-top'>
             <h2 class='item-header'>#{material.name}</h2>
             <h3 class='item-subheader'>#{material.item_type}</h3>
           </div>
           "
-        templateBottom = "
+        templateLower = "
             <div class='add-material'>
               <div class='add-material-inner'>
                 <a>
@@ -66,13 +66,6 @@ Take ["ChangeView", "CreateSVGLine", "Database", "AddListener", "DeleteMaterial"
             </div>
         "
 
-
-        if k == 0
-          addMaterialElm = document.createElement("div")
-          addMaterialElm.className = "add-material-container"
-          addMaterialElm.innerHTML = addMaterialButtonTemplate
-          scroller.append(addMaterialElm)
-
           # for button in document.querySelectorAll(".add-material")
           # AddListener addMaterialElm, AddMaterials
 
@@ -81,17 +74,20 @@ Take ["ChangeView", "CreateSVGLine", "Database", "AddListener", "DeleteMaterial"
 
 
 
-        elm = document.createElement("div")
-        elm.className = "lower-row"
+        elmUpper = document.createElement("div")
+        elmUpper.className = "upper-row"
         # Draggable elm
         # elm.setAttribute("draggable", true)
-        # elm.innerHTML = template
+        elmUpper.innerHTML = templateUpper
 
-        scroller.append(template)
-        addMaterialElm = document.createElement("div")
-        addMaterialElm.className = "add-material-container"
-        addMaterialElm.innerHTML = addMaterialButtonTemplate
-        scroller.append(addMaterialElm)
+        elmLower = document.createElement("div")
+        elmLower.className = "lower-row"
+        # Draggable elm
+        # elm.setAttribute("draggable", true)
+        elmLower.innerHTML = templateLower
+
+        scroller.append(elmUpper)
+        scroller.append(elmLower)
 
 
         # TODO: After generating the elements in for the item card, add the following to .field-text
@@ -127,7 +123,7 @@ Take ["ChangeView", "CreateSVGLine", "Database", "AddListener", "DeleteMaterial"
       element.style.cssText = "height: #{element.scrollHeight}px;"
       AutosizeTextArea(element)
 
-    CreateSVGLine()
+    # CreateSVGLine()
 
 
 Take ["CreateSVGLine"], (CreateSVGLine)->

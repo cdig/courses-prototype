@@ -1,10 +1,11 @@
-Take ["Database", "ReorderCourse"], (Database, ReorderCourse)->
+Take ["Database"], (Database)->
   Make "EditCourse", EditCourse = (editMode)->
-
+    console.log("Edit Course Succeeded")
     # Toggle the reorderBool if it wasn't passed in
     editMode ?= Database.update "editBool", (b)-> !b
 
     # Turn off ReorderCourse whenever we turn on EditCourse — TODO: Reorder and Edit should just be sub-routes of Course View
+    ReorderCourse = await Take.async "ReorderCourse" 
     ReorderCourse(false) if editMode
 
     # Update the label of the Edit/View button
