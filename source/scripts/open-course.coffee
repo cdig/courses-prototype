@@ -7,7 +7,6 @@ Take ["ChangeView", "Database", "DeleteMaterial", "AutosizeTextArea", "Draggable
     selectedCourse = elm.setAttribute("id", "selected")
     selected = elm.querySelector("#selected")
     title = elm.querySelector(".course-title")
-    console.log(title)
     courseViewTitle = document.querySelector(".course-view-title")
     pageContent = document.querySelectorAll(".course:not(#selected, #header)")
 
@@ -38,9 +37,7 @@ Take ["ChangeView", "Database", "DeleteMaterial", "AutosizeTextArea", "Draggable
               </div>
             </div>
             <div class='item-card'>
-              <div class='icon-wrapper'>
-                <div class='course-view-icon #{material.imageType}'><img class='course-view-icon-image' src='#{material.image}'></div>
-              </div>
+              <div class='course-view-icon #{material.imageType}'><img class='course-view-icon-image' src='#{material.image}'></div>
               <label class='field-label'>Directions</label>
               <textarea class='field-text' rows='1' maxlength='350' readonly>#{material.text}</textarea>
               <a class='delete-material-button'><div>Delete</div></a>

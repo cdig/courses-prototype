@@ -22,7 +22,7 @@ Take ["Database"], (Database)->
       document.body.removeAttribute("edit-course-mode")
 
     # Update all item elms in the course
-    courseMaterials = courseView.querySelectorAll(".lower-row")
+    courseMaterials = document.querySelectorAll(".lower-row")
     for material in courseMaterials
       text = material.querySelector(".field-text")
       if editMode
