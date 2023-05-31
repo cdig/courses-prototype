@@ -1,6 +1,9 @@
 {
   "name": "courses-prototype",
   "version": "0.0.1",
+  "dependencies": {
+    "DOOM": "ivanreese/doom"
+  },
   "devDependencies": {
     "glob": "^8.1.0",
     "sweetbread": "^0.0.16",

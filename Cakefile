@@ -3,7 +3,10 @@ require "sweetbread"
 
 task "build", "Compile everything.", ()->
   mkdir "public"
-  coffeePaths = ["node_modules/take-and-make/source/take-and-make.coffee"].concat glob.sync("source/**/*.coffee")
+  coffeePaths = [
+    "node_modules/take-and-make/source/take-and-make.coffee"
+    "node_modules/doom/doom.coffee"
+  ].concat glob.sync("source/**/*.coffee")
   return unless Compilers.coffee coffeePaths, "public/scripts.js"
   return unless Compilers.scss glob.sync("source/**/*.scss"), "public/styles.css"
   return unless Compilers.html glob.sync("source/**/*.html"), "public/index.html"
