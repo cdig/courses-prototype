@@ -247,7 +247,6 @@ a[not-clickable] {
 
   align-items: flex-start;
   // justify-content: center;
-  scroll-snap-type: mandatory x;
 
   padding: 0 3em 0 3em;
   height: 100%;
@@ -264,8 +263,10 @@ a[not-clickable] {
 
 .upper-row {
   position: relative;
-  display: grid;
+  display: flex;
+  flex-direction: row;
   width: 100%;
+  
   align-items: end;
   scroll-snap-align: center;
 
@@ -281,9 +282,9 @@ a[not-clickable] {
 
 .lower-row {
   position: relative;
-  display: grid;
-  grid-auto-flow: column;
-  grid-template-columns: 0.25fr 0.75fr;
+  display: flex;
+  flex-direction: row;
+  // grid-template-columns: 0.25fr 0.75fr;
   // width: calc(13em + 20vw);
   // // margin-top: clamp(4em, 2em + 5vw, 6em);
   // height: auto;
@@ -303,7 +304,9 @@ a[not-clickable] {
   //   user-select: none;
   // }
 }
-
+.item-top {
+  width: 100%;
+}
 .item-header {
   position: relative;
   width: auto;
@@ -326,15 +329,6 @@ a[not-clickable] {
 .no-stuff-header {
   color: var(--bg-xd);
 }
-
-.fixed {
-  position: fixed;
-}
-
-// .icon-wrapper {
-//   position: relative;
-//   z-index: 20;
-// }
 
 .course-view-icon.icon {
   position: relative;
@@ -415,6 +409,7 @@ a[not-clickable] {
 }
 .item-card {
   // position: relative;
+  
   width: calc(13em + 20vw);
   // padding-top: clamp(4em, 2em + 5vw, 6em);
   height: auto;
@@ -613,6 +608,7 @@ a[not-clickable] {
     }
   }
 }
+
 @media (max-width: 768px) {
   .add-material-container {
     display: none;

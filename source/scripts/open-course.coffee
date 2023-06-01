@@ -1,5 +1,9 @@
 Take ["ChangeView", "Database", "DeleteMaterial", "AutosizeTextArea", "Draggable"], (ChangeView, Database, DeleteMaterial, AutosizeTextArea, Draggable)->
-  Make "OpenCourse", OpenCourse = (courseData)->
+  Make "OpenCourse", OpenCourse = (id)->
+    
+    courses = Database.get("courses")
+    courseData = courses.find((obj) -> obj.id == id)
+
 
     courseViewTitle = document.querySelector(".course-view-title")
     courseViewTitle.value = courseData.name
@@ -7,45 +11,58 @@ Take ["ChangeView", "Database", "DeleteMaterial", "AutosizeTextArea", "Draggable
     scroller = document.querySelector(".scroller")
     scroller.innerHTML = "<svg id='timeline' xmlns='http://www.w3.org/2000/svg'></svg>"
 
+    elmUpper = document.createElement("div")
+    elmUpper.className = "upper-row"
+
+    elmLower = document.createElement("div")
+    elmLower.className = "lower-row"
+
+    scroller.append(elmUpper)
+    scroller.append(elmLower)
+    
     if courseData.materials[0]?
       for material in courseData.materials
         transparentBackground = if material.text == "" then "transparent" else ""
         templateUpper = "
-          <div class='item-top'>
-            <h2 class='item-header'>#{material.name}</h2>
-            <h3 class='item-subheader'>#{material.item_type}</h3>
-          </div>
+          <h2 class='item-header'>#{material.name}</h2>
+          <h3 class='item-subheader'>#{material.item_type}</h3>
           "
-        templateLower = "
+        templateAddMaterial = "
           <div class='add-material'>
             <div class='add-material-inner'>
               <a>+</a>
             </div>
           </div>
-          <div class='item-card'>
-            <div class='course-view-icon #{material.imageType}'>
-              <img class='course-view-icon-image' src='#{material.image}'>
-            </div>
-            <label class='field-label'>Directions</label>
-            <textarea class='field-text' rows='1' maxlength='350' readonly>#{material.text}</textarea>
-            <a class='delete-material-button'>Delete</a>
+        "
+        templateLower = "
+          <div class='course-view-icon #{material.imageType}'>
+            <img class='course-view-icon-image' src='#{material.image}'>
           </div>
+          <label class='field-label'>Directions</label>
+          <textarea class='field-text' rows='1' maxlength='350' readonly>#{material.text}</textarea>
+          <a class='delete-material-button'>Delete</a>
         "
 
-        elmUpper = document.createElement("div")
-        elmUpper.className = "upper-row"
+        itemTop = document.createElement("div")
+        itemTop.className = "item-top"
+        addMaterial = document.createElement("div")
+        addMaterial.className = "add-material-container"
+        itemCard = document.createElement("div")
+        itemCard.className = "item-card"
+
         # Draggable elm
         # elm.setAttribute("draggable", true)
-        elmUpper.innerHTML = templateUpper
+        itemTop.innerHTML = templateUpper
+        elmUpper.append itemTop
 
-        elmLower = document.createElement("div")
-        elmLower.className = "lower-row"
-        # Draggable elm
-        # elm.setAttribute("draggable", true)
-        elmLower.innerHTML = templateLower
+        addMaterial.innerHTML = templateAddMaterial
+        elmLower.append addMaterial
 
-        scroller.append(elmUpper)
-        scroller.append(elmLower)
+        itemCard.innerHTML = templateLower
+        elmLower.append itemCard
+
+
+        
 
 
         # TODO: After generating the elements in for the item card, add the following to .field-text

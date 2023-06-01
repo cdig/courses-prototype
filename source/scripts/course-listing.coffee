@@ -12,7 +12,6 @@ Take ["Database", "DOOM", "OpenCourse"], (Database, DOOM, OpenCourse)->
   # TODO: This does not handle cases where DOM elements need to be reordered
   # TODO: Mutuates the attrs, which is probably not good
   renderElm = (tag, parent, attrs)->
-
     query = switch
       when attrs.query then attrs.query
       when attrs.id then "#" + attrs.id
@@ -39,7 +38,7 @@ Take ["Database", "DOOM", "OpenCourse"], (Database, DOOM, OpenCourse)->
 
   renderCourse = ({category, creator, id, materials, name, status})->
 
-    sublistingElm = document.querySelector "##{category}"
+    sublistingElm = document.querySelector "##{category}>.loaded-courses"
 
     # declarativeRender sublistingElm, [
     #   {"div.course":
@@ -86,12 +85,12 @@ Take ["Database", "DOOM", "OpenCourse"], (Database, DOOM, OpenCourse)->
     courseButtons = renderElm "div", courseElm,
       class: "course-buttons"
 
-    DOOM.empty courseButtons
+    # DOOM.empty courseButtons
 
-    DOOM.create "a", courseButtons,
+    console.log DOOM.create "a", courseButtons,
       class: "course-button #{courseButtonConfig[status].color}"
       textContent: courseButtonConfig[status].text
-      click: ()-> OpenCourse id # TODO: This causes an error, as expected, when we use renderElm
+      click: (e)-> OpenCourse id # TODO: This causes an error, as expected, when we use renderElm
 
 
     courseBottom = renderElm "div", courseElm,
