@@ -145,7 +145,7 @@ a[not-clickable] {
 // Course View
 
 #course-view {
-  display: none;
+  display: none; // Make sure this is set to flex when the course-view route is active
   flex-flow: column nowrap;
   justify-content: flex-start;
   align-items: stretch;

@@ -5,7 +5,7 @@ task "build", "Compile everything.", ()->
   mkdir "public"
   coffeePaths = [
     "node_modules/take-and-make/source/take-and-make.coffee"
-    "node_modules/doom/doom.coffee"
+    # "node_modules/doom/doom.coffee"
   ].concat glob.sync("source/**/*.coffee")
   return unless Compilers.coffee coffeePaths, "public/scripts.js"
   return unless Compilers.scss glob.sync("source/**/*.scss"), "public/styles.css"

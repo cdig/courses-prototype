@@ -1,9 +1,13 @@
-Take ["ChangeView", "Database", "DeleteMaterial", "AutosizeTextArea", "Draggable"], (ChangeView, Database, DeleteMaterial, AutosizeTextArea, Draggable)->
-  Make "OpenCourse", OpenCourse = (id)->
-    
-    courses = Database.get("courses")
-    courseData = courses.find((obj) -> obj.id == id)
+# This is dead code waiting to be rebuilt
 
+
+Take ["Database", "DeleteMaterial", "AutosizeTextArea", "Draggable"], (Database, DeleteMaterial, AutosizeTextArea, Draggable)->
+  Make "OpenCourse", OpenCourse = (id)->
+
+    courses = Database.get "courses"
+    return unless courses
+
+    courseData = courses.find (obj)-> obj.id is id
 
     courseViewTitle = document.querySelector(".course-view-title")
     courseViewTitle.value = courseData.name
@@ -19,7 +23,7 @@ Take ["ChangeView", "Database", "DeleteMaterial", "AutosizeTextArea", "Draggable
 
     scroller.append(elmUpper)
     scroller.append(elmLower)
-    
+
     if courseData.materials[0]?
       for material in courseData.materials
         transparentBackground = if material.text == "" then "transparent" else ""
@@ -62,7 +66,7 @@ Take ["ChangeView", "Database", "DeleteMaterial", "AutosizeTextArea", "Draggable
         elmLower.append itemCard
 
 
-        
+
 
 
         # TODO: After generating the elements in for the item card, add the following to .field-text
@@ -79,12 +83,6 @@ Take ["ChangeView", "Database", "DeleteMaterial", "AutosizeTextArea", "Draggable
 
       scroller.append(noStuffHeader)
       noStuffHeader.append(noStuffHeaderText)
-
-    # This is good, generic "switch from one page to another" routing logic
-    # TODO: Make a router
-    courseListing = document.querySelector("#course-listing")
-    courseView = document.querySelector("#course-view")
-    ChangeView(courseListing, courseView, "horizontal", "flex")
 
     textElements = document.querySelectorAll('.field-text')
     textElements.forEach (element) =>

@@ -4,7 +4,6 @@ Take [], ()->
         # TODO: These need to live inside some component that has ownership over them — not in the (otherwise totally abstracted) database system.
         editBool: false
         reorderBool: false
-        openCourseIndex: null
     }
 
     subscribers = {}
