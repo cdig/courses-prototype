@@ -1,21 +1,12 @@
 Take ["Database", "DOOM", "OpenCourse"], (Database, DOOM, OpenCourse)->
 
-  courseButtonConfig =
-    start:
-      color: "blue", text: "Start"
-    continue:
-      color: "green", text: "Continue"
-    complete:
-      color: "blue", text: "Review"
-
-
   # TODO: This does not handle cases where DOM elements need to be reordered
   # TODO: Mutuates the attrs, which is probably not good
   renderElm = (tag, parent, attrs)->
     query = switch
       when attrs.query then attrs.query
       when attrs.id then "#" + attrs.id
-      when attrs.class then "." + attrs.class
+      when attrs.class then "." + attrs.class.replace " ", "."
       else throw new Error "Need a query"
 
     elm = parent.querySelector(query) or DOOM.create tag, parent
@@ -27,82 +18,76 @@ Take ["Database", "DOOM", "OpenCourse"], (Database, DOOM, OpenCourse)->
     elm
 
 
+  declarativeRender = (parent, elementDefinitions)->
 
-#   getFirst = (map)-> return [k, v] for k, v of map
-#
-#
-#   declarativeRender = (parent, children)->
-#     for child in children
-#       [tag, attrs] = getFirst child
+    for [tag, attrs, contents] in elementDefinitions
+      elm = renderElm tag, parent, attrs
+
+      if contents instanceof Array
+        declarativeRender elm, contents
+      else
+        DOOM elm, textContent: contents
+
+    null
 
 
   renderCourse = ({category, creator, id, materials, name, status})->
 
-    sublistingElm = document.querySelector "##{category}>.loaded-courses"
+    sublistingElm = document.querySelector "##{category} > .loaded-courses"
 
-    # declarativeRender sublistingElm, [
-    #   {"div.course":
-    #     query: "[course-id='#{id}']"
-    #     courseId: id
-    #     content: [
-    #       {"h2.course-title":
-    #         content: name
-    #       },
-    #       {"div.course-buttons":
-    #         content: [
-    #           {"a.course-button.#{courseButtonConfig[status].color}":
-    #             click: ()-> OpenCourse id # TODO: This causes an error, as expected, when we use renderElm
-    #             content: courseButtonConfig[status].text
-    #           }
-    #         ]
-    #       },
-    #       {"div.course-bottom":
-    #         content: [
-    #           {"div.left-meta":
-    #             content: "#{materials.length} Items"
-    #           },
-    #           {"div.right-meta":
-    #             content: creator
-    #           }
-    #         ]
-    #       }
-    #     ]
-    #   }
-    # ]
+    click = ()-> OpenCourse id
+
+    buttonColor = if status is "continue" then "green" else "blue"
+    buttonText = if status is "complete"
+      "Review"
+    else
+      status[0].toUpperCase() + status[1..]
+
+    declarativeRender sublistingElm, [
+      ["div", { id: "course-#{id}", class: "course", courseId: id }, [
+        ["h2", { class: "course-title" }, name ]
+        ["div", { class: "course-buttons" }, [
+          ["a", { class: "course-button #{buttonColor}" }, buttonText]
+        ]]
+        ["div", { class: "course-bottom" }, [
+          ["div", { class: "left-meta" }, "#{materials.length} Items"]
+          ["div", { class: "right-meta" }, creator]
+        ]]
+      ]]
+    ]
 
 
-    courseElm = renderElm "div", sublistingElm,
-      query: "[course-id='#{id}']"
-      class: "course"
-      courseId: id
-
-
-    renderElm "h2", courseElm,
-      class: "course-title"
-      textContent: name
-
-
-    courseButtons = renderElm "div", courseElm,
-      class: "course-buttons"
-
-    # DOOM.empty courseButtons
-
-    console.log DOOM.create "a", courseButtons,
-      class: "course-button #{courseButtonConfig[status].color}"
-      textContent: courseButtonConfig[status].text
-      click: (e)-> OpenCourse id # TODO: This causes an error, as expected, when we use renderElm
-
-
-    courseBottom = renderElm "div", courseElm,
-      class: "course-bottom"
-
-    renderElm "div", courseBottom,
-      class: "left-meta"
-      textContent: "#{materials.length} Items"
-
-    renderElm "div", courseBottom,
-      class: "right-meta"
-      textContent: creator
+#     courseElm = renderElm "div", sublistingElm,
+#       query: "[course-id='#{id}']"
+#       class: "course"
+#       courseId: id
+#
+#
+#     renderElm "h2", courseElm,
+#       class: "course-title"
+#       textContent: name
+#
+#
+#     courseButtons = renderElm "div", courseElm,
+#       class: "course-buttons"
+#
+#     DOOM.empty courseButtons
+#     DOOM.create "a", courseButtons,
+#       class: "course-button #{courseButtonConfig[status].color}"
+#       textContent: courseButtonConfig[status].text
+#       click: ()-> OpenCourse id
+#
+#
+#     courseBottom = renderElm "div", courseElm,
+#       class: "course-bottom"
+#
+#     renderElm "div", courseBottom,
+#       class: "left-meta"
+#       textContent: "#{materials.length} Items"
+#
+#     renderElm "div", courseBottom,
+#       class: "right-meta"
+#       textContent: creator
 
 
 

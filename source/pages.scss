@@ -266,8 +266,8 @@ a[not-clickable] {
   display: flex;
   flex-direction: row;
   width: 100%;
-  
-  align-items: end;
+
+  align-items: flex-end;
   scroll-snap-align: center;
 
   margin: 0 1em 0 1em;
@@ -334,7 +334,7 @@ a[not-clickable] {
   position: relative;
   width: calc(6em + 4vw);
   height: calc(6em + 4vw);
-  
+
   top: calc(((-6em - 4vw)/2));
   // left: 50%;
   margin: 0 auto;
@@ -409,7 +409,7 @@ a[not-clickable] {
 }
 .item-card {
   // position: relative;
-  
+
   width: calc(13em + 20vw);
   // padding-top: clamp(4em, 2em + 5vw, 6em);
   height: auto;
