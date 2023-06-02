@@ -5,8 +5,7 @@ Take [], ()->
   currentPath = null # TODO: This should potentially be stored in the database (so that we can more easily introspect)
 
 
-  Make.async "Route", Route = (path)->
-
+  Make.async "Route", Route = (path, ...args)->
     # This allows callers to check what the current route is by calling Route()
     return currentPath unless path?
 
@@ -14,7 +13,7 @@ Take [], ()->
     return false unless routes[currentPath]?.has path
 
     currentPath = path
-    notifySubscribers()
+    notifySubscribers(...args)
 
 
   Route.add = (fromPath, toPath)->
@@ -33,6 +32,5 @@ Take [], ()->
     notifySubscribers()
 
 
-  notifySubscribers = ()->
-    for cb in subscribers[currentPath]
-      cb()
+  notifySubscribers = (...args)->
+    subscribers[currentPath]?.forEach (cb)-> cb(...args)

@@ -16,3 +16,5 @@ Take "Route", (Route)->
   Route.add "reorder", "listing"
 
   Route.init "listing"
+
+  Route.subscribe("course", (id)-> console.log "Hello From Course #{id}")
