@@ -33,8 +33,13 @@ a[not-clickable] {
 
 // Course Listing
 
-#course-listing {
+#listing {
+  display: none;
   padding-bottom: 2em;
+}
+
+[current-route="listing"] #listing {
+  display: block;
 }
 
 .title {
@@ -145,12 +150,16 @@ a[not-clickable] {
 // Course View
 
 #course-view {
-  display: none; // Make sure this is set to flex when the course-view route is active
+  display: none;
   flex-flow: column nowrap;
   justify-content: flex-start;
   align-items: stretch;
   height: 100%;
   width: 100%;
+}
+
+[current-route="course"] #course-view {
+  display: flex;
 }
 
 .course-title-bar {

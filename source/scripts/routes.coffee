@@ -1,5 +1,7 @@
 Take "Route", (Route)->
 
+  Route.add null, "listing"
+
   Route.add "listing", "course"
   Route.add "course", "listing"
 
@@ -15,6 +17,8 @@ Take "Route", (Route)->
   Route.add "edit", "listing"
   Route.add "reorder", "listing"
 
-  Route.init "listing"
+  # TODO: Parse the URL and figure out which route to initialize to
+  Route "listing"
 
-  Route.subscribe("course", (id)-> console.log "Hello From Course #{id}")
+
+

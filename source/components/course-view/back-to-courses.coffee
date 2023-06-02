@@ -6,7 +6,7 @@ Take ["Database", "EditCourse", "ReorderCourse"], (Database, EditCourse, Reorder
 
     # This is good, generic "switch from one page to another" routing logic
     # TODO: Make a router
-    courseListing = document.querySelector("#course-listing")
+    courseListing = document.querySelector("#listing")
     courseView = document.querySelector("#course-view")
 
     # This is logic specific to the Course View, and should go in some sort of "UnmountComponent"-like callback that is triggered by the above routing logic

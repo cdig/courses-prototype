@@ -27,7 +27,7 @@ Take ["Database", "DOOM", "Render", "Route"], (Database, DOOM, Render, Route)->
 
 
   renderCourses = ()->
-    if Route() is "listing"
+    if Route.path() is "listing"
       if courses = Database.get "courses"
         for courseData, courseIndex in courses
           renderCourse courseData, courseIndex
