@@ -1,11 +1,5 @@
 # This is dead code waiting to be rebuilt
-# Render lowerRow, [
-#   ["div", { class: "add-material-container" }, [
-#     ["div", { class: "add-material-inner" }, [
-#       ["a", { }, "+"]
-#     ]]
-#   ]]
-# ]
+# 
 
 
 Take ["Database", "Render", "Route"], (Database, Render, Route)->
@@ -13,23 +7,33 @@ Take ["Database", "Render", "Route"], (Database, Render, Route)->
   upperRow = document.querySelector(".upper-row")
   lowerRow = document.querySelector(".lower-row")
 
-  renderUpperMaterial = ({id, name, item_type, image, image_type, text})->
+  renderUpperMaterial = ({id, name, item_type, image, imageType, text})->
     ["div", { class: "item-top", id: "item-#{id}" }, [
       ["div", { class: "item-header" }, name]
       ["div", { class: "item-subheader" }, item_type]
     ]]
 
-    # TODO: Add Material goes here
-
-  renderLowerMaterial = ({id, name, item_type, image, image_type, text})->
-    ["div", { class: "item-card", id: "item-#{id}" }, [
-      ["div", { class: "course-view-icon #{image_type}" }, [
-        ["img", { class: "course-view-icon-image", src: image }]
+  # renderAddMaterial = ({id, name, item_type, image, imageType, text})->
+    
+  renderLowerMaterial = ({id, name, item_type, image, imageType, text})->
+    [ "div", { class: "item-bundle", id: "bundle-#{id}" }, [
+      ["div", { class: "add-material-container", id: "add-#{id}" }, [
+        ["div", {class: "add-material"}, [
+          ["div", { class: "add-material-inner" }, [
+            ["a", { class: "add-material-link" }, "+"]
+          ]]
+        ]]
       ]]
-      ["label", { class: "field-label" }, "Directions"]
-      ["textarea", { class: "field-text", rows: "1", maxlength: "350", readonly: "true" }, text]
-      ["a", { class: "delete-material-button" }, "Delete"]
-    ]]
+      ["div", { class: "item-card", id: "item-#{id}" }, [
+        ["div", { class: "course-view-icon #{imageType}" }, [
+          ["img", { class: "course-view-icon-image", src: image }]
+        ]]
+        ["label", { class: "field-label" }, "Directions"]
+        ["textarea", { class: "field-text", rows: "1", maxlength: "350", readonly: "true" }, text]
+        ["a", { class: "delete-material-button" }, "Delete"]
+        ]]
+      ]
+    ]
 
   courseId = null
 
@@ -41,10 +45,14 @@ Take ["Database", "Render", "Route"], (Database, Render, Route)->
     # TODO: Courses should be stored in a hash?? Database should support queries?
     courseData = courses.find (obj)-> obj.id is id
 
+    console.log(courseData)
+
     upperDefns = courseData.materials.map renderUpperMaterial
+    # lowerAddDefns = courseData.materials.map renderAddMaterial
     lowerDefns = courseData.materials.map renderLowerMaterial
 
     Render upperRow, upperDefns
+    # Render lowerRow, lowerAddDefns
     Render lowerRow, lowerDefns
 
 
