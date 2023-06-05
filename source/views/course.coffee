@@ -1,5 +1,5 @@
 # This is dead code waiting to be rebuilt
-# 
+#
 
 
 Take ["Database", "Render", "Route"], (Database, Render, Route)->
@@ -13,62 +13,51 @@ Take ["Database", "Render", "Route"], (Database, Render, Route)->
       ["div", { class: "item-subheader" }, item_type]
     ]]
 
-  # renderAddMaterial = ({id, name, item_type, image, imageType, text})->
-    
-  renderLowerMaterial = ({id, name, item_type, image, imageType, text})->
-    [ "div", { class: "item-bundle", id: "bundle-#{id}" }, [
-      ["div", { class: "add-material-container", id: "add-#{id}" }, [
-        ["div", {class: "add-material"}, [
-          ["div", { class: "add-material-inner" }, [
-            ["a", { class: "add-material-link" }, "+"]
-          ]]
+  renderAddItem = (courseId, index)->
+    href = "/explore?course=#{courseId}&position=#{index}"
+    ["div", { class: "add-material-container", id: "add-#{index}" }, [
+      ["div", {class: "add-material"}, [
+        ["div", { class: "add-material-inner" }, [
+          ["a", { class: "add-material-link", href }, "+"]
         ]]
       ]]
-      ["div", { class: "item-card", id: "item-#{id}" }, [
-        ["div", { class: "course-view-icon #{imageType}" }, [
-          ["img", { class: "course-view-icon-image", src: image }]
-        ]]
-        ["label", { class: "field-label" }, "Directions"]
-        ["textarea", { class: "field-text", rows: "1", maxlength: "350", readonly: "true" }, text]
-        ["a", { class: "delete-material-button" }, "Delete"]
-        ]]
-      ]
-    ]
+    ]]
+
+  renderLowerMaterial = ({id, name, item_type, image, imageType, text})->
+    ["div", { class: "item-card", id: "item-#{id}" }, [
+      ["div", { class: "course-view-icon #{imageType}" }, [
+        ["img", { class: "course-view-icon-image", src: image }]
+      ]]
+      ["label", { class: "field-label" }, "Directions"]
+      ["textarea", { class: "field-text", rows: "1", maxlength: "350", readonly: "true" }, text]
+      ["a", { class: "delete-material-button" }, "Delete"]
+    ]]
+
+  lowerRowGenerator = (courseId, materials)->
+    for material, index in materials
+      yield renderAddItem courseId, index
+      yield renderLowerMaterial material
+    yield renderAddItem courseId, materials.length
 
   courseId = null
 
   renderItems = ()->
     return unless Route.path() is "course"
     return unless courses = Database.get "courses"
-    [id] = Route.args()
+    [courseId] = Route.args()
 
     # TODO: Courses should be stored in a hash?? Database should support queries?
-    courseData = courses.find (obj)-> obj.id is id
-
-    console.log(courseData)
+    courseData = courses.find (course)-> course.id is courseId
 
     upperDefns = courseData.materials.map renderUpperMaterial
-    # lowerAddDefns = courseData.materials.map renderAddMaterial
-    lowerDefns = courseData.materials.map renderLowerMaterial
+    lowerDefns = [...lowerRowGenerator(courseId, courseData.materials)]
 
     Render upperRow, upperDefns
-    # Render lowerRow, lowerAddDefns
     Render lowerRow, lowerDefns
 
 
   Database.subscribe "courses", renderItems
   Route.subscribe "course", renderItems
-
-
-
-  # courses = Database.get "courses"
-  # return unless courses
-
-  # courseData = courses.find (obj)-> obj.id is id
-
-
-
-
 
 
   # courseViewTitle = document.querySelector(".course-view-title")

@@ -19,6 +19,3 @@ Take "Route", (Route)->
 
   # TODO: Parse the URL and figure out which route to initialize to
   Route "listing"
-
-
-

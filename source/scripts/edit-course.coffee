@@ -8,13 +8,6 @@ Take ["Database"], (Database)->
     ReorderCourse = await Take.async "ReorderCourse"
     ReorderCourse(false) if editMode
 
-    # Make the course title editable
-    courseViewTitle = document.querySelector(".course-view-title")
-    if editMode
-      courseViewTitle.removeAttribute("readonly")
-    else
-      courseViewTitle.setAttribute("readonly", "")
-
     # Toggle the edit mode attr on body so that styles are updated accordingly
     if editMode
       document.body.setAttribute("edit-course-mode", "")

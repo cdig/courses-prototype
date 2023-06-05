@@ -1,16 +1,12 @@
-Take ["Database", "EditCourse", "ReorderCourse"], (Database, EditCourse, ReorderCourse)->
+Take ["Route"], (Route)->
 
-  elm = document.querySelector ".back-to-courses"
+  Make "BackToCourses", BackToCourses = ()->
 
-  elm.addEventListener "click", ()->
+    click = ()-> Route "listing"
 
-    # This is good, generic "switch from one page to another" routing logic
-    # TODO: Make a router
-    courseListing = document.querySelector("#listing")
-    courseView = document.querySelector("#course-view")
-
-    # This is logic specific to the Course View, and should go in some sort of "UnmountComponent"-like callback that is triggered by the above routing logic
-    courseMaterialLines = document.querySelector("#timeline")
-    courseMaterialLines.remove()
-    EditCourse(false)
-    ReorderCourse(false)
+    ["a", { class: "back-to-courses", click}, [
+      ["svg", { xmlns:"http://www.w3.org/2000/svg", height:"1em", width:"1.625em", viewBox:"0 0 65 40", fill:"none", stroke:"#fff", strokeWidth:"7px" }, [
+        ["polyline", { points:"15 32 3.5 20 15 8" }]
+        ["line", { x1:"65", y1:"20", x2:"5", y2:"20" }]
+      ]]
+    ]]
