@@ -1,4 +1,4 @@
-Take ["CourseTitleBar", "Database", "Route"], (CourseTitleBar, Database, Route)->
+Take ["CourseTitleBar", "Database", "Route", "Scroller"], (CourseTitleBar, Database, Route, Scroller)->
 
   Make "CourseView", CourseView = ()->
     return unless Route.path() is "course"
@@ -8,10 +8,10 @@ Take ["CourseTitleBar", "Database", "Route"], (CourseTitleBar, Database, Route)-
     # TODO: Courses should be stored in a hash?? Database should support queries?
     course = courses.find (course)-> course.id is courseId
 
-    [
+    ["div", { id: "course-view" }, [
       CourseTitleBar(course)
       Scroller(course)
-    ]
+    ]]
 
 
   # TODO:
