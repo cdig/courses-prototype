@@ -10,7 +10,6 @@ Take [], ()->
     if canTransitionTo path
       currentPath = path
       currentArgs = args
-      console.log(Route.path())
       notifySubscribers()
 
 

@@ -20,7 +20,14 @@ Take ["DOOM"], (DOOM)->
 
   Make "Render", Render = (parent, elementDefinitions)->
 
-    for [tag, attrs, contents] in elementDefinitions
+    for def in elementDefinitions
+      continue if not def?
+
+      [tag, attrs, contents] = def
+
+      unless typeof tag is "string"
+        throw "You have incorrect nesting in your element definition. Look at the `parent` local variable to see where this definition was encountered."
+
       elm = renderElm tag, parent, attrs
 
       if contents instanceof Array
