@@ -1,6 +1,9 @@
 Take ["Database", "DOOM", "Render", "Route"], (Database, DOOM, Render, Route)->
 
   renderCourse = ({category, creator, id, materials, name, status})->
+    #TODO: Remove this line when changing material to item in rails
+    items = materials
+
 
     sublistingElm = document.querySelector "##{category} > .loaded-courses"
 
@@ -19,7 +22,7 @@ Take ["Database", "DOOM", "Render", "Route"], (Database, DOOM, Render, Route)->
           ["a", { class: "course-button #{buttonColor}", click }, buttonText]
         ]]
         ["div", { class: "course-bottom" }, [
-          ["div", { class: "left-meta" }, "#{materials.length} Items"]
+          ["div", { class: "left-meta" }, "#{items.length} Items"]
           ["div", { class: "right-meta" }, creator]
         ]]
       ]]

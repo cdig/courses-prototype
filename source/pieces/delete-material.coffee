@@ -1,5 +1,5 @@
 Take ["Database"], (Database)->
-  Make "DeleteMaterial", DeleteMaterial = (someKindOfUniqueReferenceToTheThingInTheDB)->
+  Make "DeleteItem", DeleteItem = (someKindOfUniqueReferenceToTheThingInTheDB)->
     return unless Database.get "editBool"
     # TODO: someKindOfUniqueReferenceToTheThingInTheDB
     Database.delete someKindOfUniqueReferenceToTheThingInTheDB

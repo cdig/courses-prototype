@@ -15,15 +15,15 @@ Take ["Database"], (Database)->
       document.body.removeAttribute("edit-course-mode")
 
     # Update all item elms in the course
-    courseMaterials = document.querySelectorAll(".lower-row")
-    for material in courseMaterials
-      text = material.querySelector(".field-text")
+    courseItems = document.querySelectorAll(".lower-row")
+    for item in courseItems
+      text = item.querySelector(".field-text")
       if editMode
         text.removeAttribute("readonly")
-        material.classList.remove("transparent") # TODO: This should happen whenever the text changes (eg: if the server pushes an update, say) — but when we make the view code a pure function of the DB, that should happen automagically
+        item.classList.remove("transparent") # TODO: This should happen whenever the text changes (eg: if the server pushes an update, say) — but when we make the view code a pure function of the DB, that should happen automagically
       else
         text.setAttribute("readonly", "")
-        if !text.value.trim().length then material.classList.add("transparent")
+        if !text.value.trim().length then item.classList.add("transparent")
 
 
   # Persist changes to materials to the Database

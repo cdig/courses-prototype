@@ -292,27 +292,6 @@ a[not-clickable] {
 .lower-row {
   position: relative;
   display: flex;
-  // flex-direction: row;
-  
-  // grid-template-columns: 0.25fr 0.75fr;
-  // width: calc(13em + 20vw);
-  // // margin-top: clamp(4em, 2em + 5vw, 6em);
-  // height: auto;
-  // // max-height: 100%;
-  // vertical-align: baseline;
-  // align-self: start;
-  // background-color: var(--bg-d);
-  // border: var(--bg-xd) calc(0.1em + 0.2vw) solid;
-  // border-radius: calc(0.9em + 1vw);
-  // user-select: none;
-  // z-index: -20;
-  // transition: background 1s, border 1s;
-
-  // &.transparent {
-  //   background-color: transparent;
-  //   border: transparent calc(0.1em + 0.2vw) solid;
-  //   user-select: none;
-  // }
 }
 .item-top {
   width: 100%;
@@ -523,11 +502,11 @@ a[not-clickable] {
   overflow: visible;
 }
 
-[edit-course-mode] .delete-material-button {
+[edit-course-mode] .delete-item-button {
   display: inline-block;
 }
 
-.delete-material-button {
+.delete-item-button {
   width: 7em;
   position: absolute;
   display: none;
@@ -550,14 +529,14 @@ a[not-clickable] {
   user-select: none;
 }
 
-[edit-course-mode] .add-material-container {
+[edit-course-mode] .add-item-container {
   // display: flex
   visibility: visible;
   pointer-events: auto;
   opacity: 1;
 }
 
-.add-material-container {
+.add-item-container {
   position: relative;
   
   height: 100%;
@@ -568,7 +547,7 @@ a[not-clickable] {
   // pointer-events: none;
   margin: 0 auto;
   
-  .add-material {
+  .add-item {
     position: relative;
     width: calc(3em + 3vw);
     height: calc(3em + 3vw);
@@ -586,7 +565,7 @@ a[not-clickable] {
     cursor: pointer;
     user-select: none;
 
-    .add-material-inner {
+    .add-item-inner {
       position: relative;
 
       width: 77%;
@@ -603,7 +582,7 @@ a[not-clickable] {
       
       font-size: calc(2em + 3vw);
       transition: all 0.3s ease-in-out;
-      .add-material-link {
+      .add-item-link {
         text-align: center;
         margin: 0 auto;
         line-height: 85%;
@@ -612,8 +591,8 @@ a[not-clickable] {
       }
     }
   }
-  .add-material:hover {
-    .add-material-inner {
+  .add-item:hover {
+    .add-item-inner {
       width: 85%;
       height: 85%;
       // a {
@@ -625,7 +604,7 @@ a[not-clickable] {
 }
 
 @media (max-width: 768px) {
-  .add-material-container {
+  .add-item-container {
     display: none;
   }
   .course-admin-buttons{

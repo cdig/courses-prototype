@@ -81,6 +81,7 @@ do ()->
     width: "html"
     zIndex: true
 
+
   # When creating an element, SVG elements require a special namespace, so we use this list to know whether a tag name is for an SVG or not
   svgElms =
     circle: true

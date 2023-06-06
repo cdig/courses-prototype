@@ -7,7 +7,7 @@ Take ["Database", "Render", "Route"], (Database, Render, Route)->
   upperRow = document.querySelector(".upper-row")
   lowerRow = document.querySelector(".lower-row")
 
-  renderUpperMaterial = ({id, name, item_type, image, imageType, text})->
+  renderUpperItem = ({id, name, item_type, image, imageType, text})->
     ["div", { class: "item-top", id: "item-#{id}" }, [
       ["div", { class: "item-header" }, name]
       ["div", { class: "item-subheader" }, item_type]
@@ -15,29 +15,29 @@ Take ["Database", "Render", "Route"], (Database, Render, Route)->
 
   renderAddItem = (courseId, index)->
     href = "/explore?course=#{courseId}&position=#{index}"
-    ["div", { class: "add-material-container", id: "add-#{index}" }, [
-      ["div", {class: "add-material"}, [
-        ["div", { class: "add-material-inner" }, [
-          ["a", { class: "add-material-link", href }, "+"]
+    ["div", { class: "add-item-container", id: "add-#{index}" }, [
+      ["div", {class: "add-item"}, [
+        ["div", { class: "add-item-inner" }, [
+          ["a", { class: "add-item-link", href }, "+"]
         ]]
       ]]
     ]]
 
-  renderLowerMaterial = ({id, name, item_type, image, imageType, text})->
+  renderLowerItem = ({id, name, item_type, image, imageType, text})->
     ["div", { class: "item-card", id: "item-#{id}" }, [
       ["div", { class: "course-view-icon #{imageType}" }, [
         ["img", { class: "course-view-icon-image", src: image }]
       ]]
       ["label", { class: "field-label" }, "Directions"]
       ["textarea", { class: "field-text", rows: "1", maxlength: "350", readonly: "true" }, text]
-      ["a", { class: "delete-material-button" }, "Delete"]
+      ["a", { class: "delete-item-button" }, "Delete"]
     ]]
 
-  lowerRowGenerator = (courseId, materials)->
-    for material, index in materials
+  lowerRowGenerator = (courseId, items)->
+    for item, index in items
       yield renderAddItem courseId, index
-      yield renderLowerMaterial material
-    yield renderAddItem courseId, materials.length
+      yield renderLowerItem item
+    yield renderAddItem courseId, items.length
 
   courseId = null
 
@@ -49,8 +49,12 @@ Take ["Database", "Render", "Route"], (Database, Render, Route)->
     # TODO: Courses should be stored in a hash?? Database should support queries?
     courseData = courses.find (course)-> course.id is courseId
 
-    upperDefns = courseData.materials.map renderUpperMaterial
-    lowerDefns = [...lowerRowGenerator(courseId, courseData.materials)]
+    #TODO: Remove this line when changing material to item in rails
+    courseData.items = courseData.materials
+
+
+    upperDefns = courseData.items.map renderUpperItem
+    lowerDefns = [...lowerRowGenerator(courseId, courseData.items)]
 
     Render upperRow, upperDefns
     Render lowerRow, lowerDefns

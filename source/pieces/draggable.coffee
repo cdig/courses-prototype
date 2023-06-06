@@ -103,8 +103,8 @@ Take [], ()->
 
       document.body.removeAttribute "block-touch-scrolling"
 
-      if addMaterialContainer?
-        addMaterialContainer.style.transform = ""
+      if addItemContainer?
+        addItemContainer.style.transform = ""
 
     isTouchDevice()
     element.addEventListener events[deviceType].down, dragStart
