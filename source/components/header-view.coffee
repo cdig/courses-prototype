@@ -1,6 +1,4 @@
 Take [], ()->
-
-
   Make "HeaderView", HeaderView = ()->
     ["div", { id: "header", innerHTML: '
       <div class="inner">

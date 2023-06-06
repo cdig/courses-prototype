@@ -34,12 +34,8 @@ a[not-clickable] {
 // Course Listing
 
 #listing {
-  display: none;
-  padding-bottom: 2em;
-}
-
-[current-route="listing"] #listing {
   display: block;
+  padding-bottom: 2em;
 }
 
 .title {
@@ -73,6 +69,7 @@ a[not-clickable] {
   font-weight: 900;
   font-size: calc(1em + 1vw);
 }
+
 .text-grid-container {
   display: grid;
   grid-template-columns: auto auto;
@@ -150,16 +147,12 @@ a[not-clickable] {
 // Course View
 
 #course-view {
-  display: none;
+  display: flex;
   flex-flow: column nowrap;
   justify-content: flex-start;
   align-items: stretch;
   height: 100%;
   width: 100%;
-}
-
-[current-route="course"] #course-view {
-  display: flex;
 }
 
 .course-title-bar {
@@ -227,15 +220,6 @@ a[not-clickable] {
   flex: 0 0 10rem;
   display: flex;
   justify-content: space-between;
-  .admin-button {
-    padding: 0.4em 1em;
-
-    text-decoration: none;
-    cursor: pointer;
-
-    outline: 0;
-    border-radius: 4px;
-  }
 }
 
 
@@ -277,7 +261,7 @@ a[not-clickable] {
   width: 100%;
 
   align-items: flex-end;
-  
+
 
   margin: 0 1em 0 1em;
 
@@ -538,7 +522,7 @@ a[not-clickable] {
 
 .add-item-container {
   position: relative;
-  
+
   height: 100%;
 
   z-index: 1000;
@@ -546,16 +530,16 @@ a[not-clickable] {
 
   // pointer-events: none;
   margin: 0 auto;
-  
+
   .add-item {
     position: relative;
     width: calc(3em + 3vw);
     height: calc(3em + 3vw);
     top: calc((-3em - 3vw)/2);
-    
+
     border-radius: 50%;
     // align-self: flex-start;
-    
+
     z-index: 1000;
     transform-origin: center center;
 
@@ -576,10 +560,10 @@ a[not-clickable] {
 
       transform: translateY(-50%);
       transform-origin: center center;
-      
+
       background-color: #1C325E;
       border-radius: 50%;
-      
+
       font-size: calc(2em + 3vw);
       transition: all 0.3s ease-in-out;
       .add-item-link {

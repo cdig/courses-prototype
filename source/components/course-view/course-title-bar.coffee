@@ -1,8 +1,8 @@
 Take ["BackToCourses", "CourseViewTitle", "CourseAdminButtons"], (BackToCourses, CourseViewTitle, CourseAdminButtons)->
 
-  Make "CourseTitleBar", CourseTitleBar = (courseData)->
+  Make "CourseTitleBar", CourseTitleBar = (course)->
     ["div", { class: "course-title-bar" }, [
         BackToCourses()
-        CourseViewTitle(courseData)
-        CourseAdminButtons()
+        CourseViewTitle(course)
+        CourseAdminButtons(course)
     ]]

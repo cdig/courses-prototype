@@ -1,7 +1,7 @@
 Take ["CourseTitleBar", "Database", "Route", "Scroller"], (CourseTitleBar, Database, Route, Scroller)->
 
   Make "CourseView", CourseView = ()->
-    return unless Route.path() is "course"
+    return unless Route.path() in ["course", "edit", "reorder"] # TODO: This is less good than subroutes
     return unless courses = Database.get "courses"
     [courseId] = Route.args()
 

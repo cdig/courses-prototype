@@ -1,35 +1,18 @@
-Take ["Database", "Route"], (Database, Route)->
-
-  renderCourse = ({category, creator, id, materials, name, status})->
-    #TODO: Remove this line when changing material to item in rails
-    items = materials
-
-    click = ()-> Route "course", id
-
-    buttonColor = if status is "continue" then "green" else "blue"
-    buttonText = if status is "complete"
-      "Review"
-    else
-      status[0].toUpperCase() + status[1..]
-
-    ["div", { id: "course-#{id}", class: "course", courseId: id }, [
-      ["h2", { class: "course-title" }, name ]
-      ["div", { class: "course-buttons" }, [
-        ["a", { class: "course-button #{buttonColor}", click }, buttonText]
-      ]]
-      ["div", { class: "course-bottom" }, [
-        ["div", { class: "left-meta" }, "#{items.length} Items"]
-        ["div", { class: "right-meta" }, creator]
-      ]]
-    ]]
+Take ["Database", "ListingCourse", "Route"], (Database, ListingCourse, Route)->
 
   Make "ListingView", ListingView = ()->
     return unless Route.path() is "listing"
     return unless courses = Database.get "courses"
 
-    yourCoursesDefs = courses.filter((c)-> c.category is "your-courses").map(renderCourse)
-    lbsCoursesDefs = courses.filter((c)-> c.category is "lunchbox-sessions-courses").map(renderCourse)
-    completedCoursesDefs = courses.filter((c)-> c.category is "completed-courses").map(renderCourse)
+    courses = courses.sort (a, b)->
+      if a.status is "continue"
+        -1000 # TODO: TOTAL hack
+      else
+        a.name.localeCompare(b.name)
+
+    yourCoursesDefs = courses.filter((c)-> c.category is "your-courses").map(ListingCourse)
+    lbsCoursesDefs = courses.filter((c)-> c.category is "lunchbox-sessions-courses").map(ListingCourse)
+    completedCoursesDefs = courses.filter((c)-> c.category is "completed-courses").map(ListingCourse)
 
     ["div", { id: "listing" }, [
       ["div", { class: "your-courses" }, [
@@ -65,20 +48,3 @@ Take ["Database", "Route"], (Database, Route)->
         ["div", { class: "loaded-courses" }, completedCoursesDefs ]
       ]]
     ]]
-
-    #
-    #   <div id="lunchbox-sessions-courses">
-    #     <div class="listing-course-titles">
-    #       <h1 class="title">LunchBox Sessions Courses</h1>
-    #       <h2 class="subtitle">Courses created by LunchBox Sessions for you.</h2>
-    #     </div>
-    #     <div class="loaded-courses"></div>
-    #   </div>
-    #
-    #   <div id="completed-courses">
-    #     <div class="listing-course-titles">
-    #       <h1 class="title">Completed Courses</h1>
-    #       <h2 class="subtitle">Courses you have already completed.</h2>
-    #     </div>
-    #     <div class="loaded-courses"></div>
-    #   </div>

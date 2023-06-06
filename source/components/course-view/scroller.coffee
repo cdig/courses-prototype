@@ -7,7 +7,7 @@ Take [], ()->
     ]]
 
   renderAddItem = (courseId, index)->
-    href = "/explore?course=#{courseId}&position=#{index}"
+    href = "http://localhost:3000/explore?course=#{courseId}&position=#{index}"
     ["div", { class: "add-item-container", id: "add-#{index}" }, [
       ["div", {class: "add-item"}, [
         ["div", { class: "add-item-inner" }, [

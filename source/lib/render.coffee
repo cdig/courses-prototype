@@ -19,6 +19,7 @@ Take ["DOOM"], (DOOM)->
 
 
   Make "Render", Render = (parent, elementDefinitions)->
+    child.dirty = true for child in Array.from parent.children
 
     for def in elementDefinitions
       continue if not def?
@@ -30,9 +31,12 @@ Take ["DOOM"], (DOOM)->
 
       elm = renderElm tag, parent, attrs
 
+      elm.dirty = false
+
       if contents instanceof Array
         Render elm, contents
       else
         DOOM elm, textContent: contents
 
-    null
+    child.remove() for child in Array.from parent.children when child.dirty
+
