@@ -263,7 +263,7 @@ a[not-clickable] {
   align-items: flex-end;
 
 
-  margin: 0 1em 0 1em;
+  // margin: 0 1em 0 1em;
 
   z-index: 12;
   // transition: all 1s;
@@ -275,13 +275,20 @@ a[not-clickable] {
 
 .lower-row {
   position: relative;
+  margin-top: calc(((5em + 4vw)/2));
   display: flex;
 }
 .item-top {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  flex: 1 0 auto;
+  // width: 100%;
+  // display: flex;
+  // flex-direction: column;
+  margin-left: calc(2em + 3em + 3vw);
+  &:first-child{
+    margin-left: calc(1em + 3em + 3vw);
+  }
+
+  
+  flex: 1 0 calc(13em + 20vw);
   scroll-snap-align: center;
 }
 .item-header {
@@ -309,20 +316,22 @@ a[not-clickable] {
 
 .item-bundle {
   display: flex;
-  flex: 0 0 calc(18em + 20vw);
+  flex: 0 0 auto;
 
 }
 
 .item-card {
+  display: block;
   height: auto;
   margin: 0 1em;
-  vertical-align: baseline;
+  // vertical-align: baseline;
+  flex: 0 0 calc(13em + 20vw);
   align-self: start;
   background-color: var(--bg-d);
   border: var(--bg-xd) calc(0.1em + 0.2vw) solid;
   border-radius: calc(0.9em + 1vw);
   user-select: none;
-  z-index: -20;
+  z-index: 1000;
   transition: background 1s, border 1s;
 
   // &.transparent {
@@ -377,6 +386,7 @@ a[not-clickable] {
   position: relative;
   // width: 5%;
   height: calc(6em + 4vw);
+  top: calc(((-6em - 4vw)/2));
 
   // left: 50%;
   // transform: translateX(-50%);
@@ -411,9 +421,12 @@ a[not-clickable] {
 }
 
 .field-label {
+  display: block;
   position: relative;
 
-  margin: calc(3.75em + 0.5vw) calc(0.25em + 1vw) 0 calc(0.25em + 1vw);
+  top: calc((-7em - 4vw)/2);
+  margin-left: calc(0.5em + 1vw);
+  
   padding: calc(0.5em + 0.5vw) calc(0.5em + 0.5vw) calc(0.1em + 0.1vw) calc(0.5em + 0.5vw);
   // min-height: 1em;
   // max-height: clamp(12em ,6em + 7vw, 18em);
@@ -440,7 +453,7 @@ a[not-clickable] {
   width: 90%;
   // height:auto;
   // calc(3.75em + 0.5vw)
-  margin: 0 calc(0.25em + 1vw) calc(0.25em + 1vw) calc(0.25em + 1vw);
+  margin: calc((-6em - 4vw)/2) calc(0.25em + 1vw) calc(0.25em + 1vw) calc(0.25em + 1vw);
   padding: calc(0.5em + 0.5vw);
 
   border-radius: 1em;
@@ -513,7 +526,7 @@ a[not-clickable] {
   user-select: none;
 }
 
-[edit-course-mode] .add-item-container {
+[editing].add-item-container {
   // display: flex
   visibility: visible;
   pointer-events: auto;
@@ -525,11 +538,13 @@ a[not-clickable] {
 
   height: 100%;
 
+  visibility: hidden;
   z-index: 1000;
   transform-origin: center center;
 
   // pointer-events: none;
   margin: 0 auto;
+  // opacity: 0;
 
   .add-item {
     position: relative;

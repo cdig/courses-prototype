@@ -1,4 +1,4 @@
-Take [], ()->
+Take ["AutosizeTextArea" ,"Database", "Route"], (AutosizeTextArea, Database, Route)->
 
   renderUpperItem = ({id, name, item_type, image, imageType, text})->
     ["div", { class: "item-top", id: "item-#{id}" }, [
@@ -6,9 +6,17 @@ Take [], ()->
       ["div", { class: "item-subheader" }, item_type]
     ]]
 
+  
+    
+
   renderAddItem = (courseId, index)->
+    addAttrs =
+      class: "add-item-container"
+      id: "add-#{index}"
+      editing: if Route.path() is "edit" then "" else null 
+
     href = "http://localhost:3000/explore?course=#{courseId}&position=#{index}"
-    ["div", { class: "add-item-container", id: "add-#{index}" }, [
+    ["div", addAttrs, [
       ["div", {class: "add-item"}, [
         ["div", { class: "add-item-inner" }, [
           ["a", { class: "add-item-link", href }, "+"]
@@ -17,12 +25,26 @@ Take [], ()->
     ]]
 
   renderLowerItem = ({id, name, item_type, image, imageType, text})->
+    updateField = (e, field)->
+      console.log(id, text)
+      AutosizeTextArea(e.target)
+      fieldText = e.target.value
+      text = fieldText # TODO: This sucks extreme ass
+      Database.update "courses", (courses)-> courses # Kick the database
+
+    fieldAttrs =
+      class: "field-text"
+      rows: "1" 
+      maxlength: "350" 
+      readonly: if Route.path() is "edit" then null else ""
+      change: updateField
+      input: updateField
     ["div", { class: "item-card", id: "item-#{id}" }, [
       ["div", { class: "course-view-icon #{imageType}" }, [
         ["img", { class: "course-view-icon-image", src: image }]
       ]]
       ["label", { class: "field-label" }, "Directions"]
-      ["textarea", { class: "field-text", rows: "1", maxlength: "350", readonly: "true" }, text]
+      ["textarea", fieldAttrs, text]
       ["a", { class: "delete-item-button" }, "Delete"]
     ]]
 
