@@ -4,9 +4,12 @@ Take ["Database", "ListingCourse", "Route"], (Database, ListingCourse, Route)->
     return unless Route.path() is "listing"
     return unless courses = Database.get "courses"
 
-    courses = courses.sort (a, b)->
-      if a.status is "continue"
-        -1000 # TODO: TOTAL hack
+    # TODO: Not sure if this needs a better home
+    courses = Array.from(courses).sort (a, b)->
+      if a.status is "continue" and b.status isnt "continue"
+        -1
+      else if b.status is "continue" and a.status isnt "continue"
+        1
       else
         a.name.localeCompare(b.name)
 

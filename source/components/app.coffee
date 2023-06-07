@@ -1,11 +1,12 @@
 Take ["Database", "Render", "Route"], (Database, Render, Route)->
-  Take ["CourseView", "HeaderView", "ListingView"], (CourseView, HeaderView, ListingView)->
+  Take ["CourseView", "DatabaseDebug", "HeaderView", "ListingView"], (CourseView, DatabaseDebug, HeaderView, ListingView)->
 
     render = ()->
       Render document.body, [
         HeaderView()
         CourseView()
         ListingView()
+        DatabaseDebug()
       ]
 
     Database.subscribe "courses", render

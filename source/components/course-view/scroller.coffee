@@ -6,14 +6,12 @@ Take ["AutosizeTextArea" ,"Database", "Route"], (AutosizeTextArea, Database, Rou
       ["div", { class: "item-subheader" }, item_type]
     ]]
 
-  
-    
 
   renderAddItem = (courseId, index)->
     addAttrs =
       class: "add-item-container"
       id: "add-#{index}"
-      editing: if Route.path() is "edit" then "" else null 
+      editing: if Route.path() is "edit" then "" else null
 
     href = "http://localhost:3000/explore?course=#{courseId}&position=#{index}"
     ["div", addAttrs, [
@@ -24,18 +22,19 @@ Take ["AutosizeTextArea" ,"Database", "Route"], (AutosizeTextArea, Database, Rou
       ]]
     ]]
 
-  renderLowerItem = ({id, name, item_type, image, imageType, text})->
-    updateField = (e, field)->
-      console.log(id, text)
+  renderLowerItem = (item)->
+    {id, name, item_type, image, imageType, text} = item
+
+    updateField = (e)->
       AutosizeTextArea(e.target)
-      fieldText = e.target.value
-      text = fieldText # TODO: This sucks extreme ass
+      text = e.target.value
+      item.text = text # TODO: This sucks extreme ass
       Database.update "courses", (courses)-> courses # Kick the database
 
     fieldAttrs =
       class: "field-text"
-      rows: "1" 
-      maxlength: "350" 
+      rows: "1"
+      maxlength: "350"
       readonly: if Route.path() is "edit" then null else ""
       change: updateField
       input: updateField

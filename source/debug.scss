@@ -1,0 +1,40 @@
+// This is use by RenderElm to show outlines and flashes when elements are created or updated
+[debug-rendering="create"] { --debug-color: #0f0 }
+[debug-rendering="update"] { --debug-color: #f70 }
+[debug-rendering] {
+  outline: 1px solid var(--debug-color);
+  animation: debug-rendering .5s linear both;
+}
+
+@keyframes debug-rendering {
+  from { outline-color: var(--debug-color) }
+  to { outline-color: transparent }
+}
+
+// If you want to render some debug text on an element, just add the debug-text attribute with the text you want
+// Eg: ["div", { debug-text: id }, …]
+[debug-text]::before {
+  position: absolute;
+  color: red;
+  background: white;
+  padding: .5em;
+  border-radius: 4px;
+  border: 1px solid var(--silver);
+  content: attr(debug-text);
+  pointer-events: none;
+}
+
+// This is used by DatabaseDebug to render a giant dump of the DB to the screen
+#database-debug {
+  position: absolute;
+  display: block;
+  top: 2em;
+  left: 1em;
+  width: calc(100% - 2em);
+  font-size: 12px;
+  z-index: 1000000;
+  color: white;
+  white-space: pre-wrap;
+  text-align: left;
+  pointer-events: none;
+}

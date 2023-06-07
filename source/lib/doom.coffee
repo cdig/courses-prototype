@@ -124,32 +124,40 @@ do ()->
 
 
   write = (elm, k, v)->
+
     if propNames[k]?
       cache = elm._DOOM_prop
       isCached = cache[k] is v
-      elm[k] = cache[k] = v if not isCached
+      if not isCached
+        elm[k] = cache[k] = v
+        return true
+
     else if styleNames[k]? and !(elm._DOOM_SVG and styleNames[k] is "html")
       cache = elm._DOOM_style
       isCached = cache[k] is v
-      elm.style[k] = cache[k] = v if not isCached
+      if not isCached
+        elm.style[k] = cache[k] = v
+        return true
+
     else if eventNames[k]?
       cache = elm._DOOM_event
 
       # Return if the new function passed in is the same in-memory object as the cached function
-      return if cache[k] is v
+      return false if cache[k] is v
 
       # Functions can probably be compared by converting them to string. We'll try that and see if it sucks.
-      return if cache[k]?.toString() is v?.toString()
+      return false if cache[k]?.toString() is v?.toString()
 
       # Use the "onfoo" attribute instead of addEventListener/removeEventListener, so that we're guaranteed
       # to only have 0 or 1 handlers to manage, which makes it possible for us to mix-and-match between DOOM
       # and directly using the DOM APIs without accidentally adding redundant event listeners
       elm["on#{k}"] = cache[k] = v
+      return true
 
     else
       k = attrNames[k] ?= k.replace(/([A-Z])/g,"-$1").toLowerCase() # Normalize camelCase into kebab-case
       cache = elm._DOOM_attr
-      return if cache[k] is v
+      return false if cache[k] is v
       cache[k] = v
       ns = if k is "xlink:href" then xlinkNS else null # Grab the namespace if needed
       if ns?
@@ -162,6 +170,7 @@ do ()->
           elm.setAttribute k, v # set DOM attribute
         else # v is explicitly set to null (not undefined)
           elm.removeAttribute k # remove DOM attribute
+      return true
 
 
   act = (elm, opts)->
@@ -172,9 +181,11 @@ do ()->
     elm._DOOM_style ?= {}
 
     if typeof opts is "object"
+      isChanged = false
       for k, v of opts
-        write elm, k, v
-      return elm
+        if write elm, k, v
+          isChanged = true
+      return isChanged
     else if typeof opts is "string"
       return read elm, opts
 

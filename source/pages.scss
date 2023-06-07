@@ -90,7 +90,7 @@ a[not-clickable] {
     background-color: transparent;
     border: 0;
     border-bottom: 0.2em solid white;
-    outline: none;
+    // outline: none; // TODO
 
   }
   input[type=text]::placeholder {
@@ -180,7 +180,7 @@ a[not-clickable] {
   border-radius: 0.5em;
   overflow: hidden;
 
-  outline: none;
+  // outline: none; // TODO
   text-overflow: ellipsis;
   text-align: center;
   font-weight: 900;
@@ -287,7 +287,7 @@ a[not-clickable] {
     margin-left: calc(1em + 3em + 3vw);
   }
 
-  
+
   flex: 1 0 calc(13em + 20vw);
   scroll-snap-align: center;
 }
@@ -426,7 +426,7 @@ a[not-clickable] {
 
   top: calc((-7em - 4vw)/2);
   margin-left: calc(0.5em + 1vw);
-  
+
   padding: calc(0.5em + 0.5vw) calc(0.5em + 0.5vw) calc(0.1em + 0.1vw) calc(0.5em + 0.5vw);
   // min-height: 1em;
   // max-height: clamp(12em ,6em + 7vw, 18em);
@@ -476,7 +476,7 @@ a[not-clickable] {
   &:focus {
     background-color: transparent;
     // outline-color: var(--bg-xd);
-    outline: none !important;
+    // outline: none !important; // TODO
     // border: 0.25em solid var(--bg-xd);
   }
   &[readonly] {
@@ -512,7 +512,7 @@ a[not-clickable] {
   // top: 210px;
   top: calc(100%);
   padding: 0.5em 1em;
-  outline: none;
+  // outline: none; // TODO
   border-radius: 0 0 0.5em 0.5em;
   line-height: 100%;
   text-align: center;
