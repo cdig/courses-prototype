@@ -1,4 +1,4 @@
-Take ["AutosizeTextArea", "CourseTitleBar", "Database", "Route", "Scroller"], (AutosizeTextArea, CourseTitleBar, Database, Route, Scroller)->
+Take ["CourseTitleBar", "Database", "Route", "Scroller"], (CourseTitleBar, Database, Route, Scroller)->
 
   Make "CourseView", CourseView = ()->
     return unless Route.path() in ["course", "edit", "reorder"] # TODO: This is less good than subroutes
@@ -13,16 +13,7 @@ Take ["AutosizeTextArea", "CourseTitleBar", "Database", "Route", "Scroller"], (A
       Scroller(course)
     ]]
 
-    # await elms = document.querySelectorAll(".field-text")
-
-    # for elm in elms
-    #   console.log(elm)
-    #   AutosizeTextArea(elm)
-
-
   # TODO:
   # scroller.innerHTML = "<svg id='timeline' xmlns='http://www.w3.org/2000/svg'></svg>"
-  # transparentBackground = if material.text == "" then "transparent" else ""
   # Draggable elm
-  # Automatically resize the text area whenever its contents change
   # noStuffHeaderText.textContent = "Add Stuff To Your Course"

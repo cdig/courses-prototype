@@ -4,10 +4,11 @@ Take ["Database", "Render", "Route"], (Database, Render, Route)->
     render = ()->
       Render document.body, [
         HeaderView()
-        CourseView()
         ListingView()
+        CourseView()
         DatabaseDebug()
       ]
 
     Database.subscribe "courses", render
     Route.subscribeAll render
+    window.addEventListener "resize", render

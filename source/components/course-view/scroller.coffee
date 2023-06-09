@@ -1,4 +1,4 @@
-Take ["AutosizeTextArea" ,"Database", "DeleteItem", "Route"], (AutosizeTextArea, Database, DeleteItem, Route)->
+Take ["AutosizeTextArea" ,"Database", "Route"], (AutosizeTextArea, Database, Route)->
 
   renderUpperItem = ({id, name, item_type, image, imageType, text})->
     ["div", { class: "item-top", id: "item-#{id}" }, [
@@ -11,24 +11,27 @@ Take ["AutosizeTextArea" ,"Database", "DeleteItem", "Route"], (AutosizeTextArea,
     addAttrs =
       class: "add-item-container"
       id: "add-#{index}"
-      editing: if Route.path() is "edit" then "" else null
+      isEditing: if Route.path() is "edit" then "" else null
 
     href = "http://localhost:3000/explore?course=#{courseId}&position=#{index}"
     ["div", addAttrs, [
       ["div", {class: "add-item"}, [
         ["div", { class: "add-item-inner" }, [
-          ["a", { class: "add-item-link", href }, "+"]
+          ["a", { class: "add-item-link", href },
+
+            # TODO Keelan: This should be an SVG that draws a +, rather than a "+" character
+            "+"
+          ]
         ]]
       ]]
     ]]
 
-  renderLowerItem = (item)->
+
+  renderLowerItem = (courseId, item)->
     {id, name, item_type, image, imageType, text} = item
 
     updateField = (e)->
-      AutosizeTextArea(e.target)
-      text = e.target.value
-      item.text = text # TODO: This sucks extreme ass
+      item.text = e.target.value # TODO: This sucks extreme ass
       Database.update "courses", (courses)-> courses # Kick the database
 
     fieldAttrs =
@@ -39,8 +42,15 @@ Take ["AutosizeTextArea" ,"Database", "DeleteItem", "Route"], (AutosizeTextArea,
       change: updateField
       input: updateField
 
-    click = ()-> DeleteItem(item)
-    editing = if Route.path() is "edit" then "" else null
+    click = ()->
+      Database.update "courses", (courses)->
+        # TODO: This will break when we update Rails to use items instead of materials
+        # TODO: This sucks mutable ass
+        course = courses.find (c)-> c.id is courseId
+        course.materials = course.materials.filter (v)-> v.id isnt id
+        courses
+
+    isEditing = if Route.path() is "edit" then "" else null
 
     transparent = if !text.trim().length and Route.path() isnt "edit" then "transparent" else null
     # transparentLabel
@@ -50,14 +60,29 @@ Take ["AutosizeTextArea" ,"Database", "DeleteItem", "Route"], (AutosizeTextArea,
         ["img", { class: "course-view-icon-image", src: image }]
       ]]
       ["label", { class: "field-label", transparent }, "Directions"]
-      ["textarea", fieldAttrs, text]
-      ["a", { class: "delete-item-button", click , editing }, "Delete"]
+
+      # TODO: Find a way to visually indicate when the text is at the character length limit
+      ["textarea", fieldAttrs, (elm)->
+        DOOM elm, textContent: text
+        AutosizeTextArea elm
+      ]
+
+      ["a", { class: "delete-item-button", click, isEditing }, "Delete"]
     ]]
+
+  renderBar = (index, counter)->
+    isEditing = if Route.path() is "edit" then "" else null
+    ["timeline-bar", { class: "bar bar-#{index}-#{counter}", isEditing }, [
+      ["div"]
+    ]]
+
 
   lowerRowGenerator = (courseId, items)->
     for item, index in items
       yield renderAddItem courseId, index
-      yield renderLowerItem item
+      yield renderBar index, 1
+      yield renderLowerItem courseId, item
+      yield renderBar index, 2
     yield renderAddItem courseId, items.length
 
 

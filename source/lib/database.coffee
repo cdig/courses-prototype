@@ -10,12 +10,13 @@ Take [], ()->
 
 
   notifySubscribers = (key)->
-    if subscribers[key] && !subscribers[key].dirty
-      subscribers[key].dirty = true
+    if subscribers[key] && !subscribers[key].notifyQueued
+      subscribers[key].notifyQueued = true
       queueMicrotask ()->
-        subscribers[key].dirty = false
+        subscribers[key].notifyQueued = false
         for cb in subscribers[key].cbs
           cb db[key]
+        # TODO: Check if we've queued another notify for the same key — if so, that might be an infinite loop
         null
 
   freeze = (value)->
@@ -60,10 +61,10 @@ Take [], ()->
     #   freeze db[path[0]]
 
     update: (key, fn)->
-      Database.set fn Database.get(key)
+      Database.set key, fn Database.get(key)
 
     subscribe: (key, cb)->
-      subscribers[key] ?= {dirty: false, cbs: []}
+      subscribers[key] ?= {notifyQueued: false, cbs: []}
       subscribers[key].cbs.push cb
       # Note: Because we delay this callback invocation, it could end up running notifySubscribers twice if notifySubscribers is called again before the end of the current turn of the event loop
       queueMicrotask ()-> cb Database.get(key)

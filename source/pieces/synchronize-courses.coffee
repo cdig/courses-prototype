@@ -15,4 +15,5 @@ Take ["AJAX", "Database", "Synchronizer"], (AJAX, Database, Synchronizer)->
   # TODO: Enable this (or something like it) when we kill the above
   # Database.set "courses", LBS.courses
 
-  Synchronizer "courses"
+  # TODO: This is turned off to make deletion testing easier
+  # Synchronizer "courses"

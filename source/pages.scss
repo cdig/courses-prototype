@@ -275,19 +275,21 @@ a[not-clickable] {
 
 .lower-row {
   position: relative;
-  margin-top: calc(((5em + 4vw)/2));
   display: flex;
+  align-items: flex-start;
+  margin-top: calc(((5em + 4vw)/2));
 }
+
 .item-top {
+  flex: 1 0 calc(13em + 20vw);
   margin-left: calc(2em + 3em + 3vw);
+  scroll-snap-align: center;
+
   &:first-child{
     margin-left: calc(1em + 3em + 3vw);
   }
-
-
-  flex: 1 0 calc(13em + 20vw);
-  scroll-snap-align: center;
 }
+
 .item-header {
   position: relative;
   width: auto;
@@ -295,7 +297,7 @@ a[not-clickable] {
 
   font-size: calc(1em + 1vw);
   font-weight: 900;
-  
+
 
   text-align: center;
   user-select: all;
@@ -429,7 +431,7 @@ a[not-clickable] {
 
   resize: none;
   opacity: 1;
-  
+
   font-size: calc(0.8em + 0.5vw);
   font-weight: 900;
   word-wrap: break-word;
@@ -492,6 +494,49 @@ a[not-clickable] {
   overflow: visible;
 }
 
+.bar {
+  position: relative;
+  display: block;
+  z-index: -1; // Needed because timeline-bar is a fake element
+
+  div {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    width: calc((13em + 20vw)/2 + 1em + (3em + 3vw)/2 + 20px);
+    height: 20px;
+    border-radius: 10px;
+    background: white;
+    z-index: -1; // Needed because position: absolute
+    transition: transform 1s ease-in-out;
+  }
+
+  &:first-of-type div {
+    transform-origin: right;
+  }
+  &:last-of-type div {
+    transform-origin: left;
+  }
+
+  &:not([is-editing]) {
+    &:first-of-type div { transform: scaleX(0) }
+    &:last-of-type div { transform: scaleX(0) }
+  }
+}
+
+.item-card + .bar {
+  div {
+    left: calc(-1 * (13em + 20vw)/2 - 1em);
+  }
+}
+
+.add-item-container + .bar {
+  div {
+    left: calc(-1 * (3em + 3vw)/2);
+  }
+}
+
+
 .delete-item-button {
   position: absolute;
   width: 7em;
@@ -499,8 +544,6 @@ a[not-clickable] {
   left: calc((13em + 20vw)/2 - 3.5em);
   top: 100%;
   padding: 0.5em 1em;
-
-  opacity: 0;
 
   font-weight: 800;
   font-size: 1em;
@@ -510,88 +553,76 @@ a[not-clickable] {
   pointer-events: none;
   cursor: pointer;
 
+  transition: transform 1s ease-in-out;
+  transform: translateY(-100%);
+  z-index: -1; // This makes it not clickable — maybe animation will help?
 }
 
 
-[editing].delete-item-button {
+[is-editing].delete-item-button {
   pointer-events: auto;
-  opacity: 1;
-  z-index: 20;
+  transform: translateY(0%);
 }
 
-
-[editing].add-item-container {
-  // display: flex
-  // visibility: visible;
-  pointer-events: auto;
-  opacity: 1;
-}
 
 .add-item-container {
-  position: relative;
-
-  height: 100%;
-
-  // visibility: hidden;
-  z-index: 1000;
-  transform-origin: center center;
-
-  pointer-events: none;
-  margin: 0 auto;
   opacity: 0;
   transition: opacity 1s ease-in-out;
+  pointer-events: none;
+  user-select: none;
+
+  &[is-editing] {
+    opacity: 1;
+    pointer-events: auto;
+  }
 
   .add-item {
-    position: relative;
-    width: calc(3em + 3vw);
-    height: calc(3em + 3vw);
-    top: calc((-3em - 3vw)/2);
-
     border-radius: 50%;
-    // align-self: flex-start;
 
-    z-index: 1000;
-    transform-origin: center center;
+    transform: translateY(-50%);
 
-    background-color: #2A3D81;
+    background-color: var(--bg-d);
     box-shadow: 0px 0px 51px -9px rgba(0,0,0,0.75);
-    text-align: center;
-    // cursor: pointer;
-    user-select: none;
+    cursor: pointer;
 
     .add-item-inner {
       position: relative;
 
-      width: 77%;
-      height: 77%;
-      top: 50%;
-
-      margin: 0 auto;
-
-      transform: translateY(-50%);
-      transform-origin: center center;
-
-      background-color: #1C325E;
+      background-color: var(--bg-xd);
       border-radius: 50%;
 
-      font-size: calc(2em + 3vw);
-      transition: all 0.3s ease-in-out;
+      transform: scale(.77);
+
+      transition: transform 0.3s ease-in-out;
+
       .add-item-link {
-        text-align: center;
-        margin: 0 auto;
-        line-height: 85%;
+        display: block;
+
+        // TODO: This sizing should be put on the SVG that will eventually go inside the list
+        width: calc(3rem + 3vw);
+        height: calc(3rem + 3vw);
+        font-size: calc(3em + 3vw);
+
+        line-height: 90%;
+
         color: white;
         text-decoration: none;
+
+        transition: transform 0.3s ease-in-out;
       }
     }
   }
   .add-item:hover {
     .add-item-inner {
-      width: 85%;
-      height: 85%;
+      transform: scale(.85);
+
+      .add-item-link {
+        transform: scale(.9);
+      }
     }
   }
 }
+
 
 @media (max-width: 768px) {
   .item-top {
