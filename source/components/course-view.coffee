@@ -1,4 +1,4 @@
-Take ["CourseTitleBar", "Database", "Route", "Scroller"], (CourseTitleBar, Database, Route, Scroller)->
+Take ["AutosizeTextArea", "CourseTitleBar", "Database", "Route", "Scroller"], (AutosizeTextArea, CourseTitleBar, Database, Route, Scroller)->
 
   Make "CourseView", CourseView = ()->
     return unless Route.path() in ["course", "edit", "reorder"] # TODO: This is less good than subroutes
@@ -12,6 +12,12 @@ Take ["CourseTitleBar", "Database", "Route", "Scroller"], (CourseTitleBar, Datab
       CourseTitleBar(course)
       Scroller(course)
     ]]
+
+    # await elms = document.querySelectorAll(".field-text")
+
+    # for elm in elms
+    #   console.log(elm)
+    #   AutosizeTextArea(elm)
 
 
   # TODO:

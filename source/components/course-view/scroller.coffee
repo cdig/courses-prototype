@@ -1,4 +1,4 @@
-Take ["AutosizeTextArea" ,"Database", "Route"], (AutosizeTextArea, Database, Route)->
+Take ["AutosizeTextArea" ,"Database", "DeleteItem", "Route"], (AutosizeTextArea, Database, DeleteItem, Route)->
 
   renderUpperItem = ({id, name, item_type, image, imageType, text})->
     ["div", { class: "item-top", id: "item-#{id}" }, [
@@ -33,18 +33,25 @@ Take ["AutosizeTextArea" ,"Database", "Route"], (AutosizeTextArea, Database, Rou
 
     fieldAttrs =
       class: "field-text"
-      rows: "1"
+      rows: "2"
       maxlength: "350"
       readonly: if Route.path() is "edit" then null else ""
       change: updateField
       input: updateField
-    ["div", { class: "item-card", id: "item-#{id}" }, [
+
+    click = ()-> DeleteItem(item)
+    editing = if Route.path() is "edit" then "" else null
+
+    transparent = if !text.trim().length and Route.path() isnt "edit" then "transparent" else null
+    # transparentLabel
+
+    ["div", { class: "item-card", id: "item-#{id}", transparent }, [
       ["div", { class: "course-view-icon #{imageType}" }, [
         ["img", { class: "course-view-icon-image", src: image }]
       ]]
-      ["label", { class: "field-label" }, "Directions"]
+      ["label", { class: "field-label", transparent }, "Directions"]
       ["textarea", fieldAttrs, text]
-      ["a", { class: "delete-item-button" }, "Delete"]
+      ["a", { class: "delete-item-button", click , editing }, "Delete"]
     ]]
 
   lowerRowGenerator = (courseId, items)->
