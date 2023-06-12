@@ -334,12 +334,15 @@ a[not-clickable] {
   border: var(--bg-xd) calc(0.1em + 0.2vw) solid;
   border-radius: calc(0.9em + 1vw);
   user-select: none;
-  transition: background 1s, border 1s;
+  transition: background 0.5s 0.5s, border 0.5s 0.5s;
 
   &[transparent] {
     background-color: transparent;
     border: transparent calc(0.1em + 0.2vw) solid;
     user-select: none;
+  }
+  &:not(:has([is-editing])) {
+    transition: background 0.5s, border 0.5s;
   }
 }
 
@@ -436,12 +439,16 @@ a[not-clickable] {
   font-weight: 900;
   word-wrap: break-word;
   text-align: left;
-  transition: opacity 1s;
+  transition: opacity 0.5s 0.5s;
 
   &[transparent] {
     opacity: 0;
     user-select: none;
   }
+}
+
+.item-card:not(:has([is-editing])) > .field-label {
+  transition: opacity 0.5s;
 }
 
 .field-text {
@@ -467,7 +474,8 @@ a[not-clickable] {
   color: white;
   background-color: transparent;
   border: transparent;
-  transition: background-color 1s;
+  transition: background-color 0.5s 0.5s;
+
   &:focus {
     background-color: transparent;
     // outline-color: var(--bg-xd);
@@ -482,6 +490,11 @@ a[not-clickable] {
     user-select: none;
   }
 }
+
+.item-card:not(:has([is-editing])) > .field-text {
+  transition: background-color 0.5s;
+}
+
 
 #timeline {
   position: absolute;
@@ -552,8 +565,9 @@ a[not-clickable] {
   text-decoration: none;
   pointer-events: none;
   cursor: pointer;
+  opacity: 0;
 
-  transition: transform 1s ease-in-out;
+  transition: transform 0.5s ease-in-out, opacity 0s 0.5s linear;
   transform: translateY(-100%);
   z-index: -1; // This makes it not clickable — maybe animation will help?
 }
@@ -562,17 +576,26 @@ a[not-clickable] {
 [is-editing].delete-item-button {
   pointer-events: auto;
   transform: translateY(0%);
+  opacity: 1;
+  transition: transform 0.5s 1s ease-in-out, opacity 0.5s 0.5s linear;
 }
 
 
+
 .add-item-container {
-  opacity: 0;
-  transition: opacity 1s ease-in-out;
+  opacity: 1;
+  // transition: opacity 1s ease-in-out;
+  animation: addItemOut 1s ease-in-out both;
+  
+  transform: scale(0, 0);
+  transform-origin: center top;
+  
   pointer-events: none;
   user-select: none;
 
   &[is-editing] {
-    opacity: 1;
+    // opacity: 1;
+    animation: addItemIn 1s ease-in-out both;
     pointer-events: auto;
   }
 
@@ -621,6 +644,31 @@ a[not-clickable] {
       }
     }
   }
+}
+
+@keyframes addItemIn {
+  0% { 
+    transform: scale(0,0);
+  }
+  75% {
+    transform: scale(1.1, 1.1)
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+  
+}
+@keyframes addItemOut {
+  0% { 
+    transform: scale(1, 1);
+  }
+  25% {
+    transform: scale(1.1, 1.1)
+  }
+  100% {
+    transform: scale(0,0);
+  }
+  
 }
 
 
