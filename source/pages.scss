@@ -225,15 +225,19 @@ a[not-clickable] {
 
 .scroller {
   // flex: 1 1 100%;
-  position: relative;
-  overflow-x: auto;
-  display: grid;
-  grid-auto-flow: column;
-  grid-template-columns: repeat(auto-fit, calc(13em + 20vw));
-  grid-template-rows: 0.25fr 0.75fr;
+  position: relative; // TODO: Do we need this?
 
-  grid-column-gap: 10px;
-  grid-row-gap: 25px;
+  height: 100%; // TODO: Do we need this?
+
+  overflow-x: auto;
+
+  // display: grid;
+  // grid-auto-flow: column;
+  // grid-template-columns: repeat(auto-fit, calc(13em + 20vw));
+  // grid-template-rows: 0.25fr 0.75fr;
+
+  // grid-column-gap: 10px;
+  // grid-row-gap: 25px;
   // background-color: #ffb900;
 
   // scroll-behavior: smooth;
@@ -241,14 +245,10 @@ a[not-clickable] {
   align-items: flex-start;
   // justify-content: center;
 
-  padding: 0 3em 0 3em;
-  height: 100%;
-  transition: transform 1s ease;
+  padding: 0 50vw; // TODO: Tune this padding (or possibly move it to a different prop or different element) so that leftmost and rightmost course items sit nicely in the center of the screen, and the scroll position doesn't wiggle when toggling edit mode
+
 }
 
-[reorder-course-mode] .scroller {
-  transform: scale(.75)
-}
 
 [scroll-snapping] {
   scroll-snap-type: x mandatory;
@@ -278,6 +278,16 @@ a[not-clickable] {
   display: flex;
   align-items: flex-start;
   margin-top: calc(((5em + 4vw)/2));
+}
+
+.upper-row, .lower-row {
+  transition: transform .7s cubic-bezier(.2, 1.1, .2, 1);
+}
+
+[current-route="reorder"] {
+  .upper-row, .lower-row {
+    transform: scale(.5)
+  }
 }
 
 .item-top {
@@ -586,10 +596,10 @@ a[not-clickable] {
   opacity: 1;
   // transition: opacity 1s ease-in-out;
   animation: addItemOut 1s ease-in-out both;
-  
+
   transform: scale(0, 0);
   transform-origin: center top;
-  
+
   pointer-events: none;
   user-select: none;
 
@@ -647,7 +657,7 @@ a[not-clickable] {
 }
 
 @keyframes addItemIn {
-  0% { 
+  0% {
     transform: scale(0,0);
   }
   75% {
@@ -656,10 +666,10 @@ a[not-clickable] {
   100% {
     transform: scale(1, 1);
   }
-  
+
 }
 @keyframes addItemOut {
-  0% { 
+  0% {
     transform: scale(1, 1);
   }
   25% {
@@ -668,7 +678,7 @@ a[not-clickable] {
   100% {
     transform: scale(0,0);
   }
-  
+
 }
 
 
